@@ -1,10 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
 import './index.css';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'redux';
 import configureStore from './store/index.js';
-import Root from './Root';
+import App from './App';
 import {restoreCSRF, fetch} from './store/csrf';
 import * as sessionActions from './store/session';
 
@@ -18,9 +17,12 @@ if (process.env.NODE_ENV !== 'production') {
   window.sessionActions = sessionActions;
 }
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Root />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+function Root() {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  );
+}
