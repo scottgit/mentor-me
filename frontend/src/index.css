@@ -1,1 +1,4 @@
+@import './global.css';
+@import './components/LoginFormPage/LoginForm.css';
+
 /* TODO Add site wide styles */

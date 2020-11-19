@@ -1,0 +1,70 @@
+html {
+  height: 100%;
+}
+
+body {
+  --primary-color: rgb(46, 46, 161);
+  --primary-comp: rgb(111, 207, 236);
+  --primary-color-20a: rgba(46, 46, 161, 0.2);
+
+
+  --error-color: red;
+  --error-bg: rgb(255, 199, 199);
+  --button-color: var(--primary-color);
+  --button-hover: var(--primary-comp);
+
+  height: 100%;
+}
+
+h1, h2, label {
+  color: var(--primary-color);
+}
+
+.root {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  border-radius: 1.1em;
+  border: 0;
+  padding: 5px 10px;
+  background-color: var(--button-color);
+  color: rgb(236, 236, 236);
+  margin: 3px;
+  font-weight: bold;
+  position: relative;
+  outline: none;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+.button:hover {
+  color: var(--primary-color);
+  background-color: var(--button-hover);
+  cursor: pointer;
+}
+
+.button:focus {
+  top: 1px;
+  left: 1px;
+  box-shadow: 0px 0px 1px;
+}
+
+.error-list {
+  width: 80%;
+  color: var(--error-color);
+  list-style-type: none;
+  padding: 10px;
+  background-color: var(--error-bg);
+  border-radius: 5px;
+  border: 1px solid var(--error-color);
+}
+
+.error-list li {
+  padding: 2px;
+}
+
+.error-list li:not(:last-child) {
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+}

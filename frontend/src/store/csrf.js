@@ -9,24 +9,15 @@ export const fetch = async (url, options = {}) => {
       options.headers['Content-Type'] || 'application/json';
     options.headers['XSRF-Token'] = Cookies.get('XSRF-TOKEN');
   }
-  try {
-    const res = await window.fetch(url, options);
+  const res = await window.fetch(url, options);
 
-    const contentType = res.headers.get('content-type');
-    if (contentType && contentType.includes('application/json')) {
-      const data = await res.json();
-      res.data = data;
-    }
-    if (res.status >= 400) throw res;
-    return res;
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    const data = await res.json();
+    res.data = data;
   }
-  catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(err);
-    }
-    //TODO graceful fail in production?
-    return err;
-  }
+  if (res.status >= 400) throw res;
+  return res;
 }
 
 export const restoreCSRF = () => fetch('/api/csrf/restore');
