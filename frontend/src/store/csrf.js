@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-const fetch = async (url, options = {}) => {
+export const fetch = async (url, options = {}) => {
   options.method = options.method || 'GET';
   options.headers = options.headers || {};
 
@@ -21,12 +21,12 @@ const fetch = async (url, options = {}) => {
     return res;
   }
   catch (err) {
-    if (process.env.NODE_ENV !== 'production' {
+    if (process.env.NODE_ENV !== 'production') {
       console.error(err);
-    })
+    }
     //TODO graceful fail in production?
     return err;
   }
 }
 
-export default fetch;
+export const restoreCSRF = () => fetch('/api/csrf/restore');
