@@ -1,7 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import './index.css';
 import {BrowserRouter} from 'react-router-dom';
-import {Provider} from 'redux';
+import {Provider} from 'react-redux';
 import configureStore from './store/index.js';
 import App from './App';
 import {restoreCSRF, fetch} from './store/csrf';
@@ -26,3 +27,10 @@ function Root() {
     </Provider>
   );
 }
+
+ReactDOM.render(
+  <React.StrictMode>
+    <Root />
+  </React.StrictMode>,
+  document.getElementById('root'),
+);
