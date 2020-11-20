@@ -26,30 +26,30 @@ const LoginFormPage = () => {
   }
 
   return (
-    <form className='login-form' onSubmit={handleSubmit}>
+    <form className='session-form' onSubmit={handleSubmit}>
       <h2>Log In</h2>
       <FormErrorList errors={errors} />
-      <div className='login-form__input-wrapper'>
-        <label className='login-form__label'>
-          <div className='login-form__label-text'>Username or Email</div>
+      <div className='session-form__input-wrapper'>
+        <label className='session-form__label'>
+          <div className='session-form__label-text'>Username or Email</div>
           <input
             type='text'
             value={credential}
             onChange={e => setCredential(e.target.value)}
-            className='login-form__input'
+            className='session-form__input'
           />
         </label>
-        <label className='login-form__label'>
-          <div className='login-form__label-text'>Password</div>
+        <label className='session-form__label'>
+          <div className='session-form__label-text'>Password</div>
           <input
             type='password'
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className='login-form__input'
+            className='session-form__input'
           />
         </label>
       </div>
-      <button type='submit' className='button login-form__button'>Log In</button>
+      <button type='submit' className='button session-form__button'>Log In</button>
     </form>
   )
 }

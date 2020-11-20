@@ -14,7 +14,7 @@ function App() {
     dispatch(restoreSession()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
-  return (
+  return isLoaded && (
     <Switch>
       <Route path='/' exact>
         <h1>Home page</h1>

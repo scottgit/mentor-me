@@ -27,39 +27,42 @@ const SignupFormPage = () => {
   }
 
   return (
-    <form className='login-form' onSubmit={handleSubmit}>
+    <form className='session-form' onSubmit={handleSubmit}>
       <h2>Sign Up</h2>
       <FormErrorList errors={errors} />
-      <div className='login-form__input-wrapper'>
-        <label className='login-form__label'>
-          <div className='login-form__label-text'>Username</div>
+      <div className='session-form__input-wrapper'>
+        <label className='session-form__label'>
+          <div className='session-form__label-text'>Username</div>
           <input
             type='text'
             value={username}
             onChange={e => setUsername(e.target.value)}
-            className='login-form__input'
+            className='session-form__input'
+            className='session-form__input'
+            minLength={4}
           />
         </label>
-        <label className='login-form__label'>
-          <div className='login-form__label-text'>Email</div>
+        <label className='session-form__label'>
+          <div className='session-form__label-text'>Email</div>
           <input
             type='email'
             value={email}
             onChange={e => setEmail(e.target.value)}
-            className='login-form__input'
+            className='session-form__input'
           />
         </label>
-        <label className='login-form__label'>
-          <div className='login-form__label-text'>Password</div>
+        <label className='session-form__label'>
+          <div className='session-form__label-text'>Password</div>
           <input
             type='password'
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className='login-form__input'
+            className='session-form__input'
+            minLength={6}
           />
         </label>
       </div>
-      <button type='submit' className='button login-form__button'>Sign Up</button>
+      <button type='submit' className='button session-form__button'>Sign Up</button>
     </form>
   )
 }

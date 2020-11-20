@@ -26,7 +26,8 @@ const setUser = (user) => {
 
 const removeUser = () => {
   return ({
-    type: REMOVE_USER
+    type: REMOVE_USER,
+    user: null
   })
 }
 
@@ -60,14 +61,24 @@ export const restoreSession = () => async (dispatch) => {
   dispatch(setUser(res.data.user));
   return res;
 }
+
+export const logout = () => async (dispatch) => {
+  const res = await fetch(
+    '/api/session',
+    {
+      method: 'DELETE'
+    }
+  );
+  dispatch(removeUser());
+  return res;
+}
 //End Thunks
 
 const sessionReducer = (state = initialState, {type, user}) => {
   switch (type) {
     case SET_USER:
-      return { ...state, user }
     case REMOVE_USER:
-      return { ...state, user: null}
+      return { ...state, user }
     default:
       return state
   }

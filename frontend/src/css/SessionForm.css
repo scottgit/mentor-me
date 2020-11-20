@@ -1,4 +1,4 @@
-.login-form {
+.session-form {
   width: 250px;
   margin: auto;
   border-radius: 20px;
@@ -8,18 +8,18 @@
   align-items: center;
   border: 1px solid var(--primary-color-20a);
 }
-.login-form__input-wrapper {
+.session-form__input-wrapper {
 
 
 }
-.login-form__label {
+.session-form__label {
   display: flex;
   flex-direction: column;
   padding: 10px 0;
   justify-content: center;
   align-items: center;
 }
-.login-form__label-text {
+.session-form__label-text {
   position: relative;
   background-color: white;
   border-radius: 3px;
@@ -27,17 +27,17 @@
   bottom: -5px;
   padding: 2px 5px;
 }
-.login-form__input {
+.session-form__input {
   padding: 5px;
   font-size: 1.3em;
   border: 1px solid var(--primary-color-20a);
   border-radius: 3px;
 }
-.login-form__input:focus {
+.session-form__input:focus {
   outline: none;
   border-color: var(--primary-color);
   background-color: var(--primary-color-20a);
 }
-.login-form__button {
+.session-form__button {
   margin-bottom: 10px;
 }
