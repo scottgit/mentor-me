@@ -28,6 +28,10 @@ export const displayModal = ({Component, message}) => async (dispatch) => {
   )
 }
 
+export const closeModal = () => async (dispatch) => {
+  dispatch(hideModal());
+}
+
 const modalReducer = (state = initialState, {type, showModal}) => {
   switch (type) {
     case SHOW_MODAL:

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {logout} from '../../store/session';
 import Icon from '../Includes/Icon';
+import Modal from '../Includes/Modal';
 
 const ProfileButton = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -22,10 +23,13 @@ const ProfileButton = () => {
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
+  let showConfirm = false;
+  const confirmLogout = (e) => {
+    showConfirm = true;
+  }
+
   const handleLogout = (e) => {
-    // const getAnswer = async () => {
-    //   return await
-    // }
+    
 
     if(!window.confirm(`Did you wish to logout?`)) {
       return;
@@ -44,10 +48,11 @@ const ProfileButton = () => {
           <div className={`profile-menu ${show}`}>
             <div className='profile-info'>{username}</div>
             <div  className='profile-info'>{email}</div>
-            <button className='button profile-button' onClick={handleLogout}>Log Out</button>
+            <button className='button profile-button' onClick={confirmLogout}>Log Out</button>
           </div>
         </>
       )}
+      {(showConfirm && <Modal />)}
     </>
   )
 }

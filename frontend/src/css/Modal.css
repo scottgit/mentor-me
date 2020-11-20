@@ -1,4 +1,4 @@
-.modal-wrapper {
+.modal {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -9,7 +9,7 @@
   display: flex;
 }
 
-.modal-positioner {
+.modal-content {
   display: flex;
   margin: auto;
 }
