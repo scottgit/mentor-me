@@ -9,7 +9,7 @@ body {
 
 
   --error-color: red;
-  --error-bg: rgb(255, 199, 199);
+  --error-bg: rgba(255, 199, 199, 0.5);
   --button-color: var(--primary-color);
   --button-hover: var(--primary-comp);
 
