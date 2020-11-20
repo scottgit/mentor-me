@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {login} from '../../store/session';
-import FormErrorList from '../FormErrorList';
+import FormErrorList from '../Includes/FormErrorList';
 
 const LoginFormPage = () => {
   const sessionUser = useSelector(state => state.session.user);

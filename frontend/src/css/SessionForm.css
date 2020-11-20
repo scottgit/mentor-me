@@ -8,10 +8,6 @@
   align-items: center;
   border: 1px solid var(--primary-color-20a);
 }
-.session-form__input-wrapper {
-
-
-}
 .session-form__label {
   display: flex;
   flex-direction: column;

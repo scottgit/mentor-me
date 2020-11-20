@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {logout} from '../../store/session';
-import Icon from '../Icon';
+import Icon from '../Includes/Icon';
 
 const ProfileButton = () => {
   const [showMenu, setShowMenu] = useState(false);
