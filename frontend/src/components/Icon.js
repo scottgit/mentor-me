@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Icon = ({icon}) => {
+const Icon = ({icon, wrapperClasses='', click=''}) => {
   return (
-    <div className="icon">
-      <i className={`fas fa-${icon}`}></i>
+    <div className={`icon ${wrapperClasses}`}>
+      <i className={`fas fa-${icon}`} onClick={click}></i>
     </div>
   )
 }

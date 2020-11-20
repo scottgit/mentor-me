@@ -5,6 +5,7 @@ html {
 body {
   --primary-color: rgb(46, 46, 161);
   --primary-comp: rgb(111, 207, 236);
+  --primary-color-50a: rgba(46, 46, 161, 0.5);
   --primary-color-20a: rgba(46, 46, 161, 0.2);
 
 
@@ -24,6 +25,12 @@ h1, h2, label {
   height: 100%;
   display: flex;
   justify-content: center;
+}
+
+.page {
+  max-width: 1000px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .button {
@@ -67,4 +74,8 @@ h1, h2, label {
 
 .error-list li:not(:last-child) {
   border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+.icon {
+  color: var(--primary-color);
 }

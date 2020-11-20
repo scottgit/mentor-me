@@ -1,0 +1,66 @@
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.logo {
+  margin: 5px 5px 5px 0;
+  width: 2em;
+  height: 2em;
+  background-color: var(--primary-color);
+}
+.main-nav__list {
+  display: flex;
+  list-style-type: none;
+}
+
+.profile-menu {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  padding: 5px;
+  border: 1px solid var(--primary-color-20a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-info {
+  padding: 4px;
+}
+
+.profile-button {
+  font-size: .7em;
+}
+
+/* Profile Icons */
+[class*=profile-icon] {
+  display: inline-block;
+  position: relative;
+  font-size: 1.5em;
+  color: var(--primary-color-50a);
+}
+
+[class*=profile-icon]:hover,
+.show:hover + .profile-icon__times-circle {
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+[class*=profile-icon].show,
+body:hover .profile-item:not(:hover) .profile-icon__times-circle  {
+  color: var(--primary-color);
+}
+
+.profile-icon__user {
+  z-index: 1;
+  margin-right: 1em;
+}
+
+.profile-icon__times-circle {
+  margin-left: -1em;
+  left: -0.5em;
+  top: -0.3em;
+  font-size: 1.2em;
+}

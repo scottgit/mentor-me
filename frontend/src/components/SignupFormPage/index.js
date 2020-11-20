@@ -38,7 +38,6 @@ const SignupFormPage = () => {
             value={username}
             onChange={e => setUsername(e.target.value)}
             className='session-form__input'
-            className='session-form__input'
             minLength={4}
           />
         </label>

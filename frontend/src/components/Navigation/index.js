@@ -9,7 +9,7 @@ const Navigation = () => {
   let sessionLinks;
   if(sessionUser) {
     sessionLinks = (
-      <li><ProfileButton /></li>
+      <li className='profile-item'><ProfileButton /></li>
     );
   }
   else {
@@ -21,8 +21,9 @@ const Navigation = () => {
     );
   }
   return (
-    <nav>
-      <ul>
+    <nav className='main-nav'>
+      <NavLink to='/' className='logo-link'><div className='logo'></div></NavLink>
+      <ul className='main-nav__list'>
         <li><NavLink exact to='/' activeClassName='active'>Home</NavLink></li>
         {sessionLinks}
       </ul>
