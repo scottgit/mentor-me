@@ -30,6 +30,7 @@ const removeUser = () => {
   })
 }
 
+//Thunks
 export const login = ({ credential, password }) => async (dispatch) => {
   const res = await fetch(
     '/api/session',
@@ -40,6 +41,15 @@ export const login = ({ credential, password }) => async (dispatch) => {
   dispatch(setUser(res.data.user));
   return res;
 }
+
+export const restoreSession = () => async (dispatch) => {
+  const res = await fetch(
+    '/api/session'
+  );
+  dispatch(setUser(res.data.user));
+  return res;
+}
+//End Thunks
 
 const sessionReducer = (state = initialState, {type, user}) => {
   switch (type) {
