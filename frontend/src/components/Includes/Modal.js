@@ -1,15 +1,14 @@
 import React, {useState} from 'react';
 
-const Modal = ({Component, message, cb}) => {
+const Modal = ({Component, message}) => {
   const [modalClose, setModalClose] = useState(false);
-  const [answer, setAnswer] = useState(null);
-  if (modalClose) return answer;
+
+  if (modalClose) return false;
 
   let handleSubmit;
   if(!Component) {
     handleSubmit = (e) => {
       e.preventDefault();
-      setAnswer(e.target.value === 'true')
       setModalClose(true);
     }
   };

@@ -6,7 +6,6 @@ const REMOVE_USER = "SESSION_REMOVE_USER";
 const initialState = {
   user: null
 }
-
 /* User model
 user: {
     id,
@@ -16,7 +15,6 @@ user: {
     updatedAt
   }
 */
-
 const setUser = (user) => {
   return ({
     type: SET_USER,
@@ -85,4 +83,4 @@ const sessionReducer = (state = initialState, {type, user}) => {
 }
 
 export default sessionReducer;
-//{credential: 'Demo-lition', password: 'password'}
+

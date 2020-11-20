@@ -7,6 +7,10 @@ body {
   --primary-comp: rgb(111, 207, 236);
   --primary-color-50a: rgba(46, 46, 161, 0.5);
   --primary-color-20a: rgba(46, 46, 161, 0.2);
+
+  --secondary-color: rgb(220,220,220);
+
+
   --bg-color: rgb(255,255,255);
   --bg-color-50a: rgba(255,255,255,0.5);
 
@@ -14,7 +18,7 @@ body {
   --error-color: red;
   --error-bg: rgba(255, 199, 199, 0.5);
   --button-color: var(--primary-color);
-  --button-hover: var(--primary-comp);
+  --button-hover: var(--primary-color-20a);
 
   height: 100%;
   background-color: var(--bg-color);
@@ -34,6 +38,9 @@ h1, h2, label {
   max-width: 1000px;
   width: 80%;
   margin: 0 auto;
+  padding: 0 20px;
+  background-color: var(--bg-color);
+  box-shadow: 0px 0px 8px var(--primary-color-50a);
 }
 
 .button {
@@ -47,6 +54,7 @@ h1, h2, label {
   position: relative;
   outline: none;
   box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  text-decoration: none;
 }
 
 .button:hover {

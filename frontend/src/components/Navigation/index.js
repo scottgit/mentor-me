@@ -15,16 +15,15 @@ const Navigation = () => {
   else {
     sessionLinks = (
       <>
-        <li><NavLink exact to='/login' activeClassName='active'>Login</NavLink></li>
-        <li><NavLink exact to='/login' activeClassName='active'>Signup</NavLink></li>
+        <li><NavLink exact to='/login' className='button main-nav__login'>Login</NavLink></li>
+        <li><NavLink exact to='/login' className='button main-nav__signup'>Signup</NavLink></li>
       </>
     );
   }
   return (
     <nav className='main-nav'>
-      <NavLink to='/' className='logo-link'><div className='logo'></div></NavLink>
+      <NavLink exact to='/' className='logo-link'><div className='logo'></div></NavLink>
       <ul className='main-nav__list'>
-        <li><NavLink exact to='/' activeClassName='active'>Home</NavLink></li>
         {sessionLinks}
       </ul>
     </nav>

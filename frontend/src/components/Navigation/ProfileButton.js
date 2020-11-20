@@ -23,6 +23,10 @@ const ProfileButton = () => {
   }, [showMenu]);
 
   const handleLogout = (e) => {
+    // const getAnswer = async () => {
+    //   return await
+    // }
+
     if(!window.confirm(`Did you wish to logout?`)) {
       return;
     }
