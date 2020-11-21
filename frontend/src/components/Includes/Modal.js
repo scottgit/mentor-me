@@ -24,8 +24,8 @@ export const ModalProvider = ({children}) => {
   );
 }
 
- const Modal = ({onClose, children}) => {
-  const {modalNode} = useContext(ModalContext);
+ const Modal = ({children}) => {
+  const {modalNode, setShowModal} = useContext(ModalContext);
 
   if (!modalNode) return null;
 
@@ -34,7 +34,7 @@ export const ModalProvider = ({children}) => {
       <div className='modal-content'>
         <Icon
           icon='times-circle' wrapperClasses={`modal-close`}
-          click={onClose}
+          click={() => setShowModal(false)}
         />
         {children}
       </div>

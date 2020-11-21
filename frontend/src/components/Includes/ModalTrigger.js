@@ -15,7 +15,7 @@ function Trigger({children, triggerComponent, buttonClasses, buttonText}) {
     <>
       {triggerComponent}
       {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
+        <Modal>
           {children}
         </Modal>
       )}
