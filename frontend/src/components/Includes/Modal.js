@@ -27,13 +27,8 @@ export const ModalProvider = ({children}) => {
 
   if (!modalNode) return null;
 
-  const bubbledClose = (e) => {
-    const doClose = e.target.getAttribute('data-bubble-close');
-    if (doClose) setTimeout(onClose,0);
-  }
-
   return ReactDOM.createPortal(
-    <div className='modal' onClick={bubbledClose}>
+    <div className='modal'>
       <div className='modal-content'>
         <Icon
           icon='times-circle' wrapperClasses={`modal-close`}

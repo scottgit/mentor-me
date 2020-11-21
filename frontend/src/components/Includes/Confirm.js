@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Confirm = ({message, onClose, doAction}) => {
+const Confirm = ({message, doAction}) => {
   if (!message) message = 'Please confirm';
 
   const handleSubmit = (e) => {
@@ -12,8 +12,8 @@ const Confirm = ({message, onClose, doAction}) => {
     <form onSubmit={handleSubmit} className='confirm-form'>
       <h2 className='confirm-form__message'>{message}</h2>
       <div className='confirm-form__buttons'>
-        <button className='button confirm-form__submit --warning' type='submit' data-bubble-close='true'>Yes</button>
-        <button className='button confirm-form__cancel' autoFocus type='button' data-bubble-close='true'>Cancel</button>
+        <button className='button confirm-form__submit --warning' type='submit'>Yes</button>
+        <button className='button confirm-form__cancel' autoFocus type='button'>Cancel</button>
       </div>
     </form>
   )

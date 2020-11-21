@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {logout} from '../../store/session';
 import Confirm from '../Includes/Confirm';
 import Icon from '../Includes/Icon';
+import { ModalProvider } from '../Includes/Modal';
 import ModalTrigger from '../Includes/ModalTrigger';
 
 const ProfileButton = () => {
@@ -35,16 +36,17 @@ const ProfileButton = () => {
           <div className={`profile-menu ${show}`}>
             <div className='profile-info'>{username}</div>
             <div  className='profile-info'>{email}</div>
+            <ModalProvider>
             <ModalTrigger buttonClasses='button profile-button' buttonText='Log Out'>
               <Confirm
                 doAction={() => {
-                  alert('here');
                   setShowMenu(false);
                   dispatch(logout());
                 }}
                 message='Did you wish to log out?'
               />
             </ModalTrigger>
+            </ModalProvider>
           </div>
         </>
       )}

@@ -4,8 +4,7 @@ import {useDispatch} from 'react-redux';
 import {login} from '../../store/session';
 import FormErrorList from '../Includes/FormErrorList';
 
-const LoginForm = (props) => {
-  console.log('login onclose',props.onClose)
+const LoginForm = () => {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
