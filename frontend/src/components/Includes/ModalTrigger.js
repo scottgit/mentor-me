@@ -1,10 +1,9 @@
-import React, { useState} from 'react';
-import  Modal  from '../Includes/Modal';
+import React, {useContext} from 'react';
+import  Modal, {ModalContext}  from '../Includes/Modal';
 
 
 function ModalTrigger({children, triggerComponent, buttonClasses, buttonText}) {
-  const [showModal, setShowModal] = useState(false);
-
+  const {showModal, setShowModal} = useContext(ModalContext);
 
   if (!triggerComponent) {
     triggerComponent = (

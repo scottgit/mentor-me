@@ -6,11 +6,13 @@ export const ModalContext = React.createContext();
 
 export const ModalProvider = ({children}) => {
   const modalRef = useRef();
-  const [value, setValue] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [value, setValue] = useState({modalNode: null, showModal, setShowModal});
 
   useEffect(() => {
-    setValue(modalRef.current);
-  }, []);
+    const modalNode = modalRef.current;
+    setValue({modalNode, showModal, setShowModal});
+  }, [modalRef, showModal]);
 
   return (
     <>
@@ -23,7 +25,7 @@ export const ModalProvider = ({children}) => {
 }
 
  const Modal = ({onClose, children}) => {
-  const modalNode = useContext(ModalContext);
+  const {modalNode} = useContext(ModalContext);
 
   if (!modalNode) return null;
 

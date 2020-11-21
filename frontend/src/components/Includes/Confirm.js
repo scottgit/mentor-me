@@ -1,6 +1,8 @@
-import React from 'react';
+import React , {useContext} from 'react';
+import {ModalContext} from './Modal';
 
 const Confirm = ({message, doAction}) => {
+  const {showModal, setShowModal} = useContext(ModalContext);
   if (!message) message = 'Please confirm';
 
   const handleSubmit = (e) => {
@@ -13,7 +15,7 @@ const Confirm = ({message, doAction}) => {
       <h2 className='confirm-form__message'>{message}</h2>
       <div className='confirm-form__buttons'>
         <button className='button confirm-form__submit --warning' type='submit'>Yes</button>
-        <button className='button confirm-form__cancel' autoFocus type='button'>Cancel</button>
+        <button className='button confirm-form__cancel' autoFocus type='button' onClick={() => {console.log('before', showModal); setShowModal(false); console.log('after', showModal)}}>Cancel</button>
       </div>
     </form>
   )
