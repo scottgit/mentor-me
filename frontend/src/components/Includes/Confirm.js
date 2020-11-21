@@ -1,21 +1,19 @@
 import React from 'react';
 
-
-const Confirm = ({message, onClose}) => {
-
+const Confirm = ({message, onClose, doAction}) => {
   if (!message) message = 'Please confirm';
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // dispatch(closeModal());
-    // setAnswer(e.target.value === 'true')
+    doAction();
   }
+
   return (
-    <form onSubmit='handleSubmit' className='confirm-form'>
+    <form onSubmit={handleSubmit} className='confirm-form'>
       <h2 className='confirm-form__message'>{message}</h2>
       <div className='confirm-form__buttons'>
-        <button className='button' type='submit' value={true}>Yes</button>
-        <button className='button' type='button' onClick={onClose}>Cancel</button>
+        <button className='button confirm-form__submit --warning' type='submit' data-bubble-close='true'>Yes</button>
+        <button className='button confirm-form__cancel' autoFocus type='button' data-bubble-close='true'>Cancel</button>
       </div>
     </form>
   )

@@ -55,7 +55,7 @@ const SignupFormPage = () => {
           />
         </label>
       </div>
-      <button type='submit' className='button session-form__button'>Sign Up</button>
+      <button type='submit' className='button session-form__button' data-bubble-close='true'>Sign Up</button>
     </form>
   )
 }

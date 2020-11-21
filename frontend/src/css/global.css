@@ -10,6 +10,9 @@ body {
 
   --secondary-color: rgb(220,220,220);
 
+  --warning-color: rgb(202, 39, 39);
+  --warning-color-20a: rgba(202, 39, 39, 0.2);
+
 
   --bg-color: rgb(255,255,255);
   --bg-color-50a: rgba(255,255,255,0.5);
@@ -73,6 +76,14 @@ h1, h2, label {
   top: 1px;
   left: 1px;
   box-shadow: 0px 0px 1px;
+}
+
+.button.--warning {
+  background-color: var(--warning-color);
+}
+
+.button.--warning:hover {
+  background-color: var(--warning-color-20a);
 }
 
 .error-list {

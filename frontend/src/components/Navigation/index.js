@@ -6,13 +6,35 @@ import ModalTrigger from '../Includes/ModalTrigger';
 import SignupForm from '../SignupForm';
 import LoginForm from '../LoginForm';
 
+
+import { useDispatch} from 'react-redux';
+import {logout} from '../../store/session';
+import Confirm from '../Includes/Confirm';
+
 const Navigation = () => {
   const sessionUser = useSelector(state => state.session.user);
+
+  const dispatch = useDispatch();
 
   let sessionLinks;
   if(sessionUser) {
     sessionLinks = (
+    <>
+      <li>
+      <ModalTrigger buttonClasses='button profile-button' buttonText='Log Out'>
+        <Confirm
+          doAction={() => {
+
+            //alert('here');
+            //setShowMenu(false);
+            dispatch(logout());
+          }}
+          message='Did you wish to log out?'
+        />
+      </ModalTrigger>
+    </li>
       <li className='profile-item'><ProfileButton /></li>
+      </>
     );
   }
   else {
@@ -33,7 +55,9 @@ const Navigation = () => {
   }
   return (
     <nav className='main-nav'>
-      <NavLink exact to='/' className='logo-link'><div className='logo'></div></NavLink>
+      <NavLink exact to='/' className='logo-link'>
+        <div className='logo'></div>
+      </NavLink>
       <ul className='main-nav__list'>
         {sessionLinks}
       </ul>

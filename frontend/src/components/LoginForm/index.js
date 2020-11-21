@@ -1,10 +1,11 @@
 import React from 'react';
 import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {login} from '../../store/session';
 import FormErrorList from '../Includes/FormErrorList';
 
-const LoginForm = () => {
+const LoginForm = (props) => {
+  console.log('login onclose',props.onClose)
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const LoginForm = () => {
           />
         </label>
       </div>
-      <button type='submit' className='button session-form__button'>Log In</button>
+      <button type='submit' className='button session-form__button' data-bubble-close='true'>Log In</button>
     </form>
   )
 }

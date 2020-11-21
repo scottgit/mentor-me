@@ -2,10 +2,9 @@ import React, {useContext, useRef, useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import Icon from './Icon'
 
-const ModalContext = React.createContext();
+export const ModalContext = React.createContext();
 
 export const ModalProvider = ({children}) => {
-
   const modalRef = useRef();
   const [value, setValue] = useState();
 
@@ -18,7 +17,7 @@ export const ModalProvider = ({children}) => {
       <ModalContext.Provider value={value}>
         {children}
       </ModalContext.Provider>
-      <div ref={modalRef} />
+      <div id='modal' ref={modalRef} />
     </>
   );
 }
@@ -28,9 +27,14 @@ export const ModalProvider = ({children}) => {
 
   if (!modalNode) return null;
 
+  const bubbledClose = (e) => {
+    const doClose = e.target.getAttribute('data-bubble-close');
+    if (doClose) setTimeout(onClose,0);
+  }
+
   return ReactDOM.createPortal(
-    <div id='modal' className='modal'>
-      <div id='modal-content' className='modal-content'>
+    <div className='modal' onClick={bubbledClose}>
+      <div className='modal-content'>
         <Icon
           icon='times-circle' wrapperClasses={`modal-close`}
           click={onClose}

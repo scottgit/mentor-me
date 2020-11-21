@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {logout} from '../../store/session';
+import Confirm from '../Includes/Confirm';
 import Icon from '../Includes/Icon';
-import Modal from '../Includes/Modal';
 import ModalTrigger from '../Includes/ModalTrigger';
 
 const ProfileButton = () => {
@@ -24,21 +24,6 @@ const ProfileButton = () => {
     return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
-  let showConfirm = false;
-  const confirmLogout = (e) => {
-    showConfirm = true;
-    handleLogout(e);
-  }
-
-  const handleLogout = (e) => {
-
-
-    if(!window.confirm(`Did you wish to logout?`)) {
-      return;
-    }
-    setShowMenu(false);
-    dispatch(logout())
-  }
 
   return (
     <>
@@ -51,13 +36,18 @@ const ProfileButton = () => {
             <div className='profile-info'>{username}</div>
             <div  className='profile-info'>{email}</div>
             <ModalTrigger buttonClasses='button profile-button' buttonText='Log Out'>
-              
+              <Confirm
+                doAction={() => {
+                  alert('here');
+                  setShowMenu(false);
+                  dispatch(logout());
+                }}
+                message='Did you wish to log out?'
+              />
             </ModalTrigger>
-            <button className='button profile-button' onClick={confirmLogout}>Log Out</button>
           </div>
         </>
       )}
-      {(showConfirm && <Modal />)}
     </>
   )
 }
