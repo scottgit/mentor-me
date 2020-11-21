@@ -2,6 +2,9 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import ProfileButton from './ProfileButton';
+import ModalTrigger from '../Includes/ModalTrigger';
+import SignupForm from '../SignupForm';
+import LoginForm from '../LoginForm';
 
 const Navigation = () => {
   const sessionUser = useSelector(state => state.session.user);
@@ -15,8 +18,16 @@ const Navigation = () => {
   else {
     sessionLinks = (
       <>
-        <li><NavLink exact to='/login' className='button main-nav__login'>Login</NavLink></li>
-        <li><NavLink exact to='/login' className='button main-nav__signup'>Signup</NavLink></li>
+        <li>
+          <ModalTrigger buttonClasses='button main-nav__login' buttonText='Log In'>
+            <LoginForm />
+          </ModalTrigger>
+        </li>
+        <li>
+          <ModalTrigger buttonClasses='button main-nav__signup' buttonText='Sign Up'>
+            <SignupForm />
+          </ModalTrigger>
+        </li>
       </>
     );
   }

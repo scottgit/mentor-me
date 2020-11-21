@@ -14,6 +14,8 @@ body {
   --bg-color: rgb(255,255,255);
   --bg-color-50a: rgba(255,255,255,0.5);
 
+  --bg-modal-50a: rgba(0, 0, 0, 0.5);
+
 
   --error-color: red;
   --error-bg: rgba(255, 199, 199, 0.5);
@@ -22,6 +24,10 @@ body {
 
   height: 100%;
   background-color: var(--bg-color);
+}
+
+div {
+  box-sizing: border-box;
 }
 
 h1, h2, label {

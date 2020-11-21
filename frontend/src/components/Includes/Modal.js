@@ -1,32 +1,13 @@
 import React, {useContext, useRef, useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
-import {useSelector, useDispatch} from 'react-redux';
-import {closeModal} from '../../store/modal';
+import Icon from './Icon'
 
 const ModalContext = React.createContext();
 
-export const ModalProvider({children, message}) {
+export const ModalProvider = ({children}) => {
+
   const modalRef = useRef();
   const [value, setValue] = useState();
-
-  if(!children) {
-    if (!message) message = 'Please confirm';
-    handleSubmit = (e) => {
-      e.preventDefault();
-      // dispatch(closeModal());
-      // setAnswer(e.target.value === 'true')
-    }
-
-    children = (
-      <form onSubmit='handleSubmit' className='confirm-form'>
-        <h2 className='confirm-form__message'>{message}</h2>
-        <div className='confirm-form__buttons'>
-          <button className='button' type='submit' value={true}>Yes</button>
-          <button className='button' type='button' onClick={onClose}>Cancel</button>
-        </div>
-      </form>
-    )
-  }
 
   useEffect(() => {
     setValue(modalRef.current);
@@ -42,33 +23,23 @@ export const ModalProvider({children, message}) {
   );
 }
 
-const Modal = ({message, onClose, children}) => {
-  const showModal = useSelector(state => state.showModal);
-  const dispatch = useDispatch();
-  const [answer, setAnswer] = useState(false)
+ const Modal = ({onClose, children}) => {
+  const modalNode = useContext(ModalContext);
 
-  if (!showModal) return answer;
+  if (!modalNode) return null;
 
-  let handleSubmit;
-  if(!children) {
-    handleSubmit = (e) => {
-      e.preventDefault();
-      dispatch(closeModal());
-      setAnswer(e.target.value === 'true')
-    }
-  };
-
-  return (
-    <div className='modal'>
-      <Icon
-        icon='times-circle' wrapperClasses={`modal-close`}
-        click={onClose}
-      />
-      <div className='modal-content'>
+  return ReactDOM.createPortal(
+    <div id='modal' className='modal'>
+      <div id='modal-content' className='modal-content'>
+        <Icon
+          icon='times-circle' wrapperClasses={`modal-close`}
+          click={onClose}
+        />
         {children}
       </div>
-    </div>
-  )
+    </div>,
+    modalNode
+  );
 }
 
 export default Modal

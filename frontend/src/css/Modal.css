@@ -5,11 +5,39 @@
   left: 0;
   right: 0;
   z-index: 1;
-  background-color: var(--bg-color-50a);
+  background-color: var(--bg-modal-50a);
   display: flex;
+}
+
+.modal-close {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  bottom: 100%;
+  left: 100%;
+  font-size: 30px;
+  color: var(--primary-color-50a);
+  padding: 5px;
+  background-color: var(--bg-color);
+  border-radius: 20px;
+  z-index: 1;
+  margin-bottom: -25px;
+  margin-left: -25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fa-times-circle:hover  {
+  color: var(--primary-color);
+  cursor: pointer;
 }
 
 .modal-content {
   display: flex;
   margin: auto;
+  position: relative;
+  background-color: var(--bg-color);
+  border-radius: 20px;
+  border-top-right-radius: 0;
 }

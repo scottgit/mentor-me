@@ -1,12 +1,10 @@
 .session-form {
   width: 250px;
   margin: auto;
-  border-radius: 20px;
   padding: 10px;
   display: flex;
   flex-direction:  column;
   align-items: center;
-  border: 1px solid var(--primary-color-20a);
 }
 .session-form__label {
   display: flex;
