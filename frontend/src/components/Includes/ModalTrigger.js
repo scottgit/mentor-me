@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import  Modal, {ModalContext}  from '../Includes/Modal';
+import  Modal, {ModalProvider, ModalContext}  from '../Includes/Modal';
 
 
-function ModalTrigger({children, triggerComponent, buttonClasses, buttonText}) {
+function Trigger({children, triggerComponent, buttonClasses, buttonText}) {
   const {showModal, setShowModal} = useContext(ModalContext);
 
   if (!triggerComponent) {
@@ -21,6 +21,14 @@ function ModalTrigger({children, triggerComponent, buttonClasses, buttonText}) {
       )}
     </>
   );
+}
+
+const ModalTrigger = (props) => {
+  return (
+    <ModalProvider>
+      <Trigger {...props}/>
+    </ModalProvider>
+  )
 }
 
 export default ModalTrigger;

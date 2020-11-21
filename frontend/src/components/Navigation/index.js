@@ -5,7 +5,6 @@ import ProfileButton from './ProfileButton';
 import ModalTrigger from '../Includes/ModalTrigger';
 import SignupForm from '../SignupForm';
 import LoginForm from '../LoginForm';
-import { ModalProvider } from '../Includes/Modal';
 
 const Navigation = () => {
   const sessionUser = useSelector(state => state.session.user);
@@ -22,18 +21,14 @@ const Navigation = () => {
     sessionLinks = (
       <>
         <li>
-          <ModalProvider>
           <ModalTrigger buttonClasses='button main-nav__login' buttonText='Log In'>
             <LoginForm />
           </ModalTrigger>
-          </ModalProvider>
         </li>
         <li>
-          <ModalProvider>
           <ModalTrigger buttonClasses='button main-nav__signup' buttonText='Sign Up'>
             <SignupForm />
           </ModalTrigger>
-          </ModalProvider>
         </li>
       </>
     );
