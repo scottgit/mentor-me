@@ -28,12 +28,16 @@ module.exports = (sequelize, DataTypes) => {
         return await User.scope('currentUser').findByPk(user.id);
       }
     }
-    static async signup({ username, email, password }) {
+    static async signup({ username, email, password, goBy, picture, mentorDesc, menteeDesc }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
         username,
         email,
         hashedPassword,
+        goBy,
+        picture,
+        mentorDesc,
+        menteeDesc,
       });
       return await User.scope('currentUser').findByPk(user.id);
     };
@@ -44,22 +48,22 @@ module.exports = (sequelize, DataTypes) => {
   User.init(
     {
       username: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-          len: [4, 30],
+          len: [4, 50],
           isNotEmail(value) {
             if (Validator.isEmail(value)) {
-              throw new Error("Cannot be an email.");
+              throw new Error("Username cannot be an email.");
             }
           },
         },
       },
       email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-          len: [3, 256],
+          len: [3, 255],
         },
       },
       hashedPassword: {
@@ -68,6 +72,20 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: [60, 60],
         },
+      },
+      goby: {
+        type: DataTypes.STRING(50),
+      },
+      picture: {
+        type: DataTypes.STRING(255),
+      },
+      mentorDesc: {
+        type: DataTypes.TEXT,
+        oneDescNotNull(value)
+      },
+      menteeDesc: {
+        type: DataTypes.TEXT,
+        oneDescNotNull(value)
       },
     },
     {
@@ -90,3 +108,9 @@ module.exports = (sequelize, DataTypes) => {
   );
   return User;
 };
+
+function oneDescNotNull(value) {
+  if (!this.mentorDesc && !this.menteeDesc) {
+    throw new Error('A description of at least one role as either a mentor or a mentee is required.');
+  }
+}

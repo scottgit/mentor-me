@@ -29,7 +29,7 @@ module.exports = {
         type: Sequelize.STRING(255),
       },
       mentorDesc: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       menteeDesc: {
         type: Sequelize.TEXT
