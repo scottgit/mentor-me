@@ -3,7 +3,6 @@ const db = require('../db/models');
 const { User } = db;
 const { handleValidationErrors } = require("./validation-formatting");
 
-
 const userSignupValidators = [
     check('username')
         .exists({ checkFalsy: true })

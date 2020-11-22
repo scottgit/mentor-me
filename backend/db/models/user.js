@@ -81,11 +81,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       mentorDesc: {
         type: DataTypes.TEXT,
-        oneDescNotNull(value)
+        oneDescNotNull(value) {
+          if (!this.mentorDesc && !this.menteeDesc) {
+            throw new Error('A description of at least one role as either a mentor or a mentee is required.');
+          }
+        },
       },
       menteeDesc: {
         type: DataTypes.TEXT,
-        oneDescNotNull(value)
+        oneDescNotNull(value) {
+          if (!this.mentorDesc && !this.menteeDesc) {
+            throw new Error('A description of at least one role as either a mentor or a mentee is required.');
+          }
+        },
       },
     },
     {
@@ -108,9 +116,3 @@ module.exports = (sequelize, DataTypes) => {
   );
   return User;
 };
-
-function oneDescNotNull(value) {
-  if (!this.mentorDesc && !this.menteeDesc) {
-    throw new Error('A description of at least one role as either a mentor or a mentee is required.');
-  }
-}
