@@ -23,7 +23,7 @@ module.exports = {
         allowNull: false,
       },
       goBy: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING(20),
       },
       picture: {
         type: Sequelize.STRING(255),

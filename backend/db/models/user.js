@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-          len: [4, 50],
+          len: [3, 50],
           isNotEmail(value) {
             if (Validator.isEmail(value)) {
               throw new Error("Username cannot be an email.");
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(50),
         allowNull: false,
         validate: {
-          len: [3, 255],
+          len: [3, 50],
         },
       },
       hashedPassword: {
@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       goby: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(20),
       },
       picture: {
         type: DataTypes.STRING(255),
