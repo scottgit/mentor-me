@@ -31,8 +31,16 @@ module.exports = {
       mentorDesc: {
         type: Sequelize.TEXT,
       },
+      mentorIsPublic: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       menteeDesc: {
         type: Sequelize.TEXT
+      },
+      menteeIsPublic: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,

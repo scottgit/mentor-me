@@ -60,6 +60,12 @@ const userSignupValidators = [
             throw new Error('A description of at least one role as either a mentor or a mentee is required.');
           }
           return true;
+        })
+        .custom((value, {req}) => {
+          if (!value && !req.body.mentorIsPublic) {
+            throw new Error('A mentor available to the public needs a mentor description of what you are willing to mentor in.');
+          }
+          return true;
         }),
     check('menteeDesc')
         .custom((value, {req}) => {
@@ -67,7 +73,14 @@ const userSignupValidators = [
             throw new Error('A description of at least one role as either a mentor or a mentee is required.');
           }
           return true;
+        })
+        .custom((value, {req}) => {
+          if (!value && !req.body.menteeIsPublic) {
+            throw new Error('A mentee available to the public needs a mentee description of what you want to learn.');
+          }
+          return true;
         }),
+    handleValidationErrors,
 ]
 
 const userLoginValidators = [
@@ -78,20 +91,8 @@ const userLoginValidators = [
         check('password')
             .exists({ checkFalsy: true })
             .isLength({ min: 8, max: 50 })
-    ], 'Please provide valid values that are less than 50 characters'),
+        ], 'Please provide valid values that are less than 50 characters'),
     handleValidationErrors,
 ]
-
-const validateLogin = [
-  check("credential")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Please provide a valid email or username."),
-  check("password")
-    .exists({ checkFalsy: true })
-    .withMessage("Please provide a password."),
-  handleValidationErrors,
-];
-
 
 module.exports = {userSignupValidators, userLoginValidators };

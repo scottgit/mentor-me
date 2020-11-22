@@ -86,6 +86,14 @@ module.exports = (sequelize, DataTypes) => {
             throw new Error('A description of at least one role as either a mentor or a mentee is required.');
           }
         },
+        publicNeedsDescription(value) {
+          if (!this.mentorDesc && this.mentorIsPublic) {
+            throw new Error('A mentor available to the public needs a mentor description of what you are willing to mentor in.');
+          }
+        },
+      },
+      mentorIsPublic: {
+        type: DataTypes.BOOLEAN
       },
       menteeDesc: {
         type: DataTypes.TEXT,
@@ -94,6 +102,14 @@ module.exports = (sequelize, DataTypes) => {
             throw new Error('A description of at least one role as either a mentor or a mentee is required.');
           }
         },
+        publicNeedsDescription(value) {
+          if (!this.menteeDesc && this.menteeIsPublic) {
+            throw new Error('A mentee available to the public needs a mentee description of what you want to learn.');
+          }
+        },
+      },
+      menteeIsPublic: {
+        type: DataTypes.BOOLEAN
       },
     },
     {
