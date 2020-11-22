@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
           len: [60, 60],
         },
       },
-      goby: {
+      goBy: {
         type: DataTypes.STRING(20),
       },
       picture: {
