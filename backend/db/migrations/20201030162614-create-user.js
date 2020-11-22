@@ -9,18 +9,30 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       username: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(50),
         allowNull: false,
         unique: true,
       },
       email: {
-        type: Sequelize.STRING(256),
+        type: Sequelize.STRING(50),
         allowNull: false,
         unique: true,
       },
       hashedPassword: {
         type: Sequelize.STRING.BINARY,
         allowNull: false,
+      },
+      goBy: {
+        type: Sequelize.STRING(50),
+      },
+      picture: {
+        type: Sequelize.STRING(255),
+      },
+      mentorDesc: {
+        type: Sequelize.TEXT
+      },
+      menteeDesc: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,
