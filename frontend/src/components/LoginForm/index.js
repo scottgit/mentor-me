@@ -19,6 +19,12 @@ const LoginForm = () => {
       });
   }
 
+  const loginDemo = async (e) => {
+    await setCredential('Demo-Me');
+    await setPassword('password');
+    document.getElementById('nav-login').click();
+  }
+
   return (
     <form className='session-form' onSubmit={handleSubmit}>
       <h2>Log In</h2>
@@ -43,7 +49,8 @@ const LoginForm = () => {
           />
         </label>
       </div>
-      <button type='submit' className='button session-form__button' data-bubble-close='true'>Log In</button>
+      <button id='nav-login' type='submit' className='button session-form__button'>Log In</button>
+      <button type='button' className='button session-form__button' onClick={loginDemo}>Log In as Demo User</button>
     </form>
   )
 }
