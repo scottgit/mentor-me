@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 
 const { handleValidationErrors } = require("../../utils/validations/validation-formatting");
 const { userSignupValidators } = require("../../utils/validations/users")
-const { setTokenCookie, requireAuth } = require("../../utils/auth");
+const { setTokenCookie } = require("../../utils/auth");
 const { User } = require("../../db/models");
 
 const router = express.Router();
@@ -14,7 +14,20 @@ router.post(
   '',
   userSignupValidators,
   asyncHandler(async (req, res) => {
-    const { email, password, username } = req.body;
+    const {
+      email,
+      username,
+      password,
+      confirmPassword,
+      hashedPassword,
+      goBy,
+      picture,
+      gender,
+      mentorDesc,
+      mentorIsPublic,
+      menteeDesc,
+      menteeIsPublic } = req.body;
+
     const user = await User.signup({
       email,
       username,
