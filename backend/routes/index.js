@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const apiRouter = require("./api");
+const favicon = require('serve-favicon');
+
 
 router.use("/api", apiRouter);
 
@@ -18,6 +20,7 @@ if (process.env.NODE_ENV === "production") {
 
   // Serve the static assets in the frontend's build folder
   router.use(express.static(path.resolve("../frontend/build")));
+  router.use(favicon(path.join('../frontend/build','public','favicon_package_v0.16','favicon.ico')));
 
   // Serve the frontend's index.html file at all other routes NOT starting with /api
   router.get(/^(?!\/?api).*/, (req, res) => {

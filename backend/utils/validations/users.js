@@ -1,5 +1,5 @@
 const { check, oneOf } = require('express-validator');
-const db = require('../db/models');
+const db = require('../../db/models');
 const { User } = db;
 const { handleValidationErrors } = require("./validation-formatting");
 
