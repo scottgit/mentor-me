@@ -54,6 +54,10 @@ const userSignupValidators = [
     check('picture')
         .isLength({max: 255})
         .withMessage('The url for the picture cannot exceed 255 characters.'),
+    check('gender')
+        .exists({ checkFalsy: true })
+        .matches(/^Male$|^Female$|^Other$/)
+        .withMessage('Please indicate your gender.'),
     check('mentorDesc')
         .custom((value, {req}) => {
           if (!value && !req.body.menteeDesc) {

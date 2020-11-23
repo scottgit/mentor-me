@@ -28,6 +28,10 @@ module.exports = {
       picture: {
         type: Sequelize.STRING(255),
       },
+      gender:{
+        type: Sequelize.ENUM('Male', 'Female', 'Other'),
+        allowNull: false
+      },
       mentorDesc: {
         type: Sequelize.TEXT,
       },

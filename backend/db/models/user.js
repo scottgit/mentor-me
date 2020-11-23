@@ -79,6 +79,10 @@ module.exports = (sequelize, DataTypes) => {
       picture: {
         type: DataTypes.STRING(255),
       },
+      gender: {
+        type: DataTypes.ENUM('Male', 'Female', 'Other'),
+        allowNull: false
+      },
       mentorDesc: {
         type: DataTypes.TEXT,
         oneDescNotNull(value) {
