@@ -5,10 +5,8 @@ const { handleValidationErrors } = require("./validation-formatting");
 
 const userSignupValidators = [
     check('username')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a value for username.')
         .isLength({ min: 3, max: 50 })
-        .withMessage('The username must be at least 3, and no more than 50 characters long.')
+        .withMessage('The username is required and must be at least 3, and no more than 50 characters long.')
         .matches(/[^@]/)
         .withMessage('The username cannot contain @ symbol (it cannot be an email).')
         .custom(async (value) => {
@@ -19,32 +17,26 @@ const userSignupValidators = [
             return true;
         }),
     check('email')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide an email.')
         .isLength({ min: 3, max: 50 })
-        .withMessage('Email must be at least 3 and more than 50 characters long.')
+        .withMessage('Email is required and must be at least 3 and no more than 50 characters long.')
         .isEmail()
         .withMessage('Email is not a valid email format.')
         .custom(async (value) => {
             const email = await User.scope('loginUser').findOne({where: {email: value}})
             if(email) {
-                throw new Error('That email is already in use. Please login or choose another email to register.');
+                throw new Error('That email is already in use. Please login with it or choose another email to register.');
             }
             return true;
         }),
     check('password')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a value for password.')
         .isLength({ min: 8, max: 50 })
-        .withMessage('Password must be at least 8 and not more than 50 characters long.')
+        .withMessage('Password is required and must be at least 8 and not more than 50 characters long.')
         .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/)
         .withMessage('Password must contain at least one capital letter, one lower case letter, one number, and one symbol.'),
     check('confirmPassword')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a matching value to confirm password.')
         .custom((value, {req}) => {
             if (value !== req.body.password) {
-                throw new Error('The confirm password does not match the password.');
+                throw new Error('Please provide a matching value to confirm password.');
             }
             return true;
         }),
@@ -55,7 +47,6 @@ const userSignupValidators = [
         .isLength({max: 255})
         .withMessage('The url for the picture cannot exceed 255 characters.'),
     check('gender')
-        .exists({ checkFalsy: true })
         .matches(/^Male$|^Female$|^Other$/)
         .withMessage('Please indicate your gender.'),
     check('mentorDesc')
@@ -66,7 +57,7 @@ const userSignupValidators = [
           return true;
         })
         .custom((value, {req}) => {
-          if (!value && !req.body.mentorIsPublic) {
+          if (!value && req.body.mentorIsPublic) {
             throw new Error('A mentor available to the public needs a mentor description of what you are willing to mentor in.');
           }
           return true;
@@ -79,7 +70,7 @@ const userSignupValidators = [
           return true;
         })
         .custom((value, {req}) => {
-          if (!value && !req.body.menteeIsPublic) {
+          if (!value && req.body.menteeIsPublic) {
             throw new Error('A mentee available to the public needs a mentee description of what you want to learn.');
           }
           return true;
