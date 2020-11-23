@@ -44,8 +44,20 @@ module.exports = (sequelize, DataTypes) => {
       });
       return await User.scope('currentUser').findByPk(user.id);
     };
+    // *** Associations ***
     static associate(models) {
-      // define association here
+      User.belongsToMany(models.User, {
+        through: "Connections",
+        as: "mentoring",
+        foreignKey: "mentorId",
+        otherKey: "userId"
+      });
+      User.belongsToMany(models.User, {
+        through: "Connections",
+        as: "learning",
+        foreignKey: "userId",
+        otherKey: "mentorId"
+      });
     }
   };
   User.init(
