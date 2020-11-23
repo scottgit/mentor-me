@@ -1,7 +1,7 @@
 .main-nav {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items:  center;
   position: relative;
   margin: 0 -20px;
   background-color: var(--secondary-color);
@@ -10,9 +10,20 @@
 
 .logo {
   margin: 5px 5px 5px ;
-  width: 2em;
-  height: 2em;
-  background-color: var(--primary-color);
+  height: 30px;
+  width: 30px;
+}
+
+.main-nav__logo-link {
+  display: flex;
+  align-items:  baseline;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 2em;
+}
+
+.main-nav__logo-link:visited {
+  color: var(--primary-color);
 }
 
 .main-nav__list {

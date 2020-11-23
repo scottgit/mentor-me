@@ -30,11 +30,12 @@ const removeUser = () => {
 }
 
 //Thunks
-export const signup = ({ username, email, password }) => async (dispatch) => {
+export const signup = (user) => async (dispatch) => {
+  console.log(user)
   const res = await fetch(
     '/api/users',
     { method: 'POST',
-      body: JSON.stringify({ username, email, password })
+      body: JSON.stringify({...user})
     }
   );
   dispatch(setUser(res.data.user));
@@ -83,4 +84,3 @@ const sessionReducer = (state = initialState, {type, user}) => {
 }
 
 export default sessionReducer;
-

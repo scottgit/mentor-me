@@ -1,8 +1,9 @@
 @import './global.css';
+@import './Navigation.css';
 @import './Modal.css';
 @import './Confirm.css';
-@import './Navigation.css';
-@import './SessionForm.css';
+@import './LoginForm.css';
+@import './Signup.css';
 
 
 /* TODO Add site wide styles */

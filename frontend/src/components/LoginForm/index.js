@@ -26,31 +26,31 @@ const LoginForm = () => {
   }
 
   return (
-    <form className='session-form' onSubmit={handleSubmit}>
+    <form className='login-form' onSubmit={handleSubmit}>
       <h2>Log In</h2>
       <FormErrorList errors={errors} />
-      <div className='session-form__input-wrapper'>
-        <label className='session-form__label'>
-          <div className='session-form__label-text'>Username or Email</div>
+      <div className='login-form__input-wrapper'>
+        <label className='login-form__label'>
+          <div className='login-form__label-text'>Username or Email</div>
           <input
             type='text'
             value={credential}
             onChange={e => setCredential(e.target.value)}
-            className='session-form__input'
+            className='login-form__input'
           />
         </label>
-        <label className='session-form__label'>
-          <div className='session-form__label-text'>Password</div>
+        <label className='login-form__label'>
+          <div className='login-form__label-text'>Password</div>
           <input
             type='password'
             value={password}
             onChange={e => setPassword(e.target.value)}
-            className='session-form__input'
+            className='login-form__input'
           />
         </label>
       </div>
-      <button id='nav-login' type='submit' className='button session-form__button'>Log In</button>
-      <button type='button' className='button session-form__button' onClick={loginDemo}>Log In as Demo User</button>
+      <button id='nav-login' type='submit' className='button login-form__button'>Log In</button>
+      <button type='button' className='button login-form__button' onClick={loginDemo}>Log In as Demo User</button>
     </form>
   )
 }

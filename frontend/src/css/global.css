@@ -1,8 +1,4 @@
 html {
-  height: 100%;
-}
-
-body {
   --primary-color: rgb(46, 46, 161);
   --primary-comp: rgb(111, 207, 236);
   --primary-color-50a: rgba(46, 46, 161, 0.5);
@@ -25,8 +21,14 @@ body {
   --button-color: var(--primary-color);
   --button-hover: var(--primary-color-20a);
 
+
+  height: 100%;
+}
+
+body {
   height: 100%;
   background-color: var(--bg-color);
+  font-family: 'Heebo', sans-serif;
 }
 
 div {
@@ -38,12 +40,13 @@ h1, h2, label {
 }
 
 .root {
-  height: 100%;
+  min-height: 100%;
   display: flex;
   justify-content: center;
+  overflow: auto;
 }
 
-.page {
+.main {
   max-width: 1000px;
   width: 80%;
   margin: 0 auto;
@@ -86,6 +89,10 @@ h1, h2, label {
   background-color: var(--warning-color-20a);
 }
 
+.logo {
+  fill: var(--primary-color);
+}
+
 .error-list {
   width: 80%;
   color: var(--error-color);
@@ -106,4 +113,13 @@ h1, h2, label {
 
 .icon {
   color: var(--primary-color);
+}
+
+@media (max-width: 400px) {
+  body {
+    min-width: 300px;
+  }
+  .main {
+    width: 100%;
+  }
 }

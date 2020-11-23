@@ -7,6 +7,8 @@
   z-index: 1;
   background-color: var(--bg-modal-50a);
   display: flex;
+  padding-top: 20px;
+  overflow: auto;
 }
 
 .modal-close {

@@ -1,0 +1,120 @@
+.signup-form {
+  padding: 10px;
+  display: flex;
+  flex-direction:  column;
+  align-items: center;
+}
+.signup-form__label {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.signup-form__label-text {
+  position: relative;
+  background-color: white;
+  border-radius: 3px;
+  border: 1px solid var(--primary-color-20a);
+  bottom: -5px;
+  padding: 2px 5px;
+  color: var(--primary-color);
+}
+.signup-form__input {
+  padding: 5px;
+  font-size: 1.2em;
+  border: 1px solid var(--primary-color-20a);
+  border-radius: 3px;
+  width: 100%;
+}
+
+.signup-form__input::placeholder {
+  font-size: .5em;
+}
+.signup-form__input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: var(--primary-color-20a);
+}
+
+.signup-form__radio-group {
+  padding: 5px;
+  border: 1px solid var(--primary-color-20a);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.signup-form__radio-button {
+  height: 1.1em;
+}
+
+.signup-form__radio-label {
+  padding: 3px 8px 3px 3px;
+}
+
+
+.signup-form__descriptions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  border: 1px solid var(--primary-color-20a);
+  border-radius: 3px;
+  margin-top: 10px;
+}
+
+.signup-form__descriptions .signup-form__label-text {
+  align-self: center;
+
+}
+
+.signup-form__descriptions-title {
+  align-self: center;
+  font-weight: 600;
+  padding: 10px 0 0;
+}
+
+.signup-form__textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid var(--primary-color-20a);
+  border-radius: 3px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  resize: none;
+}
+
+.signup-form__textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: var(--primary-color-20a);
+}
+
+.signup-form__checkbox-label {
+  align-self: flex-end;
+  margin-bottom: -1.5em;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.signup-form__checkbox {
+  margin-right: 3px;
+}
+
+.signup-form__button {
+  margin-bottom: 10px;
+}
+
+.error-list {
+  float: right;
+}
+
+@media (max-width: 400px) {
+  .error-list {
+    float: none;
+  }
+}

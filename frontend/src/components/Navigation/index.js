@@ -3,8 +3,8 @@ import {NavLink} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import ProfileButton from './ProfileButton';
 import ModalTrigger from '../Includes/ModalTrigger';
-import SignupForm from '../SignupForm';
 import LoginForm from '../LoginForm';
+import Logo from '../Includes/Logo';
 
 const Navigation = () => {
   const sessionUser = useSelector(state => state.session.user);
@@ -26,17 +26,18 @@ const Navigation = () => {
           </ModalTrigger>
         </li>
         <li>
-          <ModalTrigger buttonClasses='button main-nav__signup' buttonText='Sign Up'>
-            <SignupForm />
-          </ModalTrigger>
+          <NavLink exact to='/signup' className='logo-link'>
+            <button type='button' className='button main-nav__signup'>Sign Up</button>
+          </NavLink>
         </li>
       </>
     );
   }
   return (
     <nav className='main-nav'>
-      <NavLink exact to='/' className='logo-link'>
-        <div className='logo'></div>
+      <NavLink exact to='/' className='main-nav__logo-link'>
+        <Logo />
+        <span>Mentor&nbsp;Me</span>
       </NavLink>
       <ul className='main-nav__list'>
         {sessionLinks}
