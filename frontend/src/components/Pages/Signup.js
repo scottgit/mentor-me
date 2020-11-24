@@ -127,15 +127,15 @@ const Signup = () => {
           <div className='signup-form__label-text'>Gender*</div>
           <fieldset className='signup-form__radio-group' onChange={e => setUserProp({gender: e.target.value})}>
             <input type='radio' id='genderOpt1'
-            name='gender' value='Male' className='signup-form__radio-button'/>
+            name='gender' value='Male' className='signup-form__radio-button' checked={gender === 'Male'}/>
             <label htmlFor='genderOpt1' className='signup-form__radio-label'>Male</label>
 
             <input type='radio' id='genderOpt2'
-            name='gender' value='Female' className='signup-form__radio-button'/>
+            name='gender' value='Female' className='signup-form__radio-button' checked={gender === 'Female'}/>
             <label htmlFor='genderOpt2' className='signup-form__radio-label' >Female</label>
 
             <input type='radio' id='genderOpt3'
-            name='gender' value='Other' className='signup-form__radio-button'/>
+            name='gender' value='Other' className='signup-form__radio-button' checked={gender === 'Other'}/>
             <label htmlFor='genderOpt3' className='signup-form__radio-label'>Other</label>
           </fieldset>
         </div>

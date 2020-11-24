@@ -42,6 +42,13 @@ const Navigation = () => {
       <ul className='main-nav__list'>
         {sessionLinks}
       </ul>
+      {
+        sessionUser &&
+        <ul className='sub-nav__list'>
+          <li><NavLink to='/public/mentors'>Public Mentor List</NavLink></li>
+          <li><NavLink to='/public/mentees'>Public Mentee List</NavLink></li>
+        </ul>
+      }
     </nav>
   )
 }

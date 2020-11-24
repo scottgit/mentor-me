@@ -1,15 +1,19 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {fetch} from '../../store/csrf';
 
 const PublicListing = () => {
   const [list, setList] = useState([]);
+  const sessionUser = useSelector(state => state.session.user);
   const location = useLocation();
   const segments = location.pathname.split('/');
   const endpoint = segments[segments.length - 1];
   const role = endpoint.slice(0,endpoint.length - 1);
   const connectType = role === 'mentee' ? 'Invite' : 'Request';
+  const isMentor = sessionUser.mentorDesc !== '';
+  const isMentee = sessionUser.menteeDesc !== '';
 
 
   useEffect(() => {
@@ -19,8 +23,6 @@ const PublicListing = () => {
     }
     getList();
   }, [endpoint]);
-
-  console.log(list)
 
   return (
     <>
