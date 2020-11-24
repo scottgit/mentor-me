@@ -28,7 +28,7 @@ function App() {
         <Route path='/' exact>
           {(sessionUser && <UserHome/>) || <Welcome />}
         </Route>
-        <Route path={['/public/mentors', '/public/mentees']}>
+        <Route exact path={['/public/mentors', '/public/mentees']}>
           <PublicListing />
         </Route>
         <Route path='/signup' exact>

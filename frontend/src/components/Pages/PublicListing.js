@@ -1,27 +1,30 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom'
-import {fetch} from './csrf';
+import {fetch} from '../../store/csrf';
 
-const PublicListing = (props) => {
+const PublicListing = () => {
   const [list, setList] = useState([]);
   const location = useLocation();
-  const endpoint = location.
+  const segments = location.pathname.split('/');
+  const endpoint = segments[segments.length - 1];
   const role = endpoint.slice(0,endpoint.length - 1);
-  const connect = role === 'mentee' ? 'Invite' : 'Request';
+  const connectType = role === 'mentee' ? 'Invite' : 'Request';
+
 
   useEffect(() => {
     async function getList() {
       const res = await fetch(`/api/users/public/${endpoint}`);
-      setList(res);
+      setList(res.data[endpoint]);
     }
     getList();
   }, [endpoint]);
 
+  console.log(list)
 
   return (
     <>
-      <h2>Public {endpoint.char[0].toUpperCase() + endpoint.splice(1)}</h2>
+      <h2>Public {endpoint[0].toUpperCase() + endpoint.slice(1)}</h2>
       {
         list &&
         <ul>
@@ -37,7 +40,7 @@ const PublicListing = (props) => {
                     }
                 </p>
                 <button type='button' className='button' value={id}>
-                    {connect} {role}
+                    {connectType} this {role}
                 </button>
               </li>
             )

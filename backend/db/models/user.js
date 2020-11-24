@@ -50,9 +50,6 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
 
-    static async getPublicMentees() {
-
-    }
     // static getMenteesForId(id) {
     //   const mentees = User.scope('currentUser').findAll({
     //     include: {
