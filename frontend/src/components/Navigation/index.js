@@ -34,22 +34,26 @@ const Navigation = () => {
     );
   }
   return (
-    <nav className='main-nav'>
-      <NavLink exact to='/' className='main-nav__logo-link'>
-        <Logo />
-        <span>Mentor&nbsp;Me</span>
-      </NavLink>
-      <ul className='main-nav__list'>
-        {sessionLinks}
-      </ul>
+    <>
+      <nav className='main-nav'>
+        <NavLink exact to='/' className='main-nav__logo-link'>
+          <Logo />
+          <span>Mentor&nbsp;Me</span>
+        </NavLink>
+        <ul className='main-nav__list'>
+          {sessionLinks}
+        </ul>
+      </nav>
       {
         sessionUser &&
-        <ul className='sub-nav__list'>
-          <li><NavLink to='/public/mentors'>Public Mentor List</NavLink></li>
-          <li><NavLink to='/public/mentees'>Public Mentee List</NavLink></li>
-        </ul>
+        <nav className='sub-nav'>
+          <ul className='sub-nav__list'>
+            <li><NavLink to='/public/mentors' className='sub-nav__link'>Available Mentors</NavLink></li>
+            <li><NavLink to='/public/mentees' className='sub-nav__link'>Potential Mentees</NavLink></li>
+          </ul>
+        </nav>
       }
-    </nav>
+    </>
   )
 }
 

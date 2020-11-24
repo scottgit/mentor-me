@@ -41,9 +41,25 @@ const PublicListing = () => {
                     (role === 'mentor' && mentorDesc)
                     }
                 </p>
-                <button type='button' className='button' value={id}>
-                    {connectType} this {role}
-                </button>
+                { //Get type of connection button
+                  ((
+                    (role === 'mentee' && isMentor)
+                    || (role === 'mentor' && isMentee)
+                  )
+                  &&
+                      <button type='button' className='button' value={id}>
+                          {connectType} this {role}
+                      </button>
+                  )
+                  || //OR, Current user cannot connect
+                  <p>
+                    You cannot connect with this {role}.
+                    {
+                      (role === 'mentee' && 'Add a mentor description to activate yourself as a potential mentor to connect to this mentee.') ||
+                      (role === 'mentor' && 'Add a mentee description to activate yourself as a potential mentee to connect with this mentor.')
+                    }
+                    </p>
+                }
               </li>
             )
           })}
