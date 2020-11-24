@@ -120,7 +120,7 @@ router.get(
 router.post(
   '/:id(\\d+)/pending',
   requireAuth,
-  userSignupValidators,
+    //TODO pendingvalidators,
   asyncHandler(async (req, res) => {
     const {
       roleId,
@@ -148,11 +148,9 @@ router.post(
 router.patch(
   '/:id(\\d+)/accept',
   requireAuth,
-  userSignupValidators,
+  //TODO acceptValidators,
   asyncHandler(async (req, res) => {
-    const {
-      connectionId,
-      connectionType } = req.body;
+    const {status} = req.body;
     const userId = req.params.id;
     let mentorId;
     let menteeId;

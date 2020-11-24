@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static async getPublicMentors() {
       return await User.scope('publicUser').findAll({
         where: {
-          mentorIsPublic: true
+          mentorIsPublic: true,
         }
       })
     }
