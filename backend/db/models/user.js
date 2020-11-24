@@ -58,8 +58,11 @@ module.exports = (sequelize, DataTypes) => {
           through: 'Connections',
           as: 'mentoring',
           through: {
-            attributes: ['status'],
-            where: {mentorId: id}
+            attributes: [],
+            where: {
+              mentorId: id,
+              status: 'established'
+            },
           }
         }]
       }) ;
@@ -75,8 +78,11 @@ module.exports = (sequelize, DataTypes) => {
           through: 'Connections',
           as: 'learning',
           through: {
-            attributes: ['status'],
-            where: {userId: id}
+            attributes: [],
+            where: {
+              userId: id,
+              status: 'established',
+            },
           }
         }]
       }) ;
