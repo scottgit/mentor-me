@@ -10,8 +10,8 @@
 
 .logo {
   margin: 5px 5px 5px ;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
 }
 
 .main-nav__logo-link {
@@ -23,7 +23,7 @@
 }
 
 .main-nav__logo-link:hover [data-polygon='SmallM'] {
-  fill: red;
+  fill: var(--primary-color-50a);
 }
 
 .main-nav__logo-link:visited {
