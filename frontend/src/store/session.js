@@ -1,4 +1,4 @@
-import { set } from 'js-cookie';
+// import { set } from 'js-cookie';
 import {fetch} from './csrf';
 
 const SET_USER = "SESSION_SET_USER";
@@ -34,6 +34,7 @@ export const signup = (user) => async (dispatch) => {
       body: JSON.stringify({...user})
     }
   );
+  res.data.user = reviveDates(res.data.user);
   dispatch(setUser(res.data.user, null, null));
   return res;
 }
@@ -45,7 +46,8 @@ export const login = ({ credential, password }) => async (dispatch) => {
       body: JSON.stringify({credential, password})
     }
   );
-  await setFullUserInfo(res, dispatch);
+  res.data.user = reviveDates(res.data.user);
+  await setFullUserInfo(res.data.user, dispatch);
   return res;
 }
 
@@ -53,10 +55,12 @@ export const restoreSession = () => async (dispatch) => {
   const res = await fetch(
     '/api/session'
   );
+
   if(res.data.user) {
-    await setFullUserInfo(res, dispatch);
+    res.data.user = reviveDates(res.data.user);
+    await setFullUserInfo(res.data.user, dispatch);
   } else {
-    dispatch(setUser(res.data.user, null, null));
+    dispatch(setUser(null, null, null));
   }
   return res;
 }
@@ -73,11 +77,11 @@ export const logout = () => async (dispatch) => {
 }
 //End Thunks
 
-const sessionReducer = (state = initialState, {type, user}) => {
+const sessionReducer = (state = initialState, {type, user, mentors, mentees}) => {
   switch (type) {
     case SET_USER:
     case REMOVE_USER:
-      return { ...state, user }
+      return { ...state, user, mentors, mentees }
     default:
       return state
   }
@@ -85,9 +89,30 @@ const sessionReducer = (state = initialState, {type, user}) => {
 
 export default sessionReducer;
 
-async function setFullUserInfo(res, dispatch) {
-  const id = res.data.user.id;
-  const mentoring = await fetch(`/api/users/${id}/mentees`);
-  const learning = await fetch(`/api/users/${id}/mentors`)
-  dispatch(setUser(res.data.user, learning.data.mentors, mentoring.data.mentees));
+
+
+
+async function setFullUserInfo(user, dispatch) {
+  const id = user.id;
+  let menteeList = await fetch(`/api/users/${id}/mentees`);
+  let mentorList = await fetch(`/api/users/${id}/mentors`);
+
+  menteeList = menteeList.data.mentees.map(mentee => {
+    return reviveDates(mentee);
+  })
+  mentorList = mentorList.data.mentors.map(mentor => {
+    return reviveDates(mentor);
+  })
+
+  dispatch(setUser(user, mentorList, menteeList));
+}
+
+function reviveDates (user) {
+  if (user.createdAt) {
+    user = {...user, createdAt: new Date(user.createdAt).toLocaleDateString()}
+  }
+  if (user.updatedAt) {
+    user = {...user, updatedAt: new Date(user.updatedAt).toLocaleDateString()}
+  }
+  return user;
 }

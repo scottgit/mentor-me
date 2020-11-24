@@ -4,31 +4,6 @@ const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    toSafeObject() {
-      const {
-        id,
-        username,
-        email,
-        goBy,
-        picture,
-        gender,
-        mentorDesc,
-        mentorIsPublic,
-        menteeDesc,
-        menteeIsPublic } = this; // context will be the User instance
-      return {
-        id,
-        username,
-        email,
-        goBy,
-        picture,
-        gender,
-        mentorDesc,
-        mentorIsPublic,
-        menteeDesc,
-        menteeIsPublic,
-      };
-    }
 
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());
@@ -54,9 +29,10 @@ module.exports = (sequelize, DataTypes) => {
       const res = await User.scope('currentUser').findOne({
         where: {id},
         include: [{
-          model: User,
+          model: User.scope('publicUser'),
           through: 'Connections',
           as: 'mentoring',
+          scope: 'publicUser',
           through: {
             attributes: [],
             where: {
@@ -74,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       const res = await User.scope('currentUser').findOne({
         where: {id},
         include: [{
-          model: User,
+          model: User.scope('publicUser'),
           through: 'Connections',
           as: 'learning',
           through: {
@@ -96,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static async getUserById(id) {
       const user = await User.scope('publicUser').findByPk(id);
-      return user.toSafeObject()
+      return user;
     }
 
     static async login({ credential, password }) {

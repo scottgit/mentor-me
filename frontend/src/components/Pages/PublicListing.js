@@ -57,7 +57,7 @@ const PublicListing = () => {
             return (
               <li key={id} className='public-list__list-item'>
                 <h3 className='public-list__name'>{goBy || username}</h3>
-                {person.picture && <img src={picture} alt={role + 'as' + username} className='public-list__img'/>}
+                {picture && <img src={picture} alt={username + ' as ' + role} className='public-list__img'/>}
                 <p className='public-list__description'>{
                     (role === 'mentee' && menteeDesc) ||
                     (role === 'mentor' && mentorDesc)

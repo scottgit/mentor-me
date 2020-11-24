@@ -19,7 +19,6 @@ router.post(
       username,
       password,
       confirmPassword,
-      hashedPassword,
       goBy,
       picture,
       gender,
@@ -39,7 +38,9 @@ router.post(
       mentorDesc,
       mentorIsPublic,
       menteeDesc,
-      menteeIsPublic
+      menteeIsPublic,
+      createdAt,
+      updatedAt,
     });
 
     await setTokenCookie(res, user);
