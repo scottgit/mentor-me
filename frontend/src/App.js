@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Route, Switch} from 'react-router-dom';
 import Navigation from './components/Navigation';
+import NotFound from './components/Pages/NotFound';
+import PublicListing from './components/Pages/PublicListing';
 import Signup from './components/Pages/Signup';
 import UserHome from './components/Pages/UserHome';
 import Welcome from './components/Pages/Welcome';
@@ -24,12 +26,16 @@ function App() {
       <Navigation />
       <Switch>
         <Route path='/' exact>
-          {
-            (sessionUser && <UserHome/>) || <Welcome />
-          }
+          {(sessionUser && <UserHome/>) || <Welcome />}
+        </Route>
+        <Route path={['/public/mentors', '/public/mentees']}>
+          <PublicListing />
         </Route>
         <Route path='/signup' exact>
           <Signup />
+        </Route>
+        <Route path='*'>
+          <NotFound />
         </Route>
       </Switch>
     </main>

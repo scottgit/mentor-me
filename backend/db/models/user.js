@@ -1,19 +1,79 @@
 'use strict';
-const { Model, Validator } = require('sequelize');
-const bcrypt = require("bcryptjs");
+const { Model, Validator, models } = require('sequelize');
+const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     toSafeObject() {
-      const { id, username, email } = this; // context will be the User instance
-      return { id, username, email };
+      const {
+        id,
+        username,
+        email,
+        goBy,
+        picture,
+        gender,
+        mentorDesc,
+        mentorIsPublic,
+        menteeDesc,
+        menteeIsPublic } = this; // context will be the User instance
+      return {
+        id,
+        username,
+        email,
+        goBy,
+        picture,
+        gender,
+        mentorDesc,
+        mentorIsPublic,
+        menteeDesc,
+        menteeIsPublic,
+      };
     }
+
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());
     }
-    static getCurrentUserById(id) {
-      return User.scope("currentUser").findByPk(id);
+
+    static async getPublicMentors() {
+      return await User.scope('publicUser').findAll({
+        where: {
+          mentorIsPublic: true
+        }
+      })
     }
+
+    static async getPublicMentees() {
+      return await User.scope('publicUser').findAll({
+        where: {
+          menteeIsPublic: true
+        }
+      })
+    }
+
+    static async getPublicMentees() {
+
+    }
+    // static getMenteesForId(id) {
+    //   const mentees = User.scope('currentUser').findAll({
+    //     include: {
+    //       model: sequelize.models.Connection,
+    //       where: {mentorId: id},
+    //       attributes: ['status', 'userId'],
+    //     }
+
+    //   }) ;
+    //   return mentees;
+    // }
+
+    static async getCurrentUserById(id) {
+      return await User.scope('currentUser').findByPk(id);
+    }
+
+    static async getUserById(id) {
+      const user = await User.scope('publicUser').findByPk(id);
+      return user.toSafeObject()
+    }
+
     static async login({ credential, password }) {
       const { Op } = require('sequelize');
       const user = await User.scope('loginUser').findOne({
@@ -28,6 +88,7 @@ module.exports = (sequelize, DataTypes) => {
         return await User.scope('currentUser').findByPk(user.id);
       }
     }
+
     static async signup({ username, email, password, goBy, picture, gender, mentorDesc, mentorIsPublic, menteeDesc, menteeIsPublic }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
@@ -47,16 +108,16 @@ module.exports = (sequelize, DataTypes) => {
     // *** Associations ***
     static associate(models) {
       User.belongsToMany(models.User, {
-        through: "Connections",
-        as: "mentoring",
-        foreignKey: "mentorId",
-        otherKey: "userId"
+        through: 'Connections',
+        as: 'mentoring',
+        foreignKey: 'mentorId',
+        otherKey: 'userId'
       });
       User.belongsToMany(models.User, {
-        through: "Connections",
-        as: "learning",
-        foreignKey: "userId",
-        otherKey: "mentorId"
+        through: 'Connections',
+        as: 'learning',
+        foreignKey: 'userId',
+        otherKey: 'mentorId'
       });
     }
   };
@@ -69,7 +130,7 @@ module.exports = (sequelize, DataTypes) => {
           len: [3, 50],
           isNotEmail(value) {
             if (Validator.isEmail(value)) {
-              throw new Error("Username cannot be an email.");
+              throw new Error('Username cannot be an email.');
             }
           },
         },
@@ -133,18 +194,21 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: 'User',
       defaultScope: {
         attributes: {
-          exclude: ["hashedPassword", "email", "createdAt", "updatedAt"],
+          exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
         },
       },
       scopes: {
         currentUser: {
-          attributes: { exclude: ["hashedPassword"] },
+          attributes: { exclude: ['hashedPassword'] },
         },
         loginUser: {
           attributes: {},
+        },
+        publicUser: {
+          attributes: { exclude: ['hashedPassword', 'email', 'updatedAt'] },
         },
       },
     }

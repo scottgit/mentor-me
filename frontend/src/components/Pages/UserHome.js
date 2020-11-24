@@ -3,6 +3,8 @@ import {useSelector} from 'react-redux';
 
 const UserHome = () => {
   const sessionUser = useSelector(state => state.session.user);
+  const mentees = useSelector(state => state.session.mentees);
+  const mentors = useSelector(state => state.session.mentors);
   const name = (sessionUser.goBy || sessionUser.userName);
   const canBeMentor = sessionUser.mentorDesc !== '';
   const canBeMentee = sessionUser.menteeDesc !== '';
@@ -12,7 +14,7 @@ const UserHome = () => {
       { canBeMentee &&
         <div className='mentors user_listing'>
           <h3>Your Mentors</h3>
-          
+
         </div>
       }
       { canBeMentor &&
