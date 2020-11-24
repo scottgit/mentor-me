@@ -11,7 +11,7 @@ const PublicListing = () => {
   const segments = location.pathname.split('/');
   const endpoint = segments[segments.length - 1];
   const role = endpoint.slice(0,endpoint.length - 1);
-  const connectType = role === 'mentee' ? 'Invite' : 'Request';
+  const solicitation = role === 'mentee' ? 'Invite' : 'Request';
 
   useEffect(() => {
     if(!sessionUser) return;
@@ -69,8 +69,8 @@ const PublicListing = () => {
                     || (role === 'mentor' && isMentee)
                   )
                   &&
-                      <button type='button' className='button public-list__button' value={id}>
-                          {connectType} this {role}
+                      <button type='button' className='button public-list__button' value={{roleId: id, connectionType: role}}>
+                          {solicitation} this {role}
                       </button>
                   )
                   || //OR, Current user cannot connect

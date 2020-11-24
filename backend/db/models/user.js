@@ -32,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
           model: User.scope('publicUser'),
           through: 'Connections',
           as: 'mentoring',
-          scope: 'publicUser',
           through: {
             attributes: [],
             where: {
@@ -61,10 +60,51 @@ module.exports = (sequelize, DataTypes) => {
             },
           }
         }]
-      }) ;
+      });
 
       return res.learning;
     }
+
+    static async getPendingMentorInvitesForId(id) {
+      const res = await User.scope('currentUser').findOne({
+        where: {id},
+        include: [{
+          model: User.scope('publicUser'),
+          through: 'Connections',
+          as: 'invites',
+          through: {
+            attributes: [],
+            where: {
+              userId: id,
+              status: 'pending',
+            },
+          }
+        }]
+      });
+
+      return res.invites;
+    }
+
+    static async getPendingMenteeRequestsForId(id) {
+      const res = await User.scope('currentUser').findOne({
+        where: {id},
+        include: [{
+          model: User.scope('publicUser'),
+          through: 'Connections',
+          as: 'requests',
+          through: {
+            attributes: [],
+            where: {
+              mentorId: id,
+              status: 'pending',
+            },
+          }
+        }]
+      });
+
+      return res.requests;
+    }
+
 
     static async getCurrentUserById(id) {
       return await User.scope('currentUser').findByPk(id);

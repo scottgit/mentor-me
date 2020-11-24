@@ -22,6 +22,10 @@ module.exports = {
         type: Sequelize.ENUM('pending', 'established', 'rejected'),
         defaultValue: 'pending',
       },
+      initiatorId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

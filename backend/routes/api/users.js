@@ -51,6 +51,31 @@ router.post(
   }),
 );
 
+
+/***** PUBLIC LISTINGS ******/
+// Get Public Mentors
+router.get(
+  '/public/mentors',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const mentors = await User.getPublicMentors();
+    return res.json({mentors});
+  })
+);
+
+// Get Public Mentees
+router.get(
+  '/public/mentees',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const mentees = await User.getPublicMentees();
+    return res.json({mentees});
+  })
+);
+
+
+/***** CONNECTIONS ******/
+
 // Get User's Mentors
 router.get(
   '/:id(\\d+)/mentors',
@@ -71,25 +96,81 @@ router.get(
   })
 );
 
-// Get Public Mentors
-
+// Get User's Requests to be a Mentor
 router.get(
-  '/public/mentors',
+  '/:id(\\d+)/requests',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const mentors = await User.getPublicMentors();
-    return res.json({mentors});
+    const requests = await User.getPendingMenteeRequestsForId(req.params.id);
+    return res.json({requests});
   })
 );
 
-// Get Public Mentees
+// Get User's Invites to be a Mentee
 router.get(
-  '/public/mentees',
+  '/:id(\\d+)/invites',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const mentees = await User.getPublicMentees();
-    return res.json({mentees});
+    const invites = await User.getPendingMentorInvitesForId(req.params.id);
+    return res.json({invites});
   })
 );
+
+// Post Invite/Request as Pending Connection
+router.post(
+  '/:id(\\d+)/pending',
+  requireAuth,
+  userSignupValidators,
+  asyncHandler(async (req, res) => {
+    const {
+      roleId,
+      connectionType } = req.body;
+    const userId = req.params.id;
+    let mentorId;
+    let menteeId;
+    if(connectionType === 'mentor') {
+      mentorId = roleId ;
+      menteeId = userId;
+    }
+    else if (connectionType === 'mentee') {
+      mentorId = userId;
+      menteeId = roleId;
+    }
+    else {
+      throw Error('Invite/Request Error: An invalid connection type was called.')
+    }
+    const pending = await Connection.createPending(mentorId, menteeId, userId);
+    return res.json({...pending});
+  })
+)
+
+// Post Invite/Request as Pending Connection
+router.patch(
+  '/:id(\\d+)/accept',
+  requireAuth,
+  userSignupValidators,
+  asyncHandler(async (req, res) => {
+    const {
+      connectionId,
+      connectionType } = req.body;
+    const userId = req.params.id;
+    let mentorId;
+    let menteeId;
+    if(connectionType === 'mentor') {
+      mentorId = roleId ;
+      menteeId = userId;
+    }
+    else if (connectionType === 'mentee') {
+      mentorId = userId;
+      menteeId = roleId;
+    }
+    else {
+      throw Error('Invite/Request Error: An invalid connection type was called.')
+    }
+    const pending = await Connection.createPending(mentorId, menteeId);
+    return res.json({...pending});
+  })
+)
+
 
 module.exports = router;

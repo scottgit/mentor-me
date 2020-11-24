@@ -4,6 +4,15 @@ const {User} = require('./user');
 
 module.exports = (sequelize, DataTypes) => {
   class Connection extends Model {
+    static async createPending(mentorId, menteeId, initiatorId) {
+      const connection = await Connection.create({
+        status: 'pending',
+        mentorId,
+        userId: menteeId,
+        initiatorId
+      });
+      return connection;
+    }
     static associate(models) {
       // No Associations
     }
@@ -19,7 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       references: {model: "User"},
     },
-    status: DataTypes.ENUM('pending', 'established', 'rejected')
+    status: DataTypes.ENUM('pending', 'established', 'rejected'),
+    initiatorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
   }, {
     sequelize,
     modelName: 'Connection',
