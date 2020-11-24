@@ -1,6 +1,6 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Redirect } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {fetch} from '../../store/csrf';
 
@@ -12,17 +12,21 @@ const PublicListing = () => {
   const endpoint = segments[segments.length - 1];
   const role = endpoint.slice(0,endpoint.length - 1);
   const connectType = role === 'mentee' ? 'Invite' : 'Request';
-  const isMentor = sessionUser.mentorDesc !== '';
-  const isMentee = sessionUser.menteeDesc !== '';
-
 
   useEffect(() => {
+    if(!sessionUser) return;
     async function getList() {
       const res = await fetch(`/api/users/public/${endpoint}`);
       setList(res.data[endpoint]);
     }
     getList();
-  }, [endpoint]);
+  }, [endpoint, sessionUser]);
+
+  if (!sessionUser) {
+    return <Redirect to='/'/>
+  }
+  const isMentor = sessionUser.mentorDesc !== '';
+  const isMentee = sessionUser.menteeDesc !== '';
 
   return (
     <>
@@ -70,13 +74,16 @@ const PublicListing = () => {
                       </button>
                   )
                   || //OR, Current user cannot connect
-                  <p className='public-list__no-connect-note'>
+                  <>
+                  <p className='public-list__no-connect'>
                     You cannot connect with this {role}.
-                    {
-                      (role === 'mentee' && 'Add a mentor description to activate yourself as a potential mentor to connect to this mentee.') ||
-                      (role === 'mentor' && 'Add a mentee description to activate yourself as a potential mentee to connect with this mentor.')
-                    }
-                    </p>
+                  </p>
+                  <p className='public-list__no-connect-note'>
+                  {
+                    (role === 'mentee' && 'Add a mentor description to activate yourself as a potential mentor to connect to this mentee.') ||
+                    (role === 'mentor' && 'Add a mentee description to activate yourself as a potential mentee to connect with this mentor.')
+                  } </p>
+                  </>
                 }
               </li>
             )

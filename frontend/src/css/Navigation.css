@@ -43,14 +43,18 @@
 
 .profile-menu {
   position: absolute;
+  margin-top: 5px;
   z-index: 1;
   right: 0;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid var(--primary-color-20a);
+  border-top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--bg-color);
+  background-color: var(--secondary-color);
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .profile-item {

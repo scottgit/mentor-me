@@ -50,17 +50,39 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
 
-    // static getMenteesForId(id) {
-    //   const mentees = User.scope('currentUser').findAll({
-    //     include: {
-    //       model: sequelize.models.Connection,
-    //       where: {mentorId: id},
-    //       attributes: ['status', 'userId'],
-    //     }
+    static async getMenteesForId(id) {
+      const res = await User.scope('currentUser').findOne({
+        where: {id},
+        include: [{
+          model: User,
+          through: 'Connections',
+          as: 'mentoring',
+          through: {
+            attributes: ['status'],
+            where: {mentorId: id}
+          }
+        }]
+      }) ;
 
-    //   }) ;
-    //   return mentees;
-    // }
+      return res.mentoring;
+    }
+
+    static async getMentorsForId(id) {
+      const res = await User.scope('currentUser').findOne({
+        where: {id},
+        include: [{
+          model: User,
+          through: 'Connections',
+          as: 'learning',
+          through: {
+            attributes: ['status'],
+            where: {userId: id}
+          }
+        }]
+      }) ;
+
+      return res.learning;
+    }
 
     static async getCurrentUserById(id) {
       return await User.scope('currentUser').findByPk(id);

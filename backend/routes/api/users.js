@@ -55,7 +55,7 @@ router.get(
   '/:id(\\d+)/mentors',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const mentors = await Connection.getMentorsForId(req.params.id);
+    const mentors = await User.getMentorsForId(req.params.id);
     return res.json({mentors});
   })
 );
@@ -65,7 +65,7 @@ router.get(
   '/:id(\\d+)/mentees',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const mentees = await Connection.getMenteesForId(req.params.id);
+    const mentees = await User.getMenteesForId(req.params.id);
     return res.json({mentees});
   })
 );

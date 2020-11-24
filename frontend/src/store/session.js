@@ -53,7 +53,11 @@ export const restoreSession = () => async (dispatch) => {
   const res = await fetch(
     '/api/session'
   );
-  await setFullUserInfo(res, dispatch);
+  if(res.data.user) {
+    await setFullUserInfo(res, dispatch);
+  } else {
+    dispatch(setUser(res.data.user, null, null));
+  }
   return res;
 }
 
