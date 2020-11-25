@@ -1,13 +1,4 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 'use strict';
-const faker = require("faker");
-const createdAt = faker.date.recent();
-
-=======
-=======
->>>>>>> Stashed changes
-`use strict`;
 const faker = require("faker");
 const createdAt = faker.date.recent();
 
@@ -15,43 +6,10 @@ function getRandom(max) {
   return Math.floor(Math.random() * max);
 }
 
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const discussions =  [
       { connectionId: 1,
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        title: 'Interest to connect',
-        stream: JSON.stringify({[{username: 4}]}),
-        createdAt,
-        updatedAt: createdAt
-      },
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-    ];
-
-
-    await queryInterface.bulkInsert('Discussions', discussions, {});
-  },
-
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Discussions', null, {});
-=======
-=======
->>>>>>> Stashed changes
         title: `Interest to connect`,
         stream: JSON.stringify([
           {userId: 2, date: new Date().toLocaleDateString(`en-US`), time: new Date().toLocaleTimeString(`en-US`), message: `I want to learn what you teach. Let\`s connect! ${faker.random.words(20 + getRandom(50))}`},
@@ -169,9 +127,5 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete(`Discussions`, null, {});
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
   }
 };
