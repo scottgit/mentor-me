@@ -1,4 +1,4 @@
-'use strict';
+`use strict`;
 const faker = require("faker");
 const createdAt = faker.date.recent();
 
