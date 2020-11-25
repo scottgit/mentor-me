@@ -1,4 +1,4 @@
-function reviveDates (obj) {
+export function reviveDates (obj) {
   function formatDateTime(dateString) {
     const date = new Date(dateString).toLocaleDateString('en-US');
     const time = new Date(dateString).toLocaleTimeString('en-US');
@@ -14,8 +14,4 @@ function reviveDates (obj) {
     obj = {...obj, Connections: {...obj.Connections, createdAt: formatDateTime(obj.Connections.createdAt)} }
   }
   return obj;
-}
-
-module.exports = {
-  reviveDates
 }
