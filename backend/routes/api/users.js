@@ -122,24 +122,9 @@ router.post(
   requireAuth,
     //TODO pendingvalidators,
   asyncHandler(async (req, res) => {
-    const {
-      roleId,
-      connectionType } = req.body;
-    const userId = req.params.id;
-    let mentorId;
-    let menteeId;
-    if(connectionType === 'mentor') {
-      mentorId = roleId ;
-      menteeId = userId;
-    }
-    else if (connectionType === 'mentee') {
-      mentorId = userId;
-      menteeId = roleId;
-    }
-    else {
-      throw Error('Invite/Request Error: An invalid connection type was called.')
-    }
-    const pending = await Connection.createPending(mentorId, menteeId, userId);
+    const {connection} = {...req.body};
+
+    const pending = await Connection.createPending(connection);
     return res.json({...pending});
   })
 )

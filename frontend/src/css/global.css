@@ -48,6 +48,8 @@ h1, h2, label {
   overflow: auto;
 }
 
+/* TODO scroll bars */
+
 .main {
   max-width: 1000px;
   width: 80%;

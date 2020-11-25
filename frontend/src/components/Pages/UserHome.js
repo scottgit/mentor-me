@@ -15,7 +15,7 @@ const UserHome = () => {
       { canBeMentee &&
         <section className='mentors'>
           <h3 className='mentor-list__title'>Your Mentors</h3>
-          {(mentors &&
+          {(mentors.length !== 0 &&
           <ul className='mentor-list user-listing'>
             {mentors.map(person => {
               const {id, username, goBy, picture, mentorDesc, createdAt} = person;
@@ -23,7 +23,7 @@ const UserHome = () => {
               <li key={id} className='mentor-list__list-item'>
                 {picture && <img src={picture} alt={username + ' as mentor'} className='mentor-list__img'/>}
                 <h3 className='mentor-list__name'>{goBy || username}</h3>
-                <p>User since {createdAt}</p>
+                <p>User since {createdAt.date}</p>
                 <p>{mentorDesc}</p>
                 <div className='user-listing__button-group'>
                   <button className='button'>Discussions</button>
@@ -35,14 +35,17 @@ const UserHome = () => {
             })}
           </ul>)
           ||
-          <p className='no-list'>You have no mentors yet.</p>
+          <>
+            <p className='no-list'>You have no mentors yet.</p>
+            <p className='no-list'>Reachout to someone you know to join the site, or look in the public space for available connections.</p>
+          </>
           }
         </section>
       }
       { canBeMentor &&
         <section className='mentees'>
           <h3 className='mentee-list__title'>Your Mentees</h3>
-          {(mentees &&
+          {(mentees.length !== 0 &&
           <ul className='mentee-list user-listing'>
             {mentees.map(person => {
               const {id, username, goBy, picture, menteeDesc, createdAt} = person;
@@ -50,7 +53,7 @@ const UserHome = () => {
               <li key={id} className='mentee-list__list-item'>
                 {picture && <img src={picture} alt={username + ' as mentee'} className='mentee-list__img'/>}
                 <h3 className='mentee-list__name'>{goBy || username}</h3>
-                <p>User since {createdAt}</p>
+                <p>User since {createdAt.date}</p>
                 <p>{menteeDesc}</p>
                 <div className='user-listing__button-group'>
                   <button className='button'>Discussions</button>

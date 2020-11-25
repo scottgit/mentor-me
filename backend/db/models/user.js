@@ -71,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
         include: [{
           model: User.scope('publicUser'),
           through: 'Connections',
-          as: 'invites',
+          as: 'learning',
           through: {
             attributes: [],
             where: {
@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
         }]
       });
 
-      return res.invites;
+      return res.learning;
     }
 
     static async getPendingMenteeRequestsForId(id) {
@@ -91,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
         include: [{
           model: User.scope('publicUser'),
           through: 'Connections',
-          as: 'requests',
+          as: 'mentoring',
           through: {
             attributes: [],
             where: {
@@ -102,7 +102,7 @@ module.exports = (sequelize, DataTypes) => {
         }]
       });
 
-      return res.requests;
+      return res.mentoring;
     }
 
 

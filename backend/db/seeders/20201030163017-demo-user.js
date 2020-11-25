@@ -55,31 +55,34 @@ const users = [
 const mentorDescs = [
   'I want to help people seeking to stay on track to overcome substance abuse.',
   'I seek to disciple believers in Jesus Christ.',
-  'I desire to help athletes go to the next level in their sport.',
+  'Desiring to help athletes go to the next level in their sport.',
+  'Learn car mechanics through me.',
   'I will teach people more about the Bible.',
-  'I will challenge people to become better cooks.',
+  'I challenge people to become better cooks.',
   'I want to help parents grow to be better parents.',
   'I will teach anything!',
   'I desire to simply motivate you in whatever way you need it.',
-  'Learn car mechanics through me.',
   'Learn how to paint landscapes.',
-  'I help students in whatever subject area they need help with.',
+  'Helping students in whatever subject area they need help with.',
 ]
 
 const menteeDescs = [
-  'I seek a mentor to help overcome an addiction.',
-  'I want to learn more about how to be a Christian.',
   'I am a marathon runner wanting to win a race.',
   'I want to learn how to sew.',
-  'I need to understand quantum physics in 3 weeks!',
-  'I just need help with my life.',
   'Motivation! Help me learn motivation!',
   'Can anyone help me with astronomy?',
+  'I need to understand quantum physics in 3 weeks!',
+  'I just need help with my life.',
+  'Wanting to learn how to play chess.',
+  'Seeking help in gardening.',
+  'Looking to become a full stack software engineer.',
+  'I seek a mentor to help overcome an addiction.',
+  'I want to learn more about how to be a Christian.',
 ]
 
-const offsetMentees = Math.floor(menteeDescs.length/3);
+const offsetMentees = 9;
 //Keep the total here no more than 100 for photo purposes
-const extraUsers = mentorDescs.length + menteeDescs.length - offsetMentees;
+const extraUsers = mentorDescs.length + menteeDescs.length - Math.min(offsetMentees - menteeDescs.length, 0);
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -87,10 +90,11 @@ module.exports = {
     for(let i = 0; i < extraUsers; i++) {
 
       const createdAt = faker.date.past(3);
-      const first = faker.name.firstName();
-      const last = faker.name.lastName();
       const gender = genderArray[getRandom(10)];
       const picPre = gender !== 'Male' ? ( gender === 'Female' || gender === 'Other' && getRandom(2) ? 'wo' : '') : '';
+      const first = faker.name.firstName(picPre !== 'wo' ? 'male' : 'female');
+      const last = faker.name.lastName();
+
       const mentorDesc = i < mentorDescs.length ? mentorDescs[i] : '';
       const menteeDesc = i >= offsetMentees ? menteeDescs[i - offsetMentees] : '';
 

@@ -41,8 +41,17 @@
 
 .no-list {
   display: flex;
-  padding: 30px;
+  padding: 10px;
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  font-size: 2em;
+  color: var(--secondary-color);
+  margin: 0;
+  text-align: center;
+}
+
+.no-list + .no-list {
+  font-size: .8em;
+  color: var(--primary-color-50a)
 }

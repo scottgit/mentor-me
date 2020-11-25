@@ -1,12 +1,16 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
 import { useLocation, Redirect } from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {requestConnection} from '../../store/connection';
+import FormErrorList from '../Includes/FormErrorList';
 import {fetch} from '../../store/csrf';
 
 const PublicListing = () => {
   const [list, setList] = useState([]);
+  const [connectErrors, setConnectErrors] = useState({errors: [], personId: null});
   const sessionUser = useSelector(state => state.session.user);
+  const dispatch = useDispatch();
   const location = useLocation();
   const segments = location.pathname.split('/');
   const endpoint = segments[segments.length - 1];
@@ -27,6 +31,17 @@ const PublicListing = () => {
   }
   const isMentor = sessionUser.mentorDesc !== '';
   const isMentee = sessionUser.menteeDesc !== '';
+  const userMenteeIds = sessionUser.mentees.map(mentee => mentee.id);
+  const userMentorIds = sessionUser.mentors.map(mentor => mentor.id);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setConnectErrors({errors: [], personId: e.target.value.person}); //Clear any prior errors
+    return dispatch(requestConnection(e.target.value.connection)).catch((res) => {
+        if (res.data && res.data.errors) setConnectErrors({...connectErrors, errors: res.data.errors});
+      });
+  }
+
 
   return (
     <>
@@ -54,9 +69,16 @@ const PublicListing = () => {
         <ul className='public-list__list'>
           {list.map(person => {
             const {id, username, goBy, picture, menteeDesc, mentorDesc} = person;
+            const self = id === sessionUser.id;
+            let isUsersConnection;
+            if(role === 'mentee') {
+              isUsersConnection = userMenteeIds.indexOf(id) > -1;
+            } else {
+              isUsersConnection = userMentorIds.indexOf(id) > -1;
+            }
             return (
               <li key={id} className='public-list__list-item'>
-                <h3 className='public-list__name'>{goBy || username}</h3>
+                <h3 className='public-list__name'>{goBy || username} {self ? '(You)' : ''}</h3>
                 {picture && <img src={picture} alt={username + ' as ' + role} className='public-list__img'/>}
                 <p className='public-list__description'>{
                     (role === 'mentee' && menteeDesc) ||
@@ -64,26 +86,55 @@ const PublicListing = () => {
                     }
                 </p>
                 { //Get type of connection button
-                  ((
-                    (role === 'mentee' && isMentor)
-                    || (role === 'mentor' && isMentee)
-                  )
+                  (
+                    (
+                      ((role === 'mentee' && isMentor)
+                      || (role === 'mentor' && isMentee))
+                      && !self && !isUsersConnection
+                    )
                   &&
-                      <button type='button' className='button public-list__button' value={{roleId: id, connectionType: role}}>
+                    <>
+                      <button type='button' className='button public-list__button'
+                        value={
+                          {
+                            connection: {
+                              status: 'pending',
+                              mentorId: (role === 'mentee' ? sessionUser.id : id),
+                              userId: (role === 'mentee' ? id : sessionUser.id),
+                              initiatorId: sessionUser.id,
+                            },
+                            person: id
+                          }
+                        }
+                        onClick={handleClick}>
                           {solicitation} this {role}
                       </button>
+                      {
+                        (   connectErrors.errors.length !== 0
+                        &&  connectErrors.personId === id)
+                        &&  <FormErrorList errors={connectErrors.errors}/>
+                      }
+                    </>
                   )
                   || //OR, Current user cannot connect
-                  <>
-                  <p className='public-list__no-connect'>
-                    You cannot connect with this {role}.
-                  </p>
-                  <p className='public-list__no-connect-note'>
-                  {
-                    (role === 'mentee' && 'Add a mentor description to activate yourself as a potential mentor to connect to this mentee.') ||
-                    (role === 'mentor' && 'Add a mentee description to activate yourself as a potential mentee to connect with this mentor.')
-                  } </p>
-                  </>
+                  (!self && (
+
+                      (isUsersConnection &&
+                        <p></p>
+                      )
+                      ||
+                      (<>
+                        <p className='public-list__no-connect'>
+                          You cannot connect with this {role}.
+                        </p>
+                        <p className='public-list__no-connect-note'>
+                        {
+                          (role === 'mentee' && 'Add a mentor description to activate yourself as a potential mentor to connect to this mentee.') ||
+                          (role === 'mentor' && 'Add a mentee description to activate yourself as a potential mentee to connect with this mentor.')
+                        } </p>
+                      </>)
+                    )
+                  )
                 }
               </li>
             )
