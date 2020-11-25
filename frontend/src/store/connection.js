@@ -54,13 +54,11 @@ export const requestConnection = (connection) => async (dispatch) => {
   return res;
 }
 
-export const establishConnection = (connection, id) => async (dispatch) => {
-
-
+export const establishConnection = (userId, connectionId) => async (dispatch) => {
   const res = await fetch(
-    `/api/users/${id}/accept`,
+    `/api/users/${userId}/accept`,
     { method: 'PATCH',
-      body: JSON.stringify({id: connection.id, status: connection.status})
+      body: JSON.stringify({id: connectionId, status: 'established'})
     }
   );
   res.data.connection = reviveDates(res.data.connection);
@@ -68,16 +66,27 @@ export const establishConnection = (connection, id) => async (dispatch) => {
   return res;
 }
 
-export const denyConnection = (connection, id) => async (dispatch) => {
-
+export const declineConnection = (userId, connectionId) => async (dispatch) => {
   const res = await fetch(
-    `/api/users/${id}/accept`,
+    `/api/users/${userId}/decline`,
     { method: 'PATCH',
-      body: JSON.stringify({id: connection.id, status: connection.status})
+      body: JSON.stringify({id: connectionId, status: 'rejected'})
     }
   );
   res.data.connection = reviveDates(res.data.connection);
   dispatch(rejectConnection(res.data.connection));
+  return res;
+}
+
+export const deleteConnection = (userId, connectionId) => async (dispatch) => {
+  const res = await fetch(
+    `/api/users/${userId}/withdraw`,
+    { method: 'DELETE',
+      body: JSON.stringify({id: connectionId})
+    }
+  );
+  res.data.connection = reviveDates(res.data.connection);
+  dispatch(withdrawConnection(res.data.connection));
   return res;
 }
 

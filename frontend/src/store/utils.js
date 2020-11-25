@@ -1,13 +1,17 @@
 function reviveDates (obj) {
+  function formatDateTime(dateString) {
+    const date = new Date(dateString).toLocaleDateString('en-US');
+    const time = new Date(dateString).toLocaleTimeString('en-US');
+    return {date, time};
+  }
   if (obj.createdAt) {
-    const date = new Date(obj.createdAt).toLocaleDateString('en-US');
-    const time = new Date(obj.createdAt).toLocaleTimeString('en-US');
-    obj = {...obj, createdAt: {date, time} }
+    obj = {...obj, createdAt: formatDateTime(obj.createdAt) }
   }
   if (obj.updatedAt) {
-    const date = new Date(obj.updatedAt).toLocaleDateString('en-US');
-    const time = new Date(obj.updatedAt).toLocaleTimeString('en-US');
-    obj = {...obj, updatedAt: {date, time} }
+    obj = {...obj, updatedAt: formatDateTime(obj.updatedAt) }
+  }
+  if (obj.Connections && obj.Connections.createdAt) {
+    obj = {...obj, Connections: {...obj.Connections, createdAt: formatDateTime(obj.Connections.createdAt)} }
   }
   return obj;
 }

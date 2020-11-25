@@ -4,7 +4,7 @@ const NotFound = () => {
   return (
     <>
       <h2>We are sorry, the page you requested cannot be found.</h2>
-      <p>Redirecting in secs</p>
+      {/* TODO make a countdown and redirect <p>Redirecting in secs</p> */}
     </>
   )
 }

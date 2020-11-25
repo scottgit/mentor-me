@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
           through: 'Connections',
           as: 'learning',
           through: {
-            attributes: ['id','createdAt'],
+            attributes: ['id','createdAt', 'initiatorId'],
             where: {
               userId: id,
               status: 'pending',
@@ -93,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
           through: 'Connections',
           as: 'mentoring',
           through: {
-            attributes: ['id','createdAt'],
+            attributes: ['id','createdAt', 'initiatorId'],
             where: {
               mentorId: id,
               status: 'pending',
