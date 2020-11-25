@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate(models) {
-      // No Associations; this is a Many-to-Many JOIN table on Users
+      Connection.hasMany(models.Discussion, {foreignKey: 'connectionId'})
     }
   };
   Connection.init({
