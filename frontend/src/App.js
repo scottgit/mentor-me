@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import Navigation from './components/Navigation';
 import NotFound from './components/Pages/NotFound';
 import PublicListing from './components/Pages/PublicListing';
@@ -30,13 +30,13 @@ function App() {
           {(sessionUser && <UserHome/>) || <Welcome />}
         </Route>
         <Route exact path={['/public/mentors', '/public/mentees']}>
-          <PublicListing />
+          {(sessionUser &&  <PublicListing />) || <Redirect to="/" />}
         </Route>
         <Route path='/signup' exact>
           <Signup />
         </Route>
-        <Route path='/pending'>
-          <Pending />
+        <Route path='/pending' exact>
+          {(sessionUser &&  <Pending />) || <Redirect to="/" />}
         </Route>
         <Route path='*'>
           <NotFound />

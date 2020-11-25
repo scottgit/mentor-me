@@ -4,37 +4,29 @@ import {reviveDates} from './utils'
 
 const SET_USER = "SESSION_SET_USER";
 const REMOVE_USER = "SESSION_REMOVE_USER";
+const UPDATE_CONNECTIONS = "SESSION_UPDATE_CONNECTIONS"
 
-const initialState = {
-  user: null,
-  mentors: null,
-  mentees: null,
-  invites: null,
-  requests: null,
-  counts: resetCounts(),
-}
+const initialState = resetUser();
 
-const setUser = (user, mentors, mentees, invites, requests, counts) => {
+const setUser = (user) => {
   return ({
     type: SET_USER,
     user,
+  })
+}
+
+const removeUser = () => {
+  return { type: REMOVE_USER, ...resetUser()}
+}
+
+const updateConnections = (mentors, mentees, invites, requests, counts) => {
+  return ({
+    type: UPDATE_CONNECTIONS,
     mentors,
     mentees,
     invites,
     requests,
     counts,
-  })
-}
-
-const removeUser = () => {
-  return ({
-    type: REMOVE_USER,
-    user: null,
-    mentors: null,
-    mentees: null,
-    invites: null,
-    requests: null,
-    counts: resetCounts(),
   })
 }
 
@@ -47,7 +39,7 @@ export const signup = (user) => async (dispatch) => {
     }
   );
   res.data.user = reviveDates(res.data.user);
-  dispatch(setUser(res.data.user, null, null, null, null));
+  dispatch(setUser(res.data.user));
   return res;
 }
 
@@ -59,7 +51,8 @@ export const login = ({ credential, password }) => async (dispatch) => {
     }
   );
   res.data.user = reviveDates(res.data.user);
-  await setFullUserInfo(res.data.user, dispatch);
+  await dispatch(setUser(res.data.user));
+  await setUserConnections(res.data.user.id, dispatch);
   return res;
 }
 
@@ -70,9 +63,8 @@ export const restoreSession = () => async (dispatch) => {
 
   if(res.data.user) {
     res.data.user = reviveDates(res.data.user);
-    await setFullUserInfo(res.data.user, dispatch);
-  } else {
-    dispatch(setUser(null, null, null, null, null, resetCounts()));
+    await dispatch(setUser(res.data.user));
+    await setUserConnections(res.data.user.id, dispatch);
   }
   return res;
 }
@@ -87,15 +79,25 @@ export const logout = () => async (dispatch) => {
   dispatch(removeUser());
   return res;
 }
+
+export const handleConnectionsChange = (userId) => async (dispatch) => {
+  setUserConnections(userId, dispatch);
+}
 //End Thunks
 
-const sessionReducer = (state = initialState, {type, user, mentors, mentees, invites, requests, counts}) => {
+const sessionReducer = (
+  state = initialState,
+  {type, user, mentors, mentees, invites, requests, counts}
+  ) => {
   switch (type) {
     case SET_USER:
+      return { ...state, user};
     case REMOVE_USER:
-      return { ...state, user, mentors, mentees, invites, requests, counts }
+      return { ...state, user, mentors, mentees, invites, requests, counts};
+    case UPDATE_CONNECTIONS:
+      return { ...state, mentors, mentees, invites, requests, counts};
     default:
-      return state
+      return state;
   }
 }
 
@@ -103,13 +105,12 @@ export default sessionReducer;
 
 
 
-
-async function setFullUserInfo(user, dispatch) {
-  const id = user.id;
-  let menteeList = await fetch(`/api/users/${id}/mentees`);
-  let mentorList = await fetch(`/api/users/${id}/mentors`);
-  let inviteList = await fetch(`/api/users/${id}/invites`);
-  let requestList = await fetch(`/api/users/${id}/requests`);
+/***** HELPER FUNCTIONS *****/
+async function setUserConnections(userId, dispatch) {
+  let menteeList = await fetch(`/api/users/${userId}/mentees`);
+  let mentorList = await fetch(`/api/users/${userId}/mentors`);
+  let inviteList = await fetch(`/api/users/${userId}/invites`);
+  let requestList = await fetch(`/api/users/${userId}/requests`);
   let menteeCount = 0;
   let mentorCount = 0;
   let inviteCount = 0;
@@ -142,9 +143,20 @@ async function setFullUserInfo(user, dispatch) {
 
   const counts = {menteeCount, mentorCount, inviteCount, requestCount}
 
-  dispatch(setUser(user, mentorList, menteeList, inviteList, requestList, counts));
+  dispatch(updateConnections(mentorList, menteeList, inviteList, requestList, counts));
 }
 
 function resetCounts() {
   return {menteeCount: 0, mentorCount: 0, inviteCount: 0, requestCount: 0}
+}
+
+function resetUser() {
+  return {
+    user: null,
+    mentors: null,
+    mentees: null,
+    invites: null,
+    requests: null,
+    counts: resetCounts(),
+  }
 }

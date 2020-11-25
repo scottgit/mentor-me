@@ -1,17 +1,13 @@
 import {fetch} from './csrf';
 import {reviveDates} from './utils';
 
+//TODO REMOVE UNEEDED REDUCER (i.e. this whole file is not needed)
 const PENDING = "PENDING_CONNECTION";
 const APPROVE = "APPROVE_CONNECTION";
 const REJECT = "REJECT_CONNECTION";
 const WITHDRAW = "WITHDRAW_CONNECTION";
 
-const initialState = {
-  userId: null,
-  mentorId: null,
-  initiatorId: null,
-  status: null,
-}
+const initialState = resetConnection();
 
 const initiateConnection = (connection) => {
   return ({
@@ -34,10 +30,10 @@ const rejectConnection = (connection) => {
   })
 }
 
-const withdrawConnection = (connection) => {
+const withdrawConnection = () => {
   return ({
     type: WITHDRAW,
-    connection
+    connection: resetConnection()
   })
 }
 
@@ -56,7 +52,7 @@ export const requestConnection = (connection) => async (dispatch) => {
 
 export const establishConnection = (userId, connectionId) => async (dispatch) => {
   const res = await fetch(
-    `/api/users/${userId}/accept`,
+    `/api/users/${userId}/status`,
     { method: 'PATCH',
       body: JSON.stringify({id: connectionId, status: 'established'})
     }
@@ -67,8 +63,9 @@ export const establishConnection = (userId, connectionId) => async (dispatch) =>
 }
 
 export const declineConnection = (userId, connectionId) => async (dispatch) => {
+  console.log('decline in connection')
   const res = await fetch(
-    `/api/users/${userId}/decline`,
+    `/api/users/${userId}/status`,
     { method: 'PATCH',
       body: JSON.stringify({id: connectionId, status: 'rejected'})
     }
@@ -85,8 +82,12 @@ export const deleteConnection = (userId, connectionId) => async (dispatch) => {
       body: JSON.stringify({id: connectionId})
     }
   );
-  res.data.connection = reviveDates(res.data.connection);
-  dispatch(withdrawConnection(res.data.connection));
+  if(res.data.success) {
+    dispatch(withdrawConnection());
+  } else {
+    res.errors = ['Withdraw of request failed'];
+  }
+
   return res;
 }
 
@@ -106,3 +107,13 @@ const connectionReducer = (state = initialState, {type, connection}) => {
 }
 
 export default connectionReducer;
+
+
+function resetConnection() {
+  return {
+    userId: null,
+    mentorId: null,
+    initiatorId: null,
+    status: null,
+  }
+}

@@ -37,7 +37,7 @@ const ProfileButton = () => {
           <div className={`profile-menu ${show}`}>
             <div className='profile-info'>{username}</div>
             <div  className='profile-info'>{email}</div>
-            { pendingCount &&
+            { pendingCount !== 0 &&
             <NavLink to='/pending'>{pendingCount} Pending ...</NavLink>
             }
             <ModalTrigger buttonClasses='button profile-button' buttonText='Log Out'>

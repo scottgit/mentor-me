@@ -1,37 +1,47 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
-import {acceptConnection, declineConnection, deleteConnection} from '../../store/connection';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {handleConnectionsChange} from '../../store/session';
+import {establishConnection, declineConnection, deleteConnection} from '../../store/connection';
 
 const Pending = () => {
   const sessionUserId = useSelector(state => state.session.user.id);
   const invites = useSelector(state => state.session.invites);
   const requests = useSelector(state => state.session.requests);
+  const dispatch = useDispatch();
 
-  const acceptClick = (e) => {
-    return dispatch(acceptConnection(sessionUserId, e.target.value)).catch((res) => {
+  useEffect(() => {
+
+  }, [invites, requests]);
+
+  const acceptClick = async (e) => {
+    await dispatch(establishConnection(sessionUserId, e.target.value)).catch((res) => {
         if (res.data && res.data.errors) {
           //TODO make fancy acknowledge
           alert('There was an issue accepting this connection.')
         }
-      });
+    });
+    dispatch(handleConnectionsChange(sessionUserId));
   }
 
-  const declineClick = (e) => {
-    return dispatch(declineConnection(sessionUserId, e.target.value)).catch((res) => {
+  const declineClick = async (e) => {
+    console.log('decline');
+    await dispatch(declineConnection(sessionUserId, e.target.value)).catch((res) => {
       if (res.data && res.data.errors) {
         //TODO make fancy acknowledge
         alert('There was an issue declining this connection.')
       }
     });
+    dispatch(handleConnectionsChange(sessionUserId));
   }
 
-  const withdrawClick = (e) => {
-    return dispatch(deleteConnection(sessionUserId, e.target.value)).catch((res) => {
+  const withdrawClick = async (e) => {
+    await dispatch(deleteConnection(sessionUserId, e.target.value)).catch((res) => {
       if (res.data && res.data.errors) {
         //TODO make fancy acknowledge
         alert('There was an issue withdrawing this connection.')
       }
-      });
+    });
+    dispatch(handleConnectionsChange(sessionUserId));
   }
   return (
     <>

@@ -15,12 +15,12 @@ const UserHome = () => {
     <>
       <h2>Welcome {name}</h2>
       <section className='announcements'>
-        {pendingCount && <p>You have {pendingCount} <NavLink to='/pending'>pending connections</NavLink> waiting for acceptance or rejection.</p>}
+        {pendingCount !== 0 && <p>You have {pendingCount} <NavLink to='/pending'>pending connections</NavLink> waiting for acceptance or rejection.</p>}
       </section>
       { canBeMentee &&
         <section className='mentors'>
           <h3 className='mentor-list__title'>Your Mentors</h3>
-          {(mentors.length !== 0 &&
+          {(mentors && mentors.length &&
           <ul className='mentor-list user-listing'>
             {mentors.map(person => {
               const {id, username, goBy, picture, mentorDesc, createdAt} = person;
@@ -50,7 +50,7 @@ const UserHome = () => {
       { canBeMentor &&
         <section className='mentees'>
           <h3 className='mentee-list__title'>Your Mentees</h3>
-          {(mentees.length !== 0 &&
+          {(mentees && mentees.length &&
           <ul className='mentee-list user-listing'>
             {mentees.map(person => {
               const {id, username, goBy, picture, menteeDesc, createdAt} = person;

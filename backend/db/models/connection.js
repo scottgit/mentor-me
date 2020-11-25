@@ -7,8 +7,21 @@ module.exports = (sequelize, DataTypes) => {
     static async createPending(connection) {
       if (connection.status !== 'pending') return Error('Connections must begin as pending.')
       const res = await Connection.create({...connection});
-      console.log('connection result', res);
       return res;
+    }
+    static async changeStatus(id, status) {
+
+      const connection = await Connection.findByPk(id);
+      console.log('****IN CHANGE STATUS****', connection)
+      connection.status = status;
+      const res = await connection.save();
+      return res;
+    }
+    static async delete(id) {
+      const connection = await Connection.findByPk(id);
+      await connection.destroy();
+      const confirm = await Connection.findByPk(id);
+      return confirm; //Should be null
     }
 
     static associate(models) {

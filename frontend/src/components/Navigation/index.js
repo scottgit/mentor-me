@@ -14,7 +14,7 @@ const Navigation = () => {
   if(sessionUser) {
     sessionLinks = (
       <>
-        {pendingCount &&
+        {pendingCount !== 0 &&
         <li>
           <NavLink to='/pending' className='pending-count'>{pendingCount}</NavLink>
         </li>

@@ -124,22 +124,37 @@ router.post(
   asyncHandler(async (req, res) => {
     const connection = req.body;
 
-    const pending = await Connection.createPending(connection);
-    return res.json({...pending});
+    const newConnection = await Connection.createPending(connection);
+    return res.json(newConnection);
   })
 )
 
-// Post Invite/Request as Pending Connection
-// router.patch(
-//   '/:id(\\d+)/accept',
-//   requireAuth,
-//   //TODO acceptValidators,
-//   asyncHandler(async (req, res) => {
-//     const {connection} = req.body;
-//     const pending = await Connection.createPending(connection);
-//     return res.json({...pending});
-//   })
-// )
+// Post Invite/Request as Established or Rejected
+router.patch(
+  '/:id(\\d+)/status',
+  requireAuth,
+  //TODO statusValidators,
+  asyncHandler(async (req, res) => {
+
+    const {id, status} = req.body;
+    console.log('*****IN PATCH STATUS****', id, status )
+    const connection = await Connection.changeStatus(id, status);
+    return res.json(connection);
+  })
+)
+
+// Delete pending Connection
+router.delete(
+  '/:id(\\d+)/withdraw',
+  requireAuth,
+  //TODO statusValidators,
+  asyncHandler(async (req, res) => {
+    const {id} = req.body;
+    const connection = await Connection.delete(id);
+    const success = connection === null;
+    return res.json({success});
+  })
+)
 
 
 module.exports = router;
