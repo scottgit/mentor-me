@@ -10,6 +10,8 @@ const PublicListing = () => {
   const [list, setList] = useState([]);
   const [connectErrors, setConnectErrors] = useState({errors: [], personId: null});
   const sessionUser = useSelector(state => state.session.user);
+  const userMentees = useSelector(state => state.session.mentees);
+  const userMentors = useSelector(state => state.session.mentors);
   const dispatch = useDispatch();
   const location = useLocation();
   const segments = location.pathname.split('/');
@@ -31,8 +33,16 @@ const PublicListing = () => {
   }
   const isMentor = sessionUser.mentorDesc !== '';
   const isMentee = sessionUser.menteeDesc !== '';
-  const userMenteeIds = sessionUser.mentees.map(mentee => mentee.id);
-  const userMentorIds = sessionUser.mentors.map(mentor => mentor.id);
+  let userMenteeIds = [];
+  let userMentorIds = [];
+  if(userMentees.length) {
+    userMenteeIds = userMentees.map(mentee => mentee.id);
+  }
+  if(userMentors.length) {
+    userMentorIds = userMentors.map(mentor => mentor.id);
+  }
+
+
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -76,8 +86,9 @@ const PublicListing = () => {
             } else {
               isUsersConnection = userMentorIds.indexOf(id) > -1;
             }
+
             return (
-              <li key={id} className='public-list__list-item'>
+              <li key={id} className={`public-list__list-item ${isUsersConnection ? 'connected' :''}`}>
                 <h3 className='public-list__name'>{goBy || username} {self ? '(You)' : ''}</h3>
                 {picture && <img src={picture} alt={username + ' as ' + role} className='public-list__img'/>}
                 <p className='public-list__description'>{
@@ -118,9 +129,8 @@ const PublicListing = () => {
                   )
                   || //OR, Current user cannot connect
                   (!self && (
-
                       (isUsersConnection &&
-                        <p></p>
+                      <p className='connection-message'>You are already connected to this {role}.</p>
                       )
                       ||
                       (<>

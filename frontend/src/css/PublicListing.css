@@ -19,6 +19,16 @@
   clear: both;
 }
 
+.connected {
+  background-color: var(--secondary-color);
+}
+
+.connection-message {
+  text-align: center;
+  font-size: 1.3em;
+  color: var(--primary-color-50a);
+}
+
 .public-list__name {
   margin: 5px;
 }
