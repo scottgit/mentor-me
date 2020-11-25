@@ -25,7 +25,6 @@ const Pending = () => {
   }
 
   const declineClick = async (e) => {
-    console.log('decline');
     await dispatch(declineConnection(sessionUserId, e.target.value)).catch((res) => {
       if (res.data && res.data.errors) {
         //TODO make fancy acknowledge

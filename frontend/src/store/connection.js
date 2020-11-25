@@ -63,7 +63,6 @@ export const establishConnection = (userId, connectionId) => async (dispatch) =>
 }
 
 export const declineConnection = (userId, connectionId) => async (dispatch) => {
-  console.log('decline in connection')
   const res = await fetch(
     `/api/users/${userId}/status`,
     { method: 'PATCH',

@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     static async changeStatus(id, status) {
 
       const connection = await Connection.findByPk(id);
-      console.log('****IN CHANGE STATUS****', connection)
       connection.status = status;
       const res = await connection.save();
       return res;

@@ -135,9 +135,7 @@ router.patch(
   requireAuth,
   //TODO statusValidators,
   asyncHandler(async (req, res) => {
-
     const {id, status} = req.body;
-    console.log('*****IN PATCH STATUS****', id, status )
     const connection = await Connection.changeStatus(id, status);
     return res.json(connection);
   })
