@@ -24,6 +24,30 @@ const Pending = () => {
                   <button className='button'>Accept</button>
                   <button className='button'>Decline</button>
                 </div>
+                <div className='discussion'>Discussion goes here.</div>
+              </li>
+              )
+            })}
+          </ul>
+        </section>
+      }
+      { requests.length !== 0 &&
+        <section className='requests'>
+          <h3 className='pending-list__title'>Your Invitations from Mentors</h3>
+          <ul className='pending-list'>
+            {requests.map(person => {
+              const {id, username, goBy, picture, mentorDesc, createdAt} = person;
+              return (
+              <li key={id} className='pending-list__list-item'>
+                {picture && <img src={picture} alt={username + ' as mentee'} className='pending-list__img'/>}
+                <h3 className='pending-list__name'>{goBy || username}</h3>
+                <p>User since {createdAt.date}</p>
+                <p>{mentorDesc}</p>
+                <div className='pending-list__button-group'>
+                  <button className='button'>Accept</button>
+                  <button className='button'>Decline</button>
+                </div>
+                <div className='discussion'>Discussion goes here.</div>
               </li>
               )
             })}
