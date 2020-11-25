@@ -8,6 +8,7 @@ const Pending = () => {
   const invites = useSelector(state => state.session.invites);
   const requests = useSelector(state => state.session.requests);
   const dispatch = useDispatch();
+  const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
 
   useEffect(() => {
 
@@ -46,7 +47,11 @@ const Pending = () => {
   return (
     <>
       <h2>Pending Connections</h2>
-      <p>Please enter into discussion as needed and take action on these pending connections.</p>
+      { (pendingCount !== 0 &&
+      <p>Please enter into discussion as needed and take action on these pending connections.</p>)
+       ||
+       <p>You do not have any currently pending connections.</p>
+      }
       { invites.length !== 0 &&
         <section className='invites'>
           <h3 className='pending-list__title'>Your Invitations from or Requests to Mentors</h3>

@@ -1,19 +1,21 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
-import { useLocation, Redirect } from 'react-router-dom';
+import { useLocation, Redirect, useHistory } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {requestConnection} from '../../store/connection';
-import FormErrorList from '../Includes/FormErrorList';
 import {fetch} from '../../store/csrf';
 
 const PublicListing = () => {
+  //TODO get refresh to go to pending page on invite
+  //TODO handle display of people that have pending connections with user
   const [list, setList] = useState([]);
-  const [connectErrors, setConnectErrors] = useState({errors: [], personId: null});
   const sessionUser = useSelector(state => state.session.user);
   const userMentees = useSelector(state => state.session.mentees);
   const userMentors = useSelector(state => state.session.mentors);
+  const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory()
   const segments = location.pathname.split('/');
   const endpoint = segments[segments.length - 1];
   const role = endpoint.slice(0,endpoint.length - 1);
@@ -44,11 +46,13 @@ const PublicListing = () => {
 
 
 
-  const handleClick = ({connection, personId}) => {
-    setConnectErrors({errors: [], personId}); //Clear any prior errors
-    return dispatch(requestConnection(connection)).catch((res) => {
-        if (res.data && res.data.errors) setConnectErrors({...connectErrors, errors: res.data.errors});
-      });
+  const handleClick = async (connection) => {
+    await dispatch(requestConnection(connection)).catch((res) => {
+      if (res.data && res.data.errors) {
+        //TODO make fancy acknowledge
+        alert('There was an issue initiating this connection request.')
+      }
+    });
   }
 
 
@@ -103,26 +107,16 @@ const PublicListing = () => {
                       && !self && !isUsersConnection
                     )
                   &&
-                    <>
                       <button type='button' className='button public-list__button'
                         value='request'
                         onClick={() => handleClick.bind(null, {
-                          connection: {
                             status: 'pending',
                             mentorId: (role === 'mentee' ? sessionUser.id : id),
                             userId: (role === 'mentee' ? id : sessionUser.id),
                             initiatorId: sessionUser.id,
-                          },
-                          personId: id
                         })()}>
                           {solicitation} this {role}
                       </button>
-                      {
-                        (   connectErrors.errors.length !== 0
-                        &&  connectErrors.personId === id)
-                        &&  <FormErrorList errors={connectErrors.errors}/>
-                      }
-                    </>
                   )
                   || //OR, Current user cannot connect
                   (!self && (
