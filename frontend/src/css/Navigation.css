@@ -41,6 +41,25 @@
   margin-right: 10px;
 }
 
+.pending-count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1em;
+  width: 1em;
+  font-size: 1em;
+  border-radius: 50%;
+  padding: .3em;
+  margin: 0 5px;
+  background-color: var(--primary-color-50a);
+  color: white;
+  text-decoration: none;
+}
+
+.pending-count:hover {
+  background-color: var(--primary-color);
+}
+
 .profile-menu {
   position: absolute;
   margin-top: 5px;

@@ -7,6 +7,7 @@ import PublicListing from './components/Pages/PublicListing';
 import Signup from './components/Pages/Signup';
 import UserHome from './components/Pages/UserHome';
 import Welcome from './components/Pages/Welcome';
+import Pending from './components/Pages/Pending';
 import {restoreSession} from './store/session';
 
 
@@ -33,6 +34,9 @@ function App() {
         </Route>
         <Route path='/signup' exact>
           <Signup />
+        </Route>
+        <Route path='/pending'>
+          <Pending />
         </Route>
         <Route path='*'>
           <NotFound />

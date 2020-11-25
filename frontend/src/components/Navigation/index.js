@@ -8,12 +8,18 @@ import Logo from '../Includes/Logo';
 
 const Navigation = () => {
   const sessionUser = useSelector(state => state.session.user);
+  const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
 
   let sessionLinks;
   if(sessionUser) {
     sessionLinks = (
-    <>
-      <li className='profile-item'><ProfileButton /></li>
+      <>
+        {pendingCount &&
+        <li>
+          <NavLink to='/pending' className='pending-count'>{pendingCount}</NavLink>
+        </li>
+        }
+        <li className='profile-item'><ProfileButton /></li>
       </>
     );
   }

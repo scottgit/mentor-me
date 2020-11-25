@@ -1,8 +1,10 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
+import {NavLink} from 'react-router-dom';
 
 const UserHome = () => {
   const sessionUser = useSelector(state => state.session.user);
+  const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
   let mentees = useSelector(state => state.session.mentees);
   let mentors = useSelector(state => state.session.mentors);
   const name = (sessionUser.goBy || sessionUser.userName);
@@ -12,6 +14,9 @@ const UserHome = () => {
   return (
     <>
       <h2>Welcome {name}</h2>
+      <section className='announcements'>
+        {pendingCount && <p>You have {pendingCount} <NavLink to='/pending'>pending connections</NavLink> waiting for acceptance or rejection.</p>}
+      </section>
       { canBeMentee &&
         <section className='mentors'>
           <h3 className='mentor-list__title'>Your Mentors</h3>

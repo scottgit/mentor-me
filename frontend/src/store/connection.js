@@ -43,11 +43,10 @@ const withdrawConnection = (connection) => {
 
 //Thunks
 export const requestConnection = (connection) => async (dispatch) => {
-
   const res = await fetch(
     `/api/users/${connection.initiatorId}/pending`,
     { method: 'POST',
-      body: JSON.stringify({...connection})
+      body: JSON.stringify(connection)
     }
   );
   res.data.connection = reviveDates(res.data.connection);

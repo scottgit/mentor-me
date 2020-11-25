@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {NavLink} from 'react-router-dom';
 import {logout} from '../../store/session';
 import Confirm from '../Includes/Confirm';
 import Icon from '../Includes/Icon';
@@ -8,6 +9,7 @@ import ModalTrigger from '../Includes/ModalTrigger';
 const ProfileButton = () => {
   const [showMenu, setShowMenu] = useState(false);
   const {username, email} = useSelector(state => state.session.user);
+  const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
   const dispatch = useDispatch();
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -35,6 +37,9 @@ const ProfileButton = () => {
           <div className={`profile-menu ${show}`}>
             <div className='profile-info'>{username}</div>
             <div  className='profile-info'>{email}</div>
+            { pendingCount &&
+            <NavLink to='/pending'>{pendingCount} Pending ...</NavLink>
+            }
             <ModalTrigger buttonClasses='button profile-button' buttonText='Log Out'>
               <Confirm
                 doAction={() => {

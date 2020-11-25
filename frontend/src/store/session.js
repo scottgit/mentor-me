@@ -11,9 +11,10 @@ const initialState = {
   mentees: null,
   invites: null,
   requests: null,
+  counts: resetCounts(),
 }
 
-const setUser = (user, mentors, mentees, invites, requests) => {
+const setUser = (user, mentors, mentees, invites, requests, counts) => {
   return ({
     type: SET_USER,
     user,
@@ -21,6 +22,7 @@ const setUser = (user, mentors, mentees, invites, requests) => {
     mentees,
     invites,
     requests,
+    counts,
   })
 }
 
@@ -32,6 +34,7 @@ const removeUser = () => {
     mentees: null,
     invites: null,
     requests: null,
+    counts: resetCounts(),
   })
 }
 
@@ -69,7 +72,7 @@ export const restoreSession = () => async (dispatch) => {
     res.data.user = reviveDates(res.data.user);
     await setFullUserInfo(res.data.user, dispatch);
   } else {
-    dispatch(setUser(null, null, null, null, null));
+    dispatch(setUser(null, null, null, null, null, resetCounts()));
   }
   return res;
 }
@@ -86,11 +89,11 @@ export const logout = () => async (dispatch) => {
 }
 //End Thunks
 
-const sessionReducer = (state = initialState, {type, user, mentors, mentees, invites, requests}) => {
+const sessionReducer = (state = initialState, {type, user, mentors, mentees, invites, requests, counts}) => {
   switch (type) {
     case SET_USER:
     case REMOVE_USER:
-      return { ...state, user, mentors, mentees, invites, requests }
+      return { ...state, user, mentors, mentees, invites, requests, counts }
     default:
       return state
   }
@@ -107,27 +110,41 @@ async function setFullUserInfo(user, dispatch) {
   let mentorList = await fetch(`/api/users/${id}/mentors`);
   let inviteList = await fetch(`/api/users/${id}/invites`);
   let requestList = await fetch(`/api/users/${id}/requests`);
+  let menteeCount = 0;
+  let mentorCount = 0;
+  let inviteCount = 0;
+  let requestCount = 0;
 
   if(menteeList.data.mentees) {
     menteeList = menteeList.data.mentees.map(mentee => {
+      menteeCount++;
       return reviveDates(mentee);
     })
   }
   if(mentorList.data.mentors) {
     mentorList = mentorList.data.mentors.map(mentor => {
+      mentorCount++;
       return reviveDates(mentor);
     })
   }
   if(inviteList.data.invites) {
     inviteList = inviteList.data.invites.map(invite => {
+      inviteCount++;
       return reviveDates(invite);
     })
   }
   if(requestList.data.requests) {
     requestList = requestList.data.requests.map(request => {
+      requestCount++;
       return reviveDates(request);
     })
   }
 
-  dispatch(setUser(user, mentorList, menteeList, inviteList, requestList));
+  const counts = {menteeCount, mentorCount, inviteCount, requestCount}
+
+  dispatch(setUser(user, mentorList, menteeList, inviteList, requestList, counts));
+}
+
+function resetCounts() {
+  return {menteeCount: 0, mentorCount: 0, inviteCount: 0, requestCount: 0}
 }

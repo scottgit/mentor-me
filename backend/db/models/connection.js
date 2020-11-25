@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       return res;
     }
 
-
     static associate(models) {
       // No Associations; this is a Many-to-Many JOIN table on Users
     }

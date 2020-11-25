@@ -44,10 +44,9 @@ const PublicListing = () => {
 
 
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setConnectErrors({errors: [], personId: e.target.value.person}); //Clear any prior errors
-    return dispatch(requestConnection(e.target.value.connection)).catch((res) => {
+  const handleClick = ({connection, personId}) => {
+    setConnectErrors({errors: [], personId}); //Clear any prior errors
+    return dispatch(requestConnection(connection)).catch((res) => {
         if (res.data && res.data.errors) setConnectErrors({...connectErrors, errors: res.data.errors});
       });
   }
@@ -106,18 +105,16 @@ const PublicListing = () => {
                   &&
                     <>
                       <button type='button' className='button public-list__button'
-                        value={
-                          {
-                            connection: {
-                              status: 'pending',
-                              mentorId: (role === 'mentee' ? sessionUser.id : id),
-                              userId: (role === 'mentee' ? id : sessionUser.id),
-                              initiatorId: sessionUser.id,
-                            },
-                            person: id
-                          }
-                        }
-                        onClick={handleClick}>
+                        value='request'
+                        onClick={() => handleClick.bind(null, {
+                          connection: {
+                            status: 'pending',
+                            mentorId: (role === 'mentee' ? sessionUser.id : id),
+                            userId: (role === 'mentee' ? id : sessionUser.id),
+                            initiatorId: sessionUser.id,
+                          },
+                          personId: id
+                        })()}>
                           {solicitation} this {role}
                       </button>
                       {
