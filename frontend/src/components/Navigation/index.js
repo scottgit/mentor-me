@@ -50,15 +50,17 @@ const Navigation = () => {
           {sessionLinks}
         </ul>
       </nav>
-      {
-        sessionUser &&
+
         <nav className='sub-nav'>
+        {
+        sessionUser &&
           <ul className='sub-nav__list'>
             <li><NavLink to='/public/mentors' className='sub-nav__link'>Available Mentors</NavLink></li>
             <li><NavLink to='/public/mentees' className='sub-nav__link'>Potential Mentees</NavLink></li>
           </ul>
+        }
         </nav>
-      }
+
     </>
   )
 }

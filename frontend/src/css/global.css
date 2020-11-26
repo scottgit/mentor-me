@@ -51,6 +51,8 @@ h1, h2, label {
 /* TODO scroll bars */
 
 .main {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
   max-width: 1000px;
   width: 80%;
   margin: 0 auto;

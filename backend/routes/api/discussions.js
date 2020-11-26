@@ -26,33 +26,44 @@ router.get('/c/:connectId(\\d+)',
   })
 );
 
+// GET all of a user's specific connection's discussion ids & titles
+router.get('/c/:connectId(\\d+)/minimal',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const discussions = await Discussion.getAllDiscussionIdsTitles(req.params.connectId);
+    return res.json(discussions);
+  })
+);
+
 // GET one specific discussion
 router.get('/d/:discussId(\\d+)',
   requireAuth,
   asyncHandler(async (req, res) => {
     const discussion = await Discussion.getOne(req.params.discussId);
-    return res.json({discussion});
+    return res.json(discussion);
   })
 );
 
 // POST new discussion
 router.post('/c/:connectId(\\d+)',
   requireAuth,
+  //TODO validators
   asyncHandler(async (req, res) => {
     const {title, stream} = req.body;
     const connectionId = req.params.connectId;
     const discussion = await Discussion.new({connectionId, title, stream});
-    return res.json({discussion});
+    return res.json(discussion);
   })
 );
 
 // PATCH update stream
 router.patch('/d/:discussId(\\d+)/update-stream',
   requireAuth,
+  //TODO validators
   asyncHandler(async (req, res) => {
     const stream = req.body;
     const discussion = await Discussion.updateStream(req.params.discussId, stream);
-    return res.json({discussion});
+    return res.json(discussion);
   })
 );
 
@@ -62,6 +73,8 @@ router.delete('/d/:discussId(\\d+)/delete',
   asyncHandler(async (req, res) => {
     const stream = req.body;
     const discussion = await Discussion.delete(req.params.discussId);
-    return res.json({discussion});
+    return res.json(discussion);
   })
 );
+
+module.exports = router;

@@ -12,7 +12,7 @@ const UserHome = () => {
   const canBeMentee = sessionUser.menteeDesc !== '';
 
   return (
-    <>
+    <div className='page'>
       <h2>Welcome {name}</h2>
       <section className='announcements'>
         {pendingCount !== 0 && <p>You have {pendingCount} <NavLink to='/pending'>pending connections</NavLink> waiting for acceptance or rejection.</p>}
@@ -24,6 +24,7 @@ const UserHome = () => {
           <ul className='mentor-list user-listing'>
             {mentors.map(person => {
               const {id, username, goBy, picture, mentorDesc, createdAt} = person;
+              const connectionId = person.Connections.id;
               return (
               <li key={id} className='mentor-list__list-item'>
                 {picture && <img src={picture} alt={username + ' as mentor'} className='mentor-list__img'/>}
@@ -31,7 +32,14 @@ const UserHome = () => {
                 <p>User since {createdAt.date}</p>
                 <p>{mentorDesc}</p>
                 <div className='user-listing__button-group'>
-                  <button className='button'>Discussions</button>
+                  <NavLink to={{
+                    pathname: '/discussions',
+                    state: {
+                      person,
+                      you: 'mentee',
+                      connectionId
+                    }
+                  }} className='button'>Discussions</NavLink>
                   <button className='button'>New Discussion</button>
                   <button className='button'>Your Goals</button>
                 </div>
@@ -54,6 +62,7 @@ const UserHome = () => {
           <ul className='mentee-list user-listing'>
             {mentees.map(person => {
               const {id, username, goBy, picture, menteeDesc, createdAt} = person;
+              const connectionId = person.Connections.id;
               return (
               <li key={id} className='mentee-list__list-item'>
                 {picture && <img src={picture} alt={username + ' as mentee'} className='mentee-list__img'/>}
@@ -61,7 +70,9 @@ const UserHome = () => {
                 <p>User since {createdAt.date}</p>
                 <p>{menteeDesc}</p>
                 <div className='user-listing__button-group'>
-                  <button className='button'>Discussions</button>
+                  <NavLink to='/discussions'
+                    className='button'>Discussions
+                  </NavLink>
                   <button className='button'>New Discussion</button>
                   <button className='button'>Their Goals</button>
                   <button className='button'>New Goal</button>
@@ -75,7 +86,7 @@ const UserHome = () => {
           }
         </section>
       }
-    </>
+    </div>
   )
 }
 

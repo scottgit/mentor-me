@@ -1,9 +1,10 @@
 'use strict';
-import {Op} from 'sequelize';
+const {Op} = require('sequelize');
 
 const {
   Model
 } = require('sequelize');
+const { Sequelize } = require('.');
 
 module.exports = (sequelize, DataTypes) => {
   class Discussion extends Model {
@@ -34,6 +35,15 @@ module.exports = (sequelize, DataTypes) => {
         where: {
           connectionId: {[Op.in]: connections}
         }
+      });
+    }
+
+    static async getAllDiscussionIdsTitles(connectionId) {
+      return await Discussion.findAll({
+        where: {
+          connectionId,
+        },
+        attributes: ['id', 'title']
       });
     }
 

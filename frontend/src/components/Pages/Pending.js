@@ -4,7 +4,8 @@ import {handleConnectionsChange} from '../../store/session';
 import {establishConnection, declineConnection, deleteConnection} from '../../store/connection';
 
 const Pending = () => {
-  const sessionUserId = useSelector(state => state.session.user.id);
+  const sessionUser = useSelector(state => state.session.user);
+  const sessionUserId = sessionUser.id;
   const invites = useSelector(state => state.session.invites);
   const requests = useSelector(state => state.session.requests);
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Pending = () => {
           alert('There was an issue accepting this connection.')
         }
     });
-    dispatch(handleConnectionsChange(sessionUserId));
+    dispatch(handleConnectionsChange(sessionUser));
   }
 
   const declineClick = async (e) => {
@@ -31,7 +32,7 @@ const Pending = () => {
         alert('There was an issue declining this connection.')
       }
     });
-    dispatch(handleConnectionsChange(sessionUserId));
+    dispatch(handleConnectionsChange(sessionUser));
   }
 
   const withdrawClick = async (e) => {
@@ -41,10 +42,10 @@ const Pending = () => {
         alert('There was an issue withdrawing this connection.')
       }
     });
-    dispatch(handleConnectionsChange(sessionUserId));
+    dispatch(handleConnectionsChange(sessionUser));
   }
-  return (
-    <>
+  return ( //TODO STYLING FOR THE PENDING LIST
+    <div className='page'>
       <h2>Pending Connections</h2>
       { (pendingCount !== 0 &&
       <p>Please enter into discussion as needed and take action on these pending connections.</p>)
@@ -119,7 +120,7 @@ const Pending = () => {
           </ul>
         </section>
       }
-    </>
+    </div>
   )
 }
 

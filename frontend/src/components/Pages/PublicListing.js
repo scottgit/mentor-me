@@ -57,7 +57,7 @@ const PublicListing = () => {
 
 
   return (
-    <>
+    <div className='page'>
       <h2>Public {endpoint[0].toUpperCase() + endpoint.slice(1)}</h2>
       {
         (role === 'mentee' && isMentor &&
@@ -142,7 +142,7 @@ const PublicListing = () => {
           })}
         </ul>
       }
-    </>
+    </div>
   )
 }
 

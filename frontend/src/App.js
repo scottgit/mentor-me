@@ -9,6 +9,8 @@ import UserHome from './components/Pages/UserHome';
 import Welcome from './components/Pages/Welcome';
 import Pending from './components/Pages/Pending';
 import {restoreSession} from './store/session';
+import Discussions from './components/Pages/Discussions';
+import NewDiscussion from './components/Pages/NewDiscussion';
 
 
 function App() {
@@ -33,10 +35,13 @@ function App() {
           {(sessionUser &&  <PublicListing />) || <Redirect to="/" />}
         </Route>
         <Route path='/signup' exact>
-          <Signup />
+          {(!sessionUser &&  <Signup />) || <Redirect to="/" />}
         </Route>
         <Route path='/pending' exact>
           {(sessionUser &&  <Pending />) || <Redirect to="/" />}
+        </Route>
+        <Route path={['/discussions','/discussions/(\\d+)']} exact>
+          {(sessionUser &&  <Discussions />) || <Redirect to="/" />}
         </Route>
         <Route path='*'>
           <NotFound />
