@@ -32,9 +32,9 @@ const Navigation = () => {
           </ModalTrigger>
         </li>
         <li>
-          <NavLink exact to='/signup' className='logo-link'>
-            <button type='button' className='button main-nav__signup'>Sign Up</button>
-          </NavLink>
+          <ModalTrigger buttonClasses='button main-nav__signup' buttonText='Sign Up'>
+            <SignupForm />
+          </ModalTrigger>
         </li>
       </>
     );

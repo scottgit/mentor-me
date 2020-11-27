@@ -63,7 +63,8 @@ const Pending = () => {
               const sessionUserInitiated = person.Connections.initiatorId === sessionUserId;
               return (
               <li key={id} className={`pending-list__list-item ${sessionUserInitiated ? 'user-initiated' : ''}`}>
-                {sessionUserInitiated && <p>You intiated this request to this Mentor.</p>}
+                {(sessionUserInitiated && <p>You intiated this request to this Mentor.</p>)
+                 || <p>You have been invited by this Mentor.</p>}
                 {picture && <img src={picture} alt={username + ' as mentor'} className='pending-list__img'/>}
                 <h3 className='pending-list__name'>{goBy || username}</h3>
                 <p>User since {createdAt.date}</p>
@@ -97,7 +98,8 @@ const Pending = () => {
               const sessionUserInitiated = person.Connections.initiatorId === sessionUserId;
               return (
               <li key={id} className={`pending-list__list-item ${sessionUserInitiated ? 'user-initiated' : ''}`}>
-                {sessionUserInitiated && <p>You intiated this invite to this Mentee.</p>}
+                {(sessionUserInitiated && <p>You intiated this invite to this Mentee.</p>)
+                 || <p>You have been requested as a Mentor by this Mentee.</p>}
                 {picture && <img src={picture} alt={username + ' as mentee'} className='pending-list__img'/>}
                 <h3 className='pending-list__name'>{goBy || username}</h3>
                 <p>User since {createdAt.date}</p>

@@ -30,7 +30,9 @@ router.get('/c/:connectId(\\d+)',
 router.get('/c/:connectId(\\d+)/minimal',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const discussions = await Discussion.getAllDiscussionIdsTitles(req.params.connectId);
+    //NOTE: status can be a comma separated series that will become an array
+    let status = req.query.status || ['established','pending','rejected'];
+    const discussions = await Discussion.getAllDiscussionIdsTitles(req.params.connectId, status);
     return res.json(discussions);
   })
 );

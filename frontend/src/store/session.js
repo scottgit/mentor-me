@@ -167,7 +167,7 @@ async function setUserConnections(user, dispatch) {
       const connectionId = invite.Connections.id;
       connections[connectionId] = {
         connectionId,
-        userRole: 'mentor',
+        userRole: 'mentee',
         mentor: user.goBy || user.username,
         mentee: invite.goBy || invite.username,
         discussions:  [],
@@ -181,7 +181,7 @@ async function setUserConnections(user, dispatch) {
       const connectionId = request.Connections.id;
       connections[connectionId] = {
         connectionId,
-        userRole: 'mentee',
+        userRole: 'mentor',
         mentor: request.goBy || request.username,
         mentee: user.goBy || user.username,
         discussions:  [],
@@ -202,8 +202,12 @@ async function getBasicDiscussionsInfo(connections) {
 
   for (let connectionId in connections) {
     const res = await fetch(
-      `/api/discussions/c/${connectionId}/minimal`
+      `/api/discussions/c/${connectionId}/minimal?status=established,pending`
     );
+    //Move the status to the element of the connections object
+    if (res.data) {
+      connections[connectionId].status = res.data[0].status;
+    }
     connections[connectionId].discussions = res.data;
   }
 

@@ -38,12 +38,23 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static async getAllDiscussionIdsTitles(connectionId) {
+    static async getAllDiscussionIdsTitles(connectionId, status) {
+      if (status) status = status.split(',');
+      let include = undefined;
+      if (status) include = {
+          model: sequelize.models.Connection,
+          attributes: [],
+          where: {
+            status
+          }
+        }
+
       return await Discussion.findAll({
         where: {
           connectionId,
         },
-        attributes: ['id', 'title']
+        include,
+        attributes: ['id', 'title', [sequelize.col('Connection.status'), 'status']]
       });
     }
 
