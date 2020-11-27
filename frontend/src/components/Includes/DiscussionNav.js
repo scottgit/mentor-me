@@ -19,9 +19,7 @@ const DiscussionNav = ({connections, setViewId, setOtherName, othersRole}) => {
                     setOtherName(name)
                     setViewId(id)
                   }}>
-                    <span>                    {title} 
-                    </span>
-
+                    <span>{title}</span>
                   </li>
                 )
               })}

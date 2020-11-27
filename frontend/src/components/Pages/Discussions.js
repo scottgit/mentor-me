@@ -13,8 +13,8 @@ const Discussions = ({discussionId}) => {
   const [otherName, setOtherName] = useState(null);
   const [discussion, setDiscussion] = useState(null);
 
-  const asMentor = connections.filter(connection => connection.userRole === 'mentor');
-  const asMentee = connections.filter(connection => connection.userRole === 'mentee');
+  const asMentor = connections.filter(connection => connection.userRole === 'mentor' && connection.status === 'established');
+  const asMentee = connections.filter(connection => connection.userRole === 'mentee' && connection.status === 'established');
 
   useEffect(() => {
     //TODO Make 'cleanFetch' utility function to use in useEffects with async with cleanup code based off https://dev.to/pallymore/clean-up-async-requests-in-useeffect-hooks-90h
