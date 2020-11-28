@@ -15,7 +15,7 @@ Mentor Me utilizes:
 
 All CSS styling was implemented *without* the use of a pre-built library other than a `normalize.css` from the `npm` install of `"normalize.css": "^8.0.1"`. Use of css variables via the `var(--property-name)` syntax was utilized on the `html` element to set up for later potential theming of colors on the site. 
 
-Additionally, `svg` was utlized on the logo (exported from Adobe Illustrator) and re-configured to make it accessible via a CSS class and targeting of specific `polygon` (the outer big M and inner smaller M), like so:
+Additionally, `svg` was utlized on the logo (exported from Adobe Illustrator) and re-configured in a JavaScript file to make it accessible via a CSS class and targeting of specific `polygon` portions within the `svg` element (the outer big M and inner smaller M), like so:
 
 SVG
 ```js
@@ -23,10 +23,10 @@ SVG
   viewBox="7.429 5.259 99.569 123.83" enableBackground="new 7.429 5.259 99.569 123.83" 
     className="logo" // ADDED this className attribute to target
   >
-   <polygon data-polygon='BigM' // ADDED this data-polygon attribute to target
+   <polygon className='logo__big-m' // ADDED this to target Big M specifically
      points="85.557,5.259 56.575,33.34 29.188,5.259 7.429,5.259 7.429,129.466 27.94,129.466 27.94,51.349 39.799,51.349
      56.575,71.473 74.514,51.349 86.717,51.349 86.717,129.466 106.998,129.466 106.998,5.259 "/>
-   <polygon data-polygon='SmallM'  // ADDED this data-polygon attribute to target
+   <polygon className='logo__small-m' // ADDED this to target Small M specifically
      points="69.623,68.328 56.969,81.303 44.923,68.328 34.676,68.328 34.676,129.089 47.153,129.089 47.153,91.838
      50.955,91.838 56.969,99.276 63.392,91.838 67.361,91.838 67.361,129.089 79.752,129.089 79.752,68.328 "/>
   </svg>
@@ -42,7 +42,9 @@ CSS for SVG (simplified for illustration of what occurs on the main navigation b
 }
 
 // When the link on the main nav, which includes the logo, is hovered, change the smaller M's color
-.main-nav__logo-link:hover  [data-polygon='SmallM'] {
+.main-nav__logo-link:hover .logo__small-m {
+  fill: var(--primary-color-50a);
+} {
   fill: var(--primary-color-50a);
 }
 
