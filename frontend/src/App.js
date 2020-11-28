@@ -43,7 +43,7 @@ function App() {
           <Route path='/pending' exact>
             {(sessionUser &&  <Pending />) || <Redirect to="/" />}
           </Route>
-          <Route path={['/discussions','/discussions/(\\d+)']} exact>
+          <Route path={['/discussions','/discussions/c/:cId(\\d+)/d/:dId(\\d+)']} exact>
             {(sessionUser &&  <Discussions />) || <Redirect to="/" />}
           </Route>
           <Route path='*'>

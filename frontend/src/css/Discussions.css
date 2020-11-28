@@ -70,16 +70,21 @@
   overflow: visible;
 }
 
-.discussions-nav__dis-item:hover::before {
+.discussions-nav__link {
+  text-decoration: none;
+}
+
+.discussions-nav__link:hover::before {
   content: '';
   display: inline-block;
   width: 10px;
   height: 10px;
   border-radius: 5px;
   background-color: var(--primary-color-50a);
+  margin-right: 3px;
 }
 
-.discussions-nav__dis-item:hover > span {
+.discussions-nav__dis-item:hover > .discussions-nav__link {
   display: inline-block;
   background-color: var(--secondary-color);
   padding: 0 6px 0 3px;
@@ -87,7 +92,7 @@
   z-index: 1;
 }
 
-.discussions-nav__dis-item:hover > span::after {
+.discussions-nav__dis-item:hover > .discussions-nav__link::after {
   content: '';
   display: block;
   position: absolute;

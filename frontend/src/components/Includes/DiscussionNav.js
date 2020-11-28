@@ -1,6 +1,7 @@
-import React from 'react'
+import React from 'react';
+import {NavLink} from 'react-router-dom';
 
-const DiscussionNav = ({connections, setViewId, setOtherName, othersRole}) => {
+const DiscussionNav = ({connections, othersRole}) => {
   return (
     <ul className={`discussions-nav__con-list`}>
       {connections.map(c => {
@@ -11,15 +12,13 @@ const DiscussionNav = ({connections, setViewId, setOtherName, othersRole}) => {
           <div className={`discussions-nav__name`}>{name}</div>
             <ul className={`discussions-nav__dis-list`}>
               {discussions.map(dis => {
-                const {id, title} = dis;
+                const {id: dId, title} = dis;
                 return (
-
-                  <li key={`d${id}`}
-                  className={`discussions-nav__dis-item`} onClick={() => {
-                    setOtherName(name)
-                    setViewId(id)
-                  }}>
-                    <span>{title}</span>
+                  <li key={`d${dId}`}
+                  className={`discussions-nav__dis-item`}>
+                    <NavLink to={
+                      `/discussions/c/${cId}/d/${dId}`
+                    } className={`discussions-nav__link`}>{title}</NavLink>
                   </li>
                 )
               })}

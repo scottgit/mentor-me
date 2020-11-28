@@ -1,5 +1,5 @@
 // import { set } from 'js-cookie';
-import { get } from 'js-cookie';
+// import { get } from 'js-cookie';
 import {fetch} from './csrf';
 import {reviveDates} from './utils'
 

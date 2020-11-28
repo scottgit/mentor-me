@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import {NavLink, useLocation, useHistory} from 'react-router-dom';
 import {fetch} from '../../store/csrf';
@@ -6,66 +6,67 @@ import DiscussionNav from '../Includes/DiscussionNav';
 import DiscussionView from '../Includes/DiscussionView';
 
 const Discussions = () => {
+  const location = useLocation();
   const sessionUserId = useSelector(state => state.session.user.id);
-  const connections = useSelector(state => Object.values(state.session.connections));
+  const connections = useSelector(state => state.session.connections);
   const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
-  const [viewId, setViewId] = useState(null);
-  const [otherName, setOtherName] = useState(null);
   const [discussion, setDiscussion] = useState(null);
-  const path = useLocation().pathname;
   const history = useHistory();
-  const parsePath = path.split('/');
+  //Get Discussion
+  const parsePath = location.pathname.split('/');
   const endpoint = parseInt(parsePath[parsePath.length - 1]);
+  const endpointIsNumber = !isNaN(endpoint);
+  const connectionId = endpointIsNumber ? parseInt(parsePath[parsePath.length - 3]) : null;
 
-  let validateEndpoint = false;
-  const endpointId = !isNaN(endpoint);
-  const asMentor = connections.filter(connection => {
-    if (!validateEndpoint && endpointId) {
-      connection.discussions.forEach(dis => {
-        validateEndpoint = validateEndpoint || endpoint === dis.id;
-      })
+  // Validate path with ids
+  const validIds = endpointIsNumber ? validatePathIds(connectionId, endpoint) : false;
+
+  function validatePathIds(cId, dId) {
+    if(!connections[cId]) return false;
+    const arr = connections[cId].discussions;
+    for(let i = 0; i < arr.length; i++) {
+      if (arr[i].id === dId) return true;
     }
+    return false;
+  }
+
+  // Set name
+  let othersName = '';
+  let othersRole = '';
+  if (connectionId) {
+    othersRole = connections[connectionId].userRole === 'mentor' ? 'mentee' : 'mentor';
+    othersName = connections[connectionId][othersRole];
+  }
+
+  // Set Connection types
+  const connectionsArray = Object.values(connections);
+  const asMentor = useMemo(() => connectionsArray.filter(connection => {
     return (
       connection.userRole === 'mentor' && connection.status === 'established'
     )
-  });
-  const asMentee = connections.filter(connection => {
-    if (!validateEndpoint && endpointId) {
-      connection.discussions.forEach(dis => {
-        validateEndpoint = validateEndpoint || endpoint === dis.id;
-      })
-    }
+  }), [connectionsArray] );
+  const asMentee = useMemo(() => connectionsArray.filter(connection => {
     return (
       connection.userRole === 'mentee' && connection.status === 'established'
     )
-  });
+  }), [connectionsArray] );
 
-  console.log('path', path)
-  console.log('endpoint', endpoint)
-  console.log('endpoinId', endpointId)
-  console.log('valid', validateEndpoint)
-
-
-  // useEffect(() => {
-  //   //TODO Make 'cleanFetch' utility function to use in useEffects with async with cleanup code based off https://dev.to/pallymore/clean-up-async-requests-in-useeffect-hooks-90h
-  //   if (!viewId) return;
-
-
-  // }, [])
-
-  if(!validateEndpoint && endpointId) {
-    console.log('here');
-    history.replace('/discussions');
-    return null;
-  }
-  else if (endpointId) {
-    setViewId(endpoint);
+  useEffect(() => {
+    //TODO Make 'cleanFetch' utility function to use in useEffects with async with cleanup code based off https://dev.to/pallymore/clean-up-async-requests-in-useeffect-hooks-90h
+    if(!validIds && !['discussions'].includes(endpoint)) {
+      history.replace('/discussions');
+      return null;
+    }
     async function getDiscussion() {
-      const res = await fetch(`/api/discussions/d/${viewId}`);
+      const res = await fetch(`/api/discussions/d/${endpoint}`);
       setDiscussion(res.data);
     }
     getDiscussion();
-  }
+
+  }, [validIds, endpoint])
+
+
+
 
 
   return (
@@ -75,19 +76,19 @@ const Discussions = () => {
           {asMentor.length > 0 &&
           <div className='discussions-nav__role'>
             <h4 className='discussions-nav__role-heading'>With Your Mentees</h4>
-            <DiscussionNav connections={asMentor} setViewId={setViewId} setOtherName={setOtherName} othersRole={'mentee'} />
+            <DiscussionNav connections={asMentor}   othersRole={'mentee'} />
           </div>}
           {asMentee.length > 0 &&
           <div className='discussions-nav__role'>
             <h4 className='discussions-nav__role-heading'>With Your Mentors</h4>
-            <DiscussionNav connections={asMentee} setViewId={setViewId} setOtherName={setOtherName} othersRole={'mentor'}/>
+            <DiscussionNav connections={asMentee} othersRole={'mentor'}/>
           </div>}
       </nav>
       <section className='discussions-view'>
           <h2 className='discussions-heading'>
-            Discussion {(viewId ? `with ${otherName}` : '')}
+            Discussion {(endpointIsNumber ? `with ${othersName}` : '')}
           </h2>
-          <DiscussionView discussion={discussion} otherName={otherName} yourId={sessionUserId}/>
+          <DiscussionView discussion={discussion} otherName={othersName} yourId={sessionUserId}/>
 
       </section>
     </main>
