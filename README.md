@@ -222,7 +222,7 @@ There were many aspects to front end display required for good user experience, 
         export default Modal
 
         ```
-    2. Be able to attach the modal to a trigger component (a button, etc.), to cause the modal to show. This was done with another component (with a default to a `button`):
+    2. Be able to attach the modal to a trigger component (a button, etc.), to cause the modal to show. This was done with another wrapper component (with a default child set to a `button` element as the trigger). There was a little challenge to add an `onClick` event for the `setShowModal` when an actual element was passed since React makes that element a non-extensible object:
         ```js
         import React, {useContext} from 'react';
         import  Modal, {ModalProvider, ModalContext}  from '../Includes/Modal';
@@ -235,6 +235,10 @@ There were many aspects to front end display required for good user experience, 
             triggerComponent = (
               <button className={buttonClasses} onClick={() => setShowModal(true)}>{buttonText}</button>
             )
+          }
+          else {
+            // triggerComponent is passed as a non-extensible object, but we need the setShowModal function put on the onClick
+            triggerComponent = Object.assign({}, triggerComponent, {props: {...triggerComponent.props, onClick: () => setShowModal(true)}})
           }
 
           return (
