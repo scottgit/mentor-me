@@ -39,6 +39,16 @@ const DiscussionView = ({discussion, yourId, otherName}) => {
     //TODO Refresh correctly
   }
 
+  const toggleVisible = (e) => {
+    const post = e.target.parentElement;
+    if (post.classList.contains('show')) {
+      post.classList.remove('show');
+    }
+    else {
+      post.classList.add('show');
+    }
+  }
+
   return (
     discussion &&
     <>
@@ -47,7 +57,7 @@ const DiscussionView = ({discussion, yourId, otherName}) => {
         const name = yourId === post.userId ? 'You' : otherName;
         return (
           <div key={`${idx}`} className='discussions-post'>
-            <div className='dicussions-post__header'>
+            <div className='dicussions-post__header' onClick={toggleVisible}>
               <div className='discussions-post__name'>
                 {name}
               </div>

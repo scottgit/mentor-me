@@ -72,6 +72,7 @@
 
 .discussions-nav__link {
   text-decoration: none;
+  padding: 0 6px 0 3px;
 }
 
 .discussions-nav__link:hover::before {
@@ -84,15 +85,14 @@
   margin-right: 3px;
 }
 
-.discussions-nav__dis-item:hover > .discussions-nav__link {
+.discussions-nav__link:hover {
   display: inline-block;
   background-color: var(--secondary-color);
-  padding: 0 6px 0 3px;
   position: relative;
   z-index: 1;
 }
 
-.discussions-nav__dis-item:hover > .discussions-nav__link::after {
+.discussions-nav__link:hover::after {
   content: '';
   display: block;
   position: absolute;
@@ -137,9 +137,11 @@
 .discussions-post__time {
   font-size: .7em;
 }
+
 .discussions-post__name {
   margin-left: 3px;
 }
+
 .discussions-post__msg {
   padding: 7px;
   line-height: 1.4;
@@ -148,6 +150,19 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+
+.collapse .discussions-post:not(.show) .discussions-post__msg {
+  display: none;
+}
+
+.collapse .discussions-post .discussions-post__name {
+  font-size: .7em
+}
+
+/* .collapse .discussions-post__msg::first-line,
+.discussions-post__msg.collapse::first-line {
+  white-space: nowrap;
+} */
 
 /* FORM */
 .discussions-form {

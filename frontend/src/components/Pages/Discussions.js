@@ -11,6 +11,7 @@ const Discussions = () => {
   const connections = useSelector(state => state.session.connections);
   const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
   const [discussion, setDiscussion] = useState(null);
+  const [collapsed, setCollapsed] = useState('');
   const history = useHistory();
   //Get Discussion
   const parsePath = location.pathname.split('/');
@@ -67,16 +68,15 @@ const Discussions = () => {
 
 
 
-
-
   return (
     <main className='page discussions-page'>
       <nav className='discussions-nav'>
-          {pendingCount !== 0 && <NavLink to='/pending' className='discussions-pending__link'>Go to Pending</NavLink>}
+        <button type='button' className='button' onClick={() => collapsed ? setCollapsed('') : setCollapsed('collapse')}>{(collapsed ? 'Expand' : 'Collapse')}</button>
+          {pendingCount !== 0 && <NavLink to='/pending' className='discussions-pending__link discussions-nav__link'>Go to Pending</NavLink>}
           {asMentor.length > 0 &&
           <div className='discussions-nav__role'>
             <h4 className='discussions-nav__role-heading'>With Your Mentees</h4>
-            <DiscussionNav connections={asMentor}   othersRole={'mentee'} />
+            <DiscussionNav connections={asMentor} othersRole={'mentee'} />
           </div>}
           {asMentee.length > 0 &&
           <div className='discussions-nav__role'>
@@ -84,7 +84,7 @@ const Discussions = () => {
             <DiscussionNav connections={asMentee} othersRole={'mentor'}/>
           </div>}
       </nav>
-      <section className='discussions-view'>
+      <section className={`discussions-view ${collapsed}`}>
           <h2 className='discussions-heading'>
             Discussion {(endpointIsNumber ? `with ${othersName}` : '')}
           </h2>
