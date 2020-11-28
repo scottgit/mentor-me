@@ -37,16 +37,14 @@ CSS for SVG (simplified for illustration of what occurs on the main navigation b
 .logo {
   fill: var(--primary-color); // Change color of logo based on primary theme color used
   margin: 5px 5px 5px;
-  height: 40px;  // Scale the svg
-  width: 40px; // Scale the svg
+  height: 40px;               // Scale the svg
+  width: 40px;                // Scale the svg
 }
 
 // When the link on the main nav, which includes the logo, is hovered, change the smaller M's color
 .main-nav__logo-link:hover .logo__small-m {
-  fill: var(--primary-color-50a);
-} {
-  fill: var(--primary-color-50a);
-}
+  fill: var(--primary-color-50a); 
+} 
 
 ```
 
