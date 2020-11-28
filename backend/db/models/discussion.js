@@ -66,6 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       const discussion = await Discussion.findByPk(id);
       discussion.stream = stream;
       await discussion.save();
+      return discussion;
     }
 
     static async delete(id) {

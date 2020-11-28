@@ -56,7 +56,7 @@ const Signup = () => {
   }
 
   return (
-    <div className='page'>
+    <main className='page'>
     <h2>Sign Up</h2>
     <p>* indicates required fields</p>
     <form className='signup-form' onSubmit={handleSubmit}>
@@ -157,7 +157,7 @@ const Signup = () => {
       </div>
       <button type='submit' className='button signup-form__button'>Sign Up</button>
     </form>
-    </div>
+    </main>
   )
 }
 

@@ -1,14 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {fetch} from '../../store/csrf';
 
 
 const DiscussionView = ({discussion, yourId, otherName}) => {
   const [postValue, setPostValue] = useState('')
+  const [streamUpdated, setStreamUpdated] = useState(0);
   const {stream, id: disId} = discussion || {stream: null, id: null};
+
+  useEffect(() => {}, [streamUpdated]);
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (postValue === '') return;
     const message = postValue;
     const postDate = new Date();
     const date = postDate.toLocaleDateString('en-Us');
@@ -23,8 +27,13 @@ const DiscussionView = ({discussion, yourId, otherName}) => {
           body: JSON.stringify(stream)
         }
       );
+      if(res.ok) {
+        setStreamUpdated(streamUpdated + 1);
+        setPostValue('');
+      } else {
+        throw res;
+      };
     } catch (err) {
-      alert('Post failed to save.');
       console.error(err);
     }
     //TODO Refresh correctly

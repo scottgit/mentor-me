@@ -10,6 +10,9 @@ function Trigger({children, triggerComponent, buttonClasses, buttonText}) {
       <button className={buttonClasses} onClick={() => setShowModal(true)}>{buttonText}</button>
     )
   }
+  else {
+    triggerComponent = Object.assign({}, triggerComponent, {props: {...triggerComponent.props, onClick: () => setShowModal(true)}})
+  }
 
   return (
     <>

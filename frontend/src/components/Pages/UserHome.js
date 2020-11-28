@@ -12,7 +12,7 @@ const UserHome = () => {
   const canBeMentee = sessionUser.menteeDesc !== '';
 
   return (
-    <div className='page'>
+    <main className='page'>
       <h2>Welcome {name}</h2>
       <section className='announcements'>
         {pendingCount !== 0 && <p>You have {pendingCount} <NavLink to='/pending'>pending connections</NavLink> waiting for acceptance or rejection.</p>}
@@ -86,7 +86,7 @@ const UserHome = () => {
           }
         </section>
       }
-    </div>
+    </main>
   )
 }
 

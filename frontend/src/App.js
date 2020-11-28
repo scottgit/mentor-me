@@ -11,6 +11,8 @@ import Pending from './components/Pages/Pending';
 import {restoreSession} from './store/session';
 import Discussions from './components/Pages/Discussions';
 import NewDiscussion from './components/Pages/NewDiscussion';
+import About from './components/Includes/About';
+import ModalTrigger from './components/Includes/ModalTrigger';
 
 
 function App() {
@@ -25,29 +27,38 @@ function App() {
 
 
   return isLoaded && (
-    <main className='main'>
-      <Navigation />
-      <Switch>
-        <Route path='/' exact>
-          {(sessionUser && <UserHome/>) || <Welcome />}
-        </Route>
-        <Route exact path={['/public/mentors', '/public/mentees']}>
-          {(sessionUser &&  <PublicListing />) || <Redirect to="/" />}
-        </Route>
-        <Route path='/signup' exact>
-          {(!sessionUser &&  <Signup />) || <Redirect to="/" />}
-        </Route>
-        <Route path='/pending' exact>
-          {(sessionUser &&  <Pending />) || <Redirect to="/" />}
-        </Route>
-        <Route path={['/discussions','/discussions/(\\d+)']} exact>
-          {(sessionUser &&  <Discussions />) || <Redirect to="/" />}
-        </Route>
-        <Route path='*'>
-          <NotFound />
-        </Route>
-      </Switch>
-    </main>
+    <>
+      <div className='main'>
+        <Navigation />
+        <Switch>
+          <Route path='/' exact>
+            {(sessionUser && <UserHome/>) || <Welcome />}
+          </Route>
+          <Route exact path={['/public/mentors', '/public/mentees']}>
+            {(sessionUser &&  <PublicListing />) || <Redirect to="/" />}
+          </Route>
+          <Route path='/signup' exact>
+            {(!sessionUser &&  <Signup />) || <Redirect to="/" />}
+          </Route>
+          <Route path='/pending' exact>
+            {(sessionUser &&  <Pending />) || <Redirect to="/" />}
+          </Route>
+          <Route path={['/discussions','/discussions/(\\d+)']} exact>
+            {(sessionUser &&  <Discussions />) || <Redirect to="/" />}
+          </Route>
+          <Route path='*'>
+            <NotFound />
+          </Route>
+        </Switch>
+        <footer className='footer'>
+          <ModalTrigger triggerComponent={<div className='footer__about'>About</div>}>
+            <About />
+          </ModalTrigger>
+          <div className='footer__copyright'>&copy; 2020</div>
+        </footer>
+      </div>
+
+    </>
   );
 
 }

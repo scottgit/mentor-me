@@ -45,7 +45,7 @@ const Pending = () => {
     dispatch(handleConnectionsChange(sessionUser));
   }
   return ( //TODO STYLING FOR THE PENDING LIST
-    <div className='page'>
+    <main className='page'>
       <h2>Pending Connections</h2>
       { (pendingCount !== 0 &&
       <p>Please enter into discussion as needed and take action on these pending connections.</p>)
@@ -122,7 +122,7 @@ const Pending = () => {
           </ul>
         </section>
       }
-    </div>
+    </main>
   )
 }
 
