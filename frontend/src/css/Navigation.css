@@ -22,7 +22,7 @@
   font-size: 2em;
 }
 
-.main-nav__logo-link:hover [data-polygon='SmallM'] {
+.main-nav__logo-link:hover .logo__small-m {
   fill: var(--primary-color-50a);
 }
 
