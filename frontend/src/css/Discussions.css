@@ -10,6 +10,8 @@
   background-color: var(--secondary-color);
   width: 30%;
   padding: 5px;
+  position: relative;
+  z-index: 1;
 }
 
 .discussions-view {
@@ -54,28 +56,41 @@
   text-decoration: none;
   color: var(--primary-color);
   white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  margin: 4px 0 4px 2px;
   position: relative;
-}
-
-.discussions-nav__dis-item > span {
-  padding: 3px 0;
+  padding-left: 3px;
 }
 
 .discussions-pending__link:hover,
 .discussions-nav__dis-item:hover {
   cursor: pointer;
-  overflow: visible;
+}
+
+.discussions-nav__dis-item:hover {
+  padding-left: 5px;
 }
 
 .discussions-nav__link {
+  display: block;
   text-decoration: none;
-  padding: 0 6px 0 3px;
+  padding: 4px 6px 4px 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  position: relative;
 }
 
-.discussions-nav__link:hover::before {
+.discussions-nav__link:hover {
+  display: inline-block;
+  overflow: visible;
+}
+
+.discussions-nav__link span {
+  position: relative;
+  z-index: 1;
+}
+
+.discussions-nav__link:hover::before, /* Circle */
+.discussions-pending__link:hover::before {
   content: '';
   display: inline-block;
   width: 10px;
@@ -85,30 +100,35 @@
   margin-right: 3px;
 }
 
-.discussions-nav__link:hover {
-  display: inline-block;
-  background-color: var(--secondary-color);
-  position: relative;
-  z-index: 1;
-}
 
 .discussions-nav__link:hover::after {
+  background-color: var(--secondary-color);
+  border-bottom-right-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+.discussions-nav__link::after {
   content: '';
   display: block;
   position: absolute;
-  background-color: var(--secondary-color);
-  top: -5px;
-  bottom: -5px;
+  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
-  margin-left: 7px;
-  border-bottom-right-radius: 7px;
-  border-top-right-radius: 7px;
   z-index: -1;
 }
 
-.discussions-pending__link {
+.discussions-nav__link.active:not(:hover)::after {
+  background-color: var(--primary-color);
+  opacity: 0.1;
+}
 
+.discussions-pending__link {
+  padding: 5px 0;
+}
+
+.discussions-pending__link:hover::before {
+  margin-right: 3px;
 }
 
 
@@ -151,18 +171,14 @@
   border-bottom-right-radius: 5px;
 }
 
-.collapse .discussions-post:not(.show) .discussions-post__msg {
+.discussions-post.collapse .discussions-post__msg {
   display: none;
 }
 
-.collapse .discussions-post .discussions-post__name {
+.discussions-post.collapse .discussions-post__name {
   font-size: .7em
 }
 
-/* .collapse .discussions-post__msg::first-line,
-.discussions-post__msg.collapse::first-line {
-  white-space: nowrap;
-} */
 
 /* FORM */
 .discussions-form {

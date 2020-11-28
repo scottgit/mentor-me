@@ -18,7 +18,7 @@ const DiscussionNav = ({connections, othersRole}) => {
                   className={`discussions-nav__dis-item`}>
                     <NavLink to={
                       `/discussions/c/${cId}/d/${dId}`
-                    } className={`discussions-nav__link`}>{title}</NavLink>
+                    } className={`discussions-nav__link`}><span>{title}aserh aseyu reyrf</span></NavLink>
                   </li>
                 )
               })}

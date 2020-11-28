@@ -44,6 +44,14 @@ const Pending = () => {
     });
     dispatch(handleConnectionsChange(sessionUser));
   }
+
+  // const viewState = {
+  //   discussion,
+  //   othersName,
+  //   yourId: sessionUserId,
+  //   collapsed
+  // }
+
   return ( //TODO STYLING FOR THE PENDING LIST
     <main className='page'>
       <h2>Pending Connections</h2>

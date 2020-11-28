@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {fetch} from '../../store/csrf';
 
 
-const DiscussionView = ({discussion, yourId, otherName}) => {
+const DiscussionView = ({discussion, yourId, othersName, collapsed}) => {
   const [postValue, setPostValue] = useState('')
   const [streamUpdated, setStreamUpdated] = useState(0);
   const {stream, id: disId} = discussion || {stream: null, id: null};
@@ -41,11 +41,12 @@ const DiscussionView = ({discussion, yourId, otherName}) => {
 
   const toggleVisible = (e) => {
     const post = e.target.parentElement;
-    if (post.classList.contains('show')) {
-      post.classList.remove('show');
+
+    if (post.classList.contains('collapse')) {
+      post.classList.remove('collapse');
     }
     else {
-      post.classList.add('show');
+      post.classList.add('collapse');
     }
   }
 
@@ -54,9 +55,9 @@ const DiscussionView = ({discussion, yourId, otherName}) => {
     <>
       <h3 className='discussions-post__title'>Title: {discussion.title}</h3>
       {stream.map((post, idx) => {
-        const name = yourId === post.userId ? 'You' : otherName;
+        const name = yourId === post.userId ? 'You' : othersName;
         return (
-          <div key={`${idx}`} className='discussions-post'>
+          <div key={`${idx}`} className={`discussions-post ${collapsed}`}>
             <div className='dicussions-post__header' onClick={toggleVisible}>
               <div className='discussions-post__name'>
                 {name}

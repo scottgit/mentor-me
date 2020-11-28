@@ -66,12 +66,17 @@ const Discussions = () => {
 
   }, [validIds, endpoint])
 
-
+  const viewState = {
+    discussion,
+    othersName,
+    yourId: sessionUserId,
+    collapsed
+  }
 
   return (
     <main className='page discussions-page'>
       <nav className='discussions-nav'>
-        <button type='button' className='button' onClick={() => collapsed ? setCollapsed('') : setCollapsed('collapse')}>{(collapsed ? 'Expand' : 'Collapse')}</button>
+        <button type='button' className='button' onClick={() => collapsed ? setCollapsed('') : setCollapsed('collapse')}>{(collapsed ? 'Expand' : 'Collapse')} Posts</button>
           {pendingCount !== 0 && <NavLink to='/pending' className='discussions-pending__link discussions-nav__link'>Go to Pending</NavLink>}
           {asMentor.length > 0 &&
           <div className='discussions-nav__role'>
@@ -84,11 +89,11 @@ const Discussions = () => {
             <DiscussionNav connections={asMentee} othersRole={'mentor'}/>
           </div>}
       </nav>
-      <section className={`discussions-view ${collapsed}`}>
+      <section className={`discussions-view`}>
           <h2 className='discussions-heading'>
             Discussion {(endpointIsNumber ? `with ${othersName}` : '')}
           </h2>
-          <DiscussionView discussion={discussion} otherName={othersName} yourId={sessionUserId}/>
+          <DiscussionView {...viewState}/>
 
       </section>
     </main>
