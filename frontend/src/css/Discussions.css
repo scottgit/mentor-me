@@ -77,6 +77,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   position: relative;
+  color: var(--primary-color);
 }
 
 .discussions-nav__link:hover {

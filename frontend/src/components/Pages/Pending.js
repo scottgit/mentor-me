@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {handleConnectionsChange} from '../../store/session';
 import {establishConnection, declineConnection, deleteConnection} from '../../store/connection';
 import DiscussionView from '../Includes/DiscussionView';
 
 const Pending = () => {
+  const [updateView, setUpdateView] = useState(0);
   const sessionUser = useSelector(state => state.session.user);
   const sessionUserId = sessionUser.id;
   const invites = useSelector(state => state.session.invites);
@@ -14,9 +15,7 @@ const Pending = () => {
   const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
 
 
-  useEffect(() => {
-
-  }, [invites, requests]);
+  useEffect(() => {}, [invites, requests, updateView, pendingCount]);
 
   const acceptClick = async (e) => {
     await dispatch(establishConnection(sessionUserId, e.target.value)).catch((res) => {
@@ -26,6 +25,7 @@ const Pending = () => {
         }
     });
     dispatch(handleConnectionsChange(sessionUser));
+    setUpdateView(updateView + 1);
   }
 
   const declineClick = async (e) => {
@@ -36,6 +36,7 @@ const Pending = () => {
       }
     });
     dispatch(handleConnectionsChange(sessionUser));
+    setUpdateView(updateView + 1);
   }
 
   const withdrawClick = async (e) => {
@@ -46,6 +47,7 @@ const Pending = () => {
       }
     });
     dispatch(handleConnectionsChange(sessionUser));
+    setUpdateView(updateView + 1);
   }
 
   return ( //TODO STYLING FOR THE PENDING LIST

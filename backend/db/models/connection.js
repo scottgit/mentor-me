@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate(models) {
-      Connection.hasMany(models.Discussion, {foreignKey: 'connectionId'})
+      Connection.hasMany(models.Discussion, {foreignKey: 'connectionId', onDelete: 'cascade', hooks: true})
     }
   };
   Connection.init({

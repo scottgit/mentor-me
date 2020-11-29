@@ -10,7 +10,6 @@ import Welcome from './components/Pages/Welcome';
 import Pending from './components/Pages/Pending';
 import {restoreSession} from './store/session';
 import Discussions from './components/Pages/Discussions';
-import NewDiscussion from './components/Pages/NewDiscussion';
 import About from './components/Includes/About';
 import ModalTrigger from './components/Includes/ModalTrigger';
 

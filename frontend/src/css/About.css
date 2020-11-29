@@ -1,0 +1,32 @@
+.about {
+  color: var(--primary-color);
+  padding: 20px;
+}
+
+.about-img {
+  float: left;
+  width: 160px;
+  border-radius: 80px;
+}
+
+.about-links-group {
+  display: flex;
+  height: 160px;
+  flex-direction: column;
+  padding-left: 20px;
+  justify-content: space-evenly;
+}
+
+.about-link {
+  text-decoration: none;
+  padding: 10px;
+  border: 1px solid var(--primary-color-50a);
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.about-link:hover {
+  color: white;
+  background-color: var(--primary-color);
+}

@@ -76,7 +76,7 @@ const Discussions = () => {
   return (
     <main className='page discussions-page'>
       <nav className='discussions-nav'>
-        <button type='button' className='button' onClick={() => collapsed ? setCollapsed('') : setCollapsed('collapse')}>{(collapsed ? 'Expand' : 'Collapse')} Posts</button>
+        {validIds && <button type='button' className='button' onClick={() => collapsed ? setCollapsed('') : setCollapsed('collapse')}>{(collapsed ? 'Expand' : 'Collapse')} Posts</button>}
           {pendingCount !== 0 && <NavLink to='/pending' className='discussions-pending__link discussions-nav__link'>Go to Pending</NavLink>}
           {asMentor.length > 0 &&
           <div className='discussions-nav__role'>
@@ -94,7 +94,6 @@ const Discussions = () => {
             Discussion {(endpointIsNumber ? `with ${othersName}` : '')}
           </h2>
           <DiscussionView {...viewState}/>
-
       </section>
     </main>
   )

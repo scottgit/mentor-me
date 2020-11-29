@@ -1,9 +1,10 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
-import { useLocation, Redirect, useHistory } from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
-import {requestConnection} from '../../store/connection';
+import { useLocation, Redirect, NavLink } from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import {fetch} from '../../store/csrf';
+import NewDiscussion from '../Includes/NewDiscussion';
+import ModalTrigger from '../Includes/ModalTrigger';
 
 const PublicListing = () => {
   //TODO get refresh to go to pending page on invite
@@ -12,10 +13,10 @@ const PublicListing = () => {
   const sessionUser = useSelector(state => state.session.user);
   const userMentees = useSelector(state => state.session.mentees);
   const userMentors = useSelector(state => state.session.mentors);
-  const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
-  const dispatch = useDispatch();
+  const pendingIds = useSelector(state => {
+    return [...state.session.invites, ...state.session.requests].map(person => person.id)
+  });
   const location = useLocation();
-  const history = useHistory()
   const segments = location.pathname.split('/');
   const endpoint = segments[segments.length - 1];
   const role = endpoint.slice(0,endpoint.length - 1);
@@ -46,14 +47,7 @@ const PublicListing = () => {
 
 
 
-  const handleClick = async (connection) => {
-    await dispatch(requestConnection(connection)).catch((res) => {
-      if (res.data && res.data.errors) {
-        //TODO make fancy acknowledge
-        alert('There was an issue initiating this connection request.')
-      }
-    });
-  }
+
 
 
   return (
@@ -83,15 +77,21 @@ const PublicListing = () => {
           {list.map(person => {
             const {id, username, goBy, picture, menteeDesc, mentorDesc} = person;
             const self = id === sessionUser.id;
+            const isPending = pendingIds.includes(id);
             let isUsersConnection;
             if(role === 'mentee') {
               isUsersConnection = userMenteeIds.indexOf(id) > -1;
             } else {
               isUsersConnection = userMentorIds.indexOf(id) > -1;
             }
-
+            const connectionInfo = {
+              status: 'pending',
+              mentorId: (role === 'mentee' ? sessionUser.id : id),
+              userId: (role === 'mentee' ? id : sessionUser.id),
+              initiatorId: sessionUser.id,
+            }
             return (
-              <li key={id} className={`public-list__list-item ${isUsersConnection ? 'connected' :''}`}>
+              <li key={id} className={`public-list__list-item ${isUsersConnection || isPending ? 'connected' :''}`}>
                 <h3 className='public-list__name'>{goBy || username} {self ? '(You)' : ''}</h3>
                 {picture && <img src={picture} alt={username + ' as ' + role} className='public-list__img'/>}
                 <p className='public-list__description'>{
@@ -104,25 +104,22 @@ const PublicListing = () => {
                     (
                       ((role === 'mentee' && isMentor)
                       || (role === 'mentor' && isMentee))
-                      && !self && !isUsersConnection
+                      && !self && !isUsersConnection && !isPending
                     )
                   &&
-                      <button type='button' className='button public-list__button'
-                        value='request'
-                        onClick={() => handleClick.bind(null, {
-                            status: 'pending',
-                            mentorId: (role === 'mentee' ? sessionUser.id : id),
-                            userId: (role === 'mentee' ? id : sessionUser.id),
-                            initiatorId: sessionUser.id,
-                        })()}>
-                          {solicitation} this {role}
-                      </button>
+                    <ModalTrigger buttonClasses='button public-list__button' buttonText={`${solicitation} this ${role}`}>
+                        <NewDiscussion connectionInfo={connectionInfo} requiredPendingTitle='Interest to connect'/>
+                    </ModalTrigger>
                   )
                   || //OR, Current user cannot connect
                   (!self && (
                       (isUsersConnection &&
                       <p className='connection-message'>You are already connected to this {role}.</p>
                       )
+                      ||
+                      (isPending &&
+                        <p className='connection-message'>You have a <NavLink to='/pending'>pending connection</NavLink> with this {role}.</p>
+                        )
                       ||
                       (<>
                         <p className='public-list__no-connect'>
