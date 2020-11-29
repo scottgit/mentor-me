@@ -270,6 +270,7 @@ There were many aspects to front end display required for good user experience, 
           <LoginForm />
         </ModalTrigger>
         ```
-## Live Site Link
+## Links
 
-You can see the live version at https://mentor--me.herokuapp.com/
+You can see the live version of the site at https://mentor--me.herokuapp.com/
+You can find the Wiki page at https://github.com/scottgit/mentor-me/wiki
