@@ -2,13 +2,22 @@ import React, {useState, useEffect} from 'react';
 import {fetch} from '../../store/csrf';
 
 
-const DiscussionView = ({discussion, yourId, othersName, collapsed}) => {
+const DiscussionView = ({discussion, yourId, othersName, collapsed, discussionId}) => {
   const [postValue, setPostValue] = useState('')
   const [streamUpdated, setStreamUpdated] = useState(0);
-  const {stream, id: disId} = discussion || {stream: null, id: null};
+  const [discussionUpdated, setDiscussionUpdated] = useState(0);
+  const [getDiscussion, setGetDiscussion] = useState(discussion);
 
-  useEffect(() => {}, [streamUpdated]);
-
+  useEffect(() => {
+    if (!discussion && discussionId && !discussionUpdated) {
+      async function getDiscussion() {
+        const res = await fetch(`/api/discussions/d/${discussionId}`);
+        setGetDiscussion(res.data);
+        setDiscussionUpdated(discussionUpdated + 1);
+      }
+      getDiscussion();
+    }
+  }, [streamUpdated]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,11 +45,10 @@ const DiscussionView = ({discussion, yourId, othersName, collapsed}) => {
     } catch (err) {
       console.error(err);
     }
-    //TODO Refresh correctly
   }
 
   const toggleVisible = (e) => {
-    const post = e.target.parentElement;
+    const post = e.target.closest('.discussions-post');
 
     if (post.classList.contains('collapse')) {
       post.classList.remove('collapse');
@@ -49,6 +57,9 @@ const DiscussionView = ({discussion, yourId, othersName, collapsed}) => {
       post.classList.add('collapse');
     }
   }
+
+  discussion = discussion ? discussion : getDiscussion;
+  const {stream, id: disId} = discussion || {stream: null, id: null};
 
   return (
     discussion &&

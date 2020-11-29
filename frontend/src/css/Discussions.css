@@ -154,6 +154,10 @@
   color: white;
 }
 
+.dicussions-post__header:hover {
+  cursor: pointer;
+}
+
 .discussions-post__time {
   font-size: .7em;
 }

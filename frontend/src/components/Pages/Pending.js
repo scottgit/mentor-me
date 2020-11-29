@@ -2,14 +2,17 @@ import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {handleConnectionsChange} from '../../store/session';
 import {establishConnection, declineConnection, deleteConnection} from '../../store/connection';
+import DiscussionView from '../Includes/DiscussionView';
 
 const Pending = () => {
   const sessionUser = useSelector(state => state.session.user);
   const sessionUserId = sessionUser.id;
   const invites = useSelector(state => state.session.invites);
   const requests = useSelector(state => state.session.requests);
+  const allConnections = useSelector(state => state.session.connections);
   const dispatch = useDispatch();
   const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
+
 
   useEffect(() => {
 
@@ -45,13 +48,6 @@ const Pending = () => {
     dispatch(handleConnectionsChange(sessionUser));
   }
 
-  // const viewState = {
-  //   discussion,
-  //   othersName,
-  //   yourId: sessionUserId,
-  //   collapsed
-  // }
-
   return ( //TODO STYLING FOR THE PENDING LIST
     <main className='page'>
       <h2>Pending Connections</h2>
@@ -68,27 +64,40 @@ const Pending = () => {
               const {id, username, goBy, picture, mentorDesc, createdAt} = person;
               const {date: sinceDate, time: sinceTime} = person.Connections.createdAt;
               const connectionId = person.Connections.id;
+              const discussionId = allConnections[connectionId].discussions[0].id;
               const sessionUserInitiated = person.Connections.initiatorId === sessionUserId;
+              const viewState = {
+                discussion: null,
+                othersName: goBy || username,
+                yourId: sessionUserId,
+                discussionId,
+              };
+
+
               return (
               <li key={id} className={`pending-list__list-item ${sessionUserInitiated ? 'user-initiated' : ''}`}>
-                {(sessionUserInitiated && <p>You intiated this request to this Mentor.</p>)
-                 || <p>You have been invited by this Mentor.</p>}
-                {picture && <img src={picture} alt={username + ' as mentor'} className='pending-list__img'/>}
-                <h3 className='pending-list__name'>{goBy || username}</h3>
-                <p>User since {createdAt.date}</p>
-                <p>{mentorDesc}</p>
-                <p className='pending-list__createdAt'>Pending since: {sinceDate} {sinceTime}</p>
-                <div className='pending-list__button-group'>
-                  {!sessionUserInitiated &&
-                  <>
-                    <button className='button' value={connectionId} onClick={acceptClick}>Accept</button>
-                    <button className='button' value={connectionId} onClick={declineClick}>Decline</button>
-                  </>}
-                  {sessionUserInitiated &&
-                    <button className='button' value={connectionId} onClick={withdrawClick}>Withdraw Request</button>
-                  }
+                <div className='pending-list__info'>
+                  {(sessionUserInitiated && <p>You intiated this request to this Mentor.</p>)
+                  || <p>You have been invited by this Mentor.</p>}
+                  <p className='pending-list__createdAt'>Pending since: {sinceDate} {sinceTime}</p>
+                  {picture && <img src={picture} alt={username + ' as mentor'} className='pending-list__img'/>}
+                  <h3 className='pending-list__name'>{goBy || username}</h3>
+                  <p className='pending-list__user-time' >User since {createdAt.date}</p>
+                  <div className='pending-list__button-group'>
+                    {!sessionUserInitiated &&
+                    <>
+                      <button className='button' value={connectionId} onClick={acceptClick}>Accept</button>
+                      <button className='button' value={connectionId} onClick={declineClick}>Decline</button>
+                    </>}
+                    {sessionUserInitiated &&
+                      <button className='button' value={connectionId} onClick={withdrawClick}>Withdraw Request</button>
+                    }
+                  </div>
+                  <p className='pending-list__description'>{mentorDesc}</p>
                 </div>
-                <div className='discussion'>Discussion goes here.</div>
+                <div className='pending-list__discussion'>
+                  <DiscussionView {...viewState} />
+                </div>
               </li>
               )
             })}
@@ -100,30 +109,42 @@ const Pending = () => {
           <h3 className='pending-list__title'>Your Requests from or Invitations to Mentees</h3>
           <ul className='pending-list'>
             {requests.map(person => {
-              const {id, username, goBy, picture, mentorDesc, createdAt} = person;
+              const {id, username, goBy, picture, menteeDesc, createdAt} = person;
               const {date: sinceDate, time: sinceTime} = person.Connections.createdAt;
               const connectionId = person.Connections.id;
+              const discussionId = allConnections[connectionId].discussions[0].id;
               const sessionUserInitiated = person.Connections.initiatorId === sessionUserId;
+              const viewState = {
+                discussion: null,
+                othersName: goBy || username,
+                yourId: sessionUserId,
+                discussionId,
+              };
+
               return (
               <li key={id} className={`pending-list__list-item ${sessionUserInitiated ? 'user-initiated' : ''}`}>
-                {(sessionUserInitiated && <p>You intiated this invite to this Mentee.</p>)
-                 || <p>You have been requested as a Mentor by this Mentee.</p>}
-                {picture && <img src={picture} alt={username + ' as mentee'} className='pending-list__img'/>}
-                <h3 className='pending-list__name'>{goBy || username}</h3>
-                <p>User since {createdAt.date}</p>
-                <p>{mentorDesc}</p>
-                <p className='pending-list__createdAt'>Pending since: {sinceDate} {sinceTime}</p>
-                <div className='pending-list__button-group'>
-                  {!sessionUserInitiated &&
-                  <>
-                    <button className='button' value={connectionId} onClick={acceptClick}>Accept</button>
-                    <button className='button' value={connectionId} onClick={declineClick}>Decline</button>
-                  </>}
-                  {sessionUserInitiated &&
-                    <button className='button' value={connectionId} onClick={withdrawClick}>Withdraw Request</button>
-                  }
+                <div className='pending-list__info'>
+                  {(sessionUserInitiated && <p>You intiated this invite to this Mentee.</p>)
+                  || <p>You have been requested as a Mentor by this Mentee.</p>}
+                  <p className='pending-list__createdAt'>Pending since: {sinceDate} {sinceTime}</p>
+                  {picture && <img src={picture} alt={username + ' as mentee'} className='pending-list__img'/>}
+                  <h3 className='pending-list__name'>{goBy || username}</h3>
+                  <p className='pending-list__user-time'>User since {createdAt.date}</p>
+                  <p className='pending-list__description'>{menteeDesc}</p>
+                  <div className='pending-list__button-group'>
+                    {!sessionUserInitiated &&
+                    <>
+                      <button className='button' value={connectionId} onClick={acceptClick}>Accept</button>
+                      <button className='button' value={connectionId} onClick={declineClick}>Decline</button>
+                    </>}
+                    {sessionUserInitiated &&
+                      <button className='button' value={connectionId} onClick={withdrawClick}>Withdraw Request</button>
+                    }
+                  </div>
                 </div>
-                <div className='discussion'>Discussion goes here.</div>
+                <div className='pending-list__discussion'>
+                  <DiscussionView {...viewState} />
+                </div>
               </li>
               )
             })}

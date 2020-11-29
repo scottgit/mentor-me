@@ -1,0 +1,55 @@
+.pending-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pending-list__list-item {
+  margin: 15px auto;
+  display: flex;
+  border: 1px solid var(--primary-color-50a);
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+}
+
+.pending-list__list-item:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.pending-list__info {
+  width: 50%;
+  padding-right: 10px;
+}
+
+.pending-list__img {
+  width: 100px;
+  border-radius: 50px;
+  float: left;
+  margin: 5px 10px 15px 10px;
+}
+
+.pending-list__name,
+.pending-list__user-time {
+  text-align: right;
+  margin-right: 10px;
+}
+
+.pending-list__button-group {
+  /* display: flex;
+  justify-content: right; */
+  text-align: right;
+}
+
+.pending-list__description {
+  margin: 10px 5px;
+  clear: left;
+}
+
+.pending-list__discussion {
+  padding: 10px;
+  border-left: 1px solid var(--primary-color-50a);
+  width: 50%;
+}
