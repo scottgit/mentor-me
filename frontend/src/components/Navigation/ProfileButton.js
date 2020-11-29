@@ -40,6 +40,7 @@ const ProfileButton = () => {
             { pendingCount !== 0 &&
             <NavLink to='/pending'>{pendingCount} Pending ...</NavLink>
             }
+            <NavLink to='/discussions'>Discussions</NavLink>
             <ModalTrigger buttonClasses='button profile-button' buttonText='Log Out'>
               <Confirm
                 doAction={() => {
