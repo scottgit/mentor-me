@@ -1,16 +1,19 @@
 import React, {useState, useContext} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {handleConnectionsChange} from '../../store/session';
 import {ModalContext} from './Modal';
 import {fetch} from '../../store/csrf';
 import { useHistory } from 'react-router-dom';
 
 const NewDiscussion = ({connectionId, connectionInfo, requiredPendingTitle}) => {
   const history = useHistory();
-  const sessionUserId = useSelector(state => state.session.user.id);
+  const sessionUser = useSelector(state => state.session.user);
+  const sessionUserId = sessionUser.id;
   const [postValue, setPostValue] = useState('');
   const [discussionTitle, setDiscussionTitle] = useState(requiredPendingTitle);
   const [streamUpdated, setStreamUpdated] = useState(0);
   const {setShowModal} = useContext(ModalContext);
+  const dispatch = useDispatch();
 
   const makeNewConnection = async (connection) => {
     const res = await fetch(
@@ -52,6 +55,7 @@ const NewDiscussion = ({connectionId, connectionInfo, requiredPendingTitle}) => 
         }
       );
       if(res.ok) {
+        await dispatch(handleConnectionsChange(sessionUser));
         setStreamUpdated(streamUpdated + 1);
         setDiscussionTitle('');
         setPostValue('');
@@ -69,7 +73,7 @@ const NewDiscussion = ({connectionId, connectionInfo, requiredPendingTitle}) => 
     <form onSubmit={handleSubmit} className='new-discussion__form'>
         <label className='new-discussion__label'>
           Discussion Title
-        <input className='new-discussion__title' type='text' value={discussionTitle} onChange={e => setDiscussionTitle(e.target.value)} readOnly={requiredPendingTitle}/>
+        <input className='new-discussion__title' type='text' value={discussionTitle} onChange={e => setDiscussionTitle(e.target.value)} readOnly={requiredPendingTitle} required/>
         </label>
 
         <label className='new-discussion__label'>
@@ -78,7 +82,7 @@ const NewDiscussion = ({connectionId, connectionInfo, requiredPendingTitle}) => 
           requiredPendingTitle &&
           <p className='new-discussion__prompt'>Give a reason for your interest in connecting with this person.</p>
         )}
-        <textarea value={postValue} onChange={e => setPostValue(e.target.value)} className='new-discussion__textarea'></textarea>
+        <textarea value={postValue} onChange={e => setPostValue(e.target.value)} className='new-discussion__textarea' required></textarea>
         </label>
         <div className='confirm-form__buttons'>
         <button className='button new-discussion-form__submit --warning' type='submit'>Post</button>

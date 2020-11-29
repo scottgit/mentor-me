@@ -20,7 +20,8 @@
 }
 
 .pending-list__info {
-  width: 50%;
+  flex: 0.5;
+  max-width: 300px;
   padding-right: 10px;
 }
 
@@ -51,5 +52,6 @@
 .pending-list__discussion {
   padding: 10px;
   border-left: 1px solid var(--primary-color-50a);
-  width: 50%;
+  /* width: 50%; */
+  flex: 1;
 }

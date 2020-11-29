@@ -24,8 +24,8 @@ const Pending = () => {
           alert('There was an issue accepting this connection.')
         }
     });
-    dispatch(handleConnectionsChange(sessionUser));
-    setUpdateView(updateView + 1);
+    await dispatch(handleConnectionsChange(sessionUser));
+    // setUpdateView(updateView + 1);
   }
 
   const declineClick = async (e) => {
@@ -35,8 +35,8 @@ const Pending = () => {
         alert('There was an issue declining this connection.')
       }
     });
-    dispatch(handleConnectionsChange(sessionUser));
-    setUpdateView(updateView + 1);
+    await dispatch(handleConnectionsChange(sessionUser));
+    // setUpdateView(updateView + 1);
   }
 
   const withdrawClick = async (e) => {
@@ -46,8 +46,8 @@ const Pending = () => {
         alert('There was an issue withdrawing this connection.')
       }
     });
-    dispatch(handleConnectionsChange(sessionUser));
-    setUpdateView(updateView + 1);
+    await dispatch(handleConnectionsChange(sessionUser));
+    // setUpdateView(updateView + 1);
   }
 
   return ( //TODO STYLING FOR THE PENDING LIST
@@ -132,7 +132,6 @@ const Pending = () => {
                   {picture && <img src={picture} alt={username + ' as mentee'} className='pending-list__img'/>}
                   <h3 className='pending-list__name'>{goBy || username}</h3>
                   <p className='pending-list__user-time'>User since {createdAt.date}</p>
-                  <p className='pending-list__description'>{menteeDesc}</p>
                   <div className='pending-list__button-group'>
                     {!sessionUserInitiated &&
                     <>
@@ -143,6 +142,7 @@ const Pending = () => {
                       <button className='button' value={connectionId} onClick={withdrawClick}>Withdraw Request</button>
                     }
                   </div>
+                  <p className='pending-list__description'>{menteeDesc}</p>
                 </div>
                 <div className='pending-list__discussion'>
                   <DiscussionView {...viewState} />
