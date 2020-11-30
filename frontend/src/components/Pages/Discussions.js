@@ -6,11 +6,13 @@ import DiscussionNav from '../Includes/DiscussionNav';
 import DiscussionView from '../Includes/DiscussionView';
 import NewDiscussion from '../Includes/NewDiscussion';
 
-const Discussions = ({connectionId, type}) => {
+const Discussions = (props) => {
   const location = useLocation();
   const sessionUserId = useSelector(state => state.session.user.id);
   const connections = useSelector(state => state.session.connections);
   const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
+  const [type, setType] = useState();
+  const [connectionId, setConnectionId] = useState();
   const [discussion, setDiscussion] = useState(null);
   const [collapsed, setCollapsed] = useState('');
   const history = useHistory();
@@ -18,8 +20,14 @@ const Discussions = ({connectionId, type}) => {
   const parsePath = location.pathname.split('/');
   const endpoint = parseInt(parsePath[parsePath.length - 1]);
   const endpointIsNumber = !isNaN(endpoint);
-  if (endpointIsNumber) {
-    connectionId = endpointIsNumber ? parseInt(parsePath[parsePath.length - 3]) : null;
+
+  if (props.location.state && connectionId !== props.location.state.connectionId) {
+    setConnectionId(props.location.state.connectionId);
+    setType(props.location.state.type);
+  }
+
+  if (endpointIsNumber && !connectionId ) {
+    setConnectionId(endpointIsNumber ? parseInt(parsePath[parsePath.length - 3]) : null);
   }
 
   // Validate path with ids
@@ -76,10 +84,25 @@ const Discussions = ({connectionId, type}) => {
     collapsed
   }
 
+  const newProps = {
+    connectionId,
+    type,
+    othersName
+  }
+
   return (
     <main className='page discussions-page'>
       <nav className='discussions-nav'>
-        <NavLink className='button' to='/discussions'>
+        <NavLink className='button' to={
+            {
+              pathname:'/discussions',
+              state: {
+                connectionId: null,
+                type: null
+              }
+            }
+          }
+          >
           New Discussion
         </NavLink>
         {validIds && <button type='button' className='button' onClick={() => collapsed ? setCollapsed('') : setCollapsed('collapse')}>{(collapsed ? 'Expand' : 'Collapse')} Posts</button>}
@@ -108,7 +131,7 @@ const Discussions = ({connectionId, type}) => {
             (
               <>
               <h2 className='discussions-heading'>New Discussion</h2>
-                <NewDiscussion />
+                <NewDiscussion {...newProps}/>
               </>
             )
           }

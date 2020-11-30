@@ -1,10 +1,10 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {handleConnectionsChange} from '../../store/session';
 import {fetch} from '../../store/csrf';
 import { useHistory } from 'react-router-dom';
 
-const NewDiscussion = ({connectionId, type}) => {
+const NewDiscussion = ({connectionId, type, othersName}) => {
   const history = useHistory();
   const sessionUser = useSelector(state => state.session.user);
   const establishedConnections = useSelector(state => {
@@ -19,8 +19,9 @@ const NewDiscussion = ({connectionId, type}) => {
   const [postValue, setPostValue] = useState('');
   const [discussionTitle, setDiscussionTitle] = useState('');
   const [conId, setConId] = useState(connectionId ? connectionId : '');
-  const [streamUpdated, setStreamUpdated] = useState(0);
   const dispatch = useDispatch();
+
+  useEffect(() => {}, [conId])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,18 +63,21 @@ const NewDiscussion = ({connectionId, type}) => {
     }
   }
 
+  console.log('cid', conId)
   return (
     <form onSubmit={handleSubmit} className='new-discussion__form page-form'>
-        { establishedConnections &&
-          !connectionId &&
+        {(establishedConnections
+          && !type
+          &&
           <label className='new-discussion__label'>
             Select User to Have New Discussion With
             <select
-            id='other-user'
             className='new-discussion__select'
             value={conId}
             required
-            onChange={(e) => setConId(e.target.value)}
+            onChange={(e) => {
+              setConId(e.target.value)
+            }}
             >
               <option key={0} value='' disabled>Select a person...</option>
               {
@@ -83,6 +87,13 @@ const NewDiscussion = ({connectionId, type}) => {
               }
             </select>
           </label>
+          )
+          ||
+          ( connectionId
+            && type === 'new'
+            &&
+            <h3>With {othersName}</h3>
+          )
         }
         <label className='new-discussion__label'>
           Discussion Title
