@@ -79,6 +79,9 @@ const Discussions = ({connectionId, type}) => {
   return (
     <main className='page discussions-page'>
       <nav className='discussions-nav'>
+        <NavLink className='button' to='/discussions'>
+          New Discussion
+        </NavLink>
         {validIds && <button type='button' className='button' onClick={() => collapsed ? setCollapsed('') : setCollapsed('collapse')}>{(collapsed ? 'Expand' : 'Collapse')} Posts</button>}
           {pendingCount !== 0 && <NavLink to='/pending' className='discussions-pending__link discussions-nav__link'>Go to Pending</NavLink>}
           {asMentor.length > 0 &&

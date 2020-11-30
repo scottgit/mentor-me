@@ -18,7 +18,7 @@ const NewDiscussion = ({connectionId, type}) => {
   const sessionUserId = sessionUser.id;
   const [postValue, setPostValue] = useState('');
   const [discussionTitle, setDiscussionTitle] = useState('');
-  const [connection, setConnection] = useState(connectionId);
+  const [conId, setConId] = useState(connectionId ? connectionId : '');
   const [streamUpdated, setStreamUpdated] = useState(0);
   const dispatch = useDispatch();
 
@@ -26,6 +26,10 @@ const NewDiscussion = ({connectionId, type}) => {
     e.preventDefault();
     if (postValue === '' || discussionTitle === '') {
       alert('Title and post are required');
+      return;
+    }
+    if (conId === '') {
+      alert('A person to add a discussion to is needed.');
       return;
     }
 
@@ -39,17 +43,17 @@ const NewDiscussion = ({connectionId, type}) => {
 
     try {
       const res = await fetch(
-        `/api/discussions/c/${connectionId}`,
+        `/api/discussions/c/${conId}`,
         { method: 'POST',
           body: JSON.stringify({title, stream})
         }
       );
       if(res.ok) {
+        const dId = res.data.id;
         await dispatch(handleConnectionsChange(sessionUser));
-        setStreamUpdated(streamUpdated + 1);
         setDiscussionTitle('');
         setPostValue('');
-        history.push('/pending');
+        history.push(`/discussions/c/${conId}/d/${dId}`);
       } else {
         throw res;
       };
@@ -60,11 +64,18 @@ const NewDiscussion = ({connectionId, type}) => {
 
   return (
     <form onSubmit={handleSubmit} className='new-discussion__form page-form'>
-        {establishedConnections &&
+        { establishedConnections &&
+          !connectionId &&
           <label className='new-discussion__label'>
             Select User to Have New Discussion With
-            <select id='other-user' className='new-discussion__select' placeholder='Select a name' required>
-              <option key={0} value='' disabled selected>Select a person...</option>
+            <select
+            id='other-user'
+            className='new-discussion__select'
+            value={conId}
+            required
+            onChange={(e) => setConId(e.target.value)}
+            >
+              <option key={0} value='' disabled>Select a person...</option>
               {
                 establishedConnections.map(c => {
                   return <option key={c.cId} value={c.cId}>{c.otherUser}</option>
