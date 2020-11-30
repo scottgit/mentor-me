@@ -89,7 +89,7 @@ module.exports = {
         updatedAt: createdAt
       },
       { connectionId: 1,
-        title: `Going for your first Goal`,
+        title: `Going for your first Goal? Steps you can take to succeed at it`,
         stream: JSON.stringify([
           {userId: 1, date: new Date().toLocaleDateString(`en-US`), time: new Date().toLocaleTimeString(`en-US`), message: `So here is my advice... ${faker.random.words(20 + getRandom(50))}`},
           {userId: 2, date: new Date().toLocaleDateString(`en-US`), time: new Date().toLocaleTimeString(`en-US`), message: `But what about... ? ${faker.random.words(20 + getRandom(50))}`},
@@ -110,7 +110,7 @@ module.exports = {
         updatedAt: createdAt
       },
       { connectionId: 2,
-        title: `So now let us begin`,
+        title: `So now let us begin this long journey of exploration and adventure`,
         stream: JSON.stringify([
           {userId: 3, date: new Date().toLocaleDateString(`en-US`), time: new Date().toLocaleTimeString(`en-US`), message: `Go for it ${faker.random.words(20 + getRandom(50))}`},
           {userId: 1, date: new Date().toLocaleDateString(`en-US`), time: new Date().toLocaleTimeString(`en-US`), message: `I'll do it! ${faker.random.words(20)}`},
