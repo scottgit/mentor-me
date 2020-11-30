@@ -1,0 +1,32 @@
+.profile-announcement {
+  color: red;
+}
+
+.profile-pic {
+  width: 25%;
+  height: 25%;
+  border: 1px solid var(--primary-color-50a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  margin: 20px;
+}
+
+.profile-username,
+.profile-email,
+.profile-go-by,
+.profile-gender,
+.profile-desc-label {
+  font-weight: bold;
+}
+
+.profile-username {
+  margin-top: 40px;
+}
+
+.profile-mentor-desc,
+.profile-mentee-desc {
+  clear: left;
+  margin: 20px;
+}

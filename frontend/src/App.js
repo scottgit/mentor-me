@@ -12,6 +12,7 @@ import {restoreSession} from './store/session';
 import Discussions from './components/Pages/Discussions';
 import About from './components/Includes/About';
 import ModalTrigger from './components/Includes/ModalTrigger';
+import UserProfile from './components/Pages/UserProfile';
 
 
 function App() {
@@ -41,6 +42,9 @@ function App() {
           </Route>
           <Route path='/pending' exact>
             {(sessionUser &&  <Pending />) || <Redirect to="/" />}
+          </Route>
+          <Route path='/profile' >
+            {(sessionUser &&  <UserProfile />) || <Redirect to="/" />}
           </Route>
           <Route path={['/discussions','/discussions/c/:cId(\\d+)/d/:dId(\\d+)']} exact render={(props) =>
             {return (sessionUser &&  <Discussions {...props} />) || <Redirect to="/" />}

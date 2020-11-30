@@ -1,4 +1,6 @@
 @import './global.css';
+
+
 @import './Welcome.css';
 @import './Navigation.css';
 @import './Modal.css';
@@ -11,6 +13,4 @@
 @import './Discussions.css';
 @import './About.css';
 @import './NewDiscussion.css';
-
-
-/* TODO Add site wide styles */
+@import './UserProfile.css';

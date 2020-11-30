@@ -8,7 +8,7 @@ import ModalTrigger from '../Includes/ModalTrigger';
 
 const ProfileButton = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const {username, email} = useSelector(state => state.session.user);
+  const {goBy, username} = useSelector(state => state.session.user);
   const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
   const dispatch = useDispatch();
   const toggleMenu = (e) => {
@@ -36,10 +36,9 @@ const ProfileButton = () => {
           <Icon icon='times-circle' wrapperClasses='profile-icon__times-circle' click={toggleMenu} />
           <div className={`profile-menu ${show}`}>
             <div className='profile-links' onClick={toggleMenu}>
-              <div className='profile-info'>{username}</div>
-              <div  className='profile-info'>{email}</div>
+              <NavLink to='/profile' className='profile-link'>{goBy || username} Profile</NavLink>
               { pendingCount !== 0 &&
-              <NavLink to='/pending'>{pendingCount} Pending ...</NavLink>
+              <NavLink to='/pending' className='profile-link'>{pendingCount} Pending</NavLink>
               }
               <NavLink to={{
                 pathname: '/discussions',
@@ -47,7 +46,9 @@ const ProfileButton = () => {
                   connectionId: null,
                   type: null
                 }}}
-                >Discussions</NavLink>
+                className='profile-link'>
+                  Discussions
+              </NavLink>
             </div>
 
             <ModalTrigger buttonClasses='button profile-button' buttonText='Log Out'>

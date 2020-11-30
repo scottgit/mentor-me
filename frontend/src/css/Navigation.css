@@ -82,6 +82,18 @@
   justify-content: left;
 }
 
+.profile-link {
+  flex: 1;
+  text-decoration: none;
+  padding: 3px;
+  color: var(--primary-color);
+}
+
+.profile-link:hover {
+  cursor: pointer;
+  background-color: var(--primary-color-20a);
+}
+
 .profile-item {
   align-self: baseline;
 }
