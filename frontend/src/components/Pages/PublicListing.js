@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import { useLocation, Redirect, NavLink } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {fetch} from '../../store/csrf';
-import NewDiscussion from '../Includes/NewDiscussion';
+import NewDiscussionModal from '../Includes/NewDiscussionModal';
 import ModalTrigger from '../Includes/ModalTrigger';
 
 const PublicListing = () => {
@@ -75,7 +75,7 @@ const PublicListing = () => {
         list &&
         <ul className='public-list__list'>
           {list.map(person => {
-            const {id, username, goBy, picture, menteeDesc, mentorDesc} = person;
+            const {id, username, goBy, picture, menteeDesc, mentorDesc, gender} = person;
             const self = id === sessionUser.id;
             const isPending = pendingIds.includes(id);
             let isUsersConnection;
@@ -92,7 +92,7 @@ const PublicListing = () => {
             }
             return (
               <li key={id} className={`public-list__list-item ${isUsersConnection || isPending ? 'connected' :''}`}>
-                <h3 className='public-list__name'>{goBy || username} {self ? '(You)' : ''}</h3>
+                <h3 className='public-list__name'>{goBy || username} {self ? '(You)' : ''} <span className='public-list__gender'>Gender identification: {gender}</span></h3>
                 {picture && <img src={picture} alt={username + ' as ' + role} className='public-list__img'/>}
                 <p className='public-list__description'>{
                     (role === 'mentee' && menteeDesc) ||
@@ -108,7 +108,7 @@ const PublicListing = () => {
                     )
                   &&
                     <ModalTrigger buttonClasses='button public-list__button' buttonText={`${solicitation} this ${role}`}>
-                        <NewDiscussion connectionInfo={connectionInfo} requiredPendingTitle='Interest to connect'/>
+                        <NewDiscussionModal connectionInfo={connectionInfo} requiredPendingTitle='Interest to connect'/>
                     </ModalTrigger>
                   )
                   || //OR, Current user cannot connect

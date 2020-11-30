@@ -1,9 +1,44 @@
 /* COMMON */
 .new-discussion__title {
   display: block;
+  box-sizing: border-box;
+}
+
+.new-discussion__label {
+  display: block;
+}
+
+.new-discussion__textarea {
+  display: block;
+  min-width: 300px;
+  resize: none;
+  padding: 5px;
+  box-sizing: border-box;
+  line-height: 1.5;
 }
 
 /* ON PAGE */
+.page-form .new-discussion__label {
+  margin-top: 20px;
+}
+
+.page-form .new-discussion__select {
+  display: block;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.page-form .new-discussion__title {
+  padding: 5px;
+}
+.page-form .new-discussion__title,
+.page-form .new-discussion__textarea {
+  width: 100%;
+}
+
+.page-form .new-discussion__textarea {
+  min-height: 6em;
+}
 
 /* IN MODAL */
 .modal .new-discussion__form {
@@ -11,7 +46,6 @@
 }
 
 .modal .new-discussion__label {
-  display: block;
   margin: 10px 0;
 }
 .modal .new-discussion__title,
@@ -29,11 +63,5 @@
 }
 
 .modal .new-discussion__textarea {
-  display: block;
-  min-width: 300px;
   min-height: 4em;
-  resize: none;
-  padding: 5px;
-  box-sizing: border-box;
-  line-height: 1.5;
 }

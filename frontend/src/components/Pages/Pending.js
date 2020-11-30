@@ -63,7 +63,7 @@ const Pending = () => {
           <h3 className='pending-list__title'>Your Invitations from or Requests to Mentors</h3>
           <ul className='pending-list'>
             {invites.map(person => {
-              const {id, username, goBy, picture, mentorDesc, createdAt} = person;
+              const {id, username, goBy, picture, mentorDesc, gender, createdAt} = person;
               const {date: sinceDate, time: sinceTime} = person.Connections.createdAt;
               const connectionId = person.Connections.id;
               const discussionId = allConnections[connectionId].discussions[0].id;
@@ -82,8 +82,9 @@ const Pending = () => {
                   {(sessionUserInitiated && <p>You intiated this request to this Mentor.</p>)
                   || <p>You have been invited by this Mentor.</p>}
                   <p className='pending-list__createdAt'>Pending since: {sinceDate} {sinceTime}</p>
-                  {picture && <img src={picture} alt={username + ' as mentor'} className='pending-list__img'/>}
+                  {picture && <img src={picture} alt={(goBy || username) + ' as mentor'} className='pending-list__img'/>}
                   <h3 className='pending-list__name'>{goBy || username}</h3>
+                  <p className='pending-list__gender'>Identifies as {gender}</p>
                   <p className='pending-list__user-time' >User since {createdAt.date}</p>
                   <div className='pending-list__button-group'>
                     {!sessionUserInitiated &&
@@ -111,7 +112,7 @@ const Pending = () => {
           <h3 className='pending-list__title'>Your Requests from or Invitations to Mentees</h3>
           <ul className='pending-list'>
             {requests.map(person => {
-              const {id, username, goBy, picture, menteeDesc, createdAt} = person;
+              const {id, username, goBy, picture, menteeDesc, gender, createdAt} = person;
               const {date: sinceDate, time: sinceTime} = person.Connections.createdAt;
               const connectionId = person.Connections.id;
               const discussionId = allConnections[connectionId].discussions[0].id;
@@ -131,6 +132,7 @@ const Pending = () => {
                   <p className='pending-list__createdAt'>Pending since: {sinceDate} {sinceTime}</p>
                   {picture && <img src={picture} alt={username + ' as mentee'} className='pending-list__img'/>}
                   <h3 className='pending-list__name'>{goBy || username}</h3>
+                  <p className='pending-list__gender'>Identifies as {gender}</p>
                   <p className='pending-list__user-time'>User since {createdAt.date}</p>
                   <div className='pending-list__button-group'>
                     {!sessionUserInitiated &&

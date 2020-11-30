@@ -31,6 +31,12 @@
 
 .public-list__name {
   margin: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.public-list__gender {
+  font-size: .6em;
 }
 
 .public-list__img {

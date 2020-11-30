@@ -33,6 +33,7 @@
 }
 
 .pending-list__name,
+.pending-list__gender,
 .pending-list__user-time {
   text-align: right;
   margin-right: 10px;

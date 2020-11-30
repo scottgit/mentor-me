@@ -4,8 +4,9 @@ import {NavLink, useLocation, useHistory} from 'react-router-dom';
 import {fetch} from '../../store/csrf';
 import DiscussionNav from '../Includes/DiscussionNav';
 import DiscussionView from '../Includes/DiscussionView';
+import NewDiscussion from '../Includes/NewDiscussion';
 
-const Discussions = () => {
+const Discussions = ({connectionId, type}) => {
   const location = useLocation();
   const sessionUserId = useSelector(state => state.session.user.id);
   const connections = useSelector(state => state.session.connections);
@@ -17,7 +18,9 @@ const Discussions = () => {
   const parsePath = location.pathname.split('/');
   const endpoint = parseInt(parsePath[parsePath.length - 1]);
   const endpointIsNumber = !isNaN(endpoint);
-  const connectionId = endpointIsNumber ? parseInt(parsePath[parsePath.length - 3]) : null;
+  if (endpointIsNumber) {
+    connectionId = endpointIsNumber ? parseInt(parsePath[parsePath.length - 3]) : null;
+  }
 
   // Validate path with ids
   const validIds = endpointIsNumber ? validatePathIds(connectionId, endpoint) : false;
@@ -90,10 +93,23 @@ const Discussions = () => {
           </div>}
       </nav>
       <section className={`discussions-view`}>
-          <h2 className='discussions-heading'>
-            Discussion {(endpointIsNumber ? `with ${othersName}` : '')}
-          </h2>
-          <DiscussionView {...viewState}/>
+
+          {
+            ( validIds &&
+              <>
+                <h2 className='discussions-heading'>Discussion with {othersName}</h2>
+                <DiscussionView {...viewState}/>
+              </>
+            )
+            ||
+            (
+              <>
+              <h2 className='discussions-heading'>New Discussion</h2>
+                <NewDiscussion />
+              </>
+            )
+          }
+
       </section>
     </main>
   )

@@ -2,16 +2,22 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .mentor-list__list-item,
 .mentee-list__list-item {
-  margin: 15px auto;
+  margin: 15px;
   display: block;
   border: 1px solid var(--primary-color-50a);
   border-radius: 10px;
   padding: 10px;
   position: relative;
+  flex: 1;
+  min-width: 250px;
 }
 
 .mentees,
@@ -37,6 +43,10 @@
   position: absolute;
   top: -11px;
   justify-content: center;
+}
+
+.user-listing__button-group {
+  padding: 10px;
 }
 
 .no-list {

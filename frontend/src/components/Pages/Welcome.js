@@ -30,7 +30,7 @@ const Welcome = () => {
       firstImg.classList.toggle('hide');
       secondImg.classList.toggle('hide');
       next + 1 === images.length ? next = 0 : ++next;
-    }, 2000*2);
+    }, cssTransitionTime*2);
 
     return () => clearInterval(interval);
 

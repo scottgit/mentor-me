@@ -23,25 +23,31 @@ const UserHome = () => {
           {(mentors && mentors.length &&
           <ul className='mentor-list user-listing'>
             {mentors.map(person => {
-              const {id, username, goBy, picture, mentorDesc, createdAt} = person;
+              const {id, username, goBy, picture, mentorDesc, gender, createdAt} = person;
               const connectionId = person.Connections.id;
               return (
               <li key={id} className='mentor-list__list-item'>
                 {picture && <img src={picture} alt={username + ' as mentor'} className='mentor-list__img'/>}
                 <h3 className='mentor-list__name'>{goBy || username}</h3>
+                <p className='mentor-list__gender'>Identifies as {gender}</p>
                 <p>User since {createdAt.date}</p>
                 <p>{mentorDesc}</p>
                 <div className='user-listing__button-group'>
                   <NavLink to={{
                     pathname: '/discussions',
                     state: {
-                      person,
-                      you: 'mentee',
-                      connectionId
+                      connectionId,
+                      type: 'latest'
                     }
                   }} className='button'>Discussions</NavLink>
-                  <button className='button'>New Discussion</button>
-                  <button className='button'>Your Goals</button>
+                  <NavLink to={{
+                    pathname: '/discussions',
+                    state: {
+                      connectionId,
+                      type: 'new'
+                    }
+                  }} className='button'>New Discussion</NavLink>
+                  {/* TODO <button className='button'>Your Goals</button> */}
                 </div>
               </li>
               )
@@ -61,21 +67,32 @@ const UserHome = () => {
           {(mentees && mentees.length &&
           <ul className='mentee-list user-listing'>
             {mentees.map(person => {
-              const {id, username, goBy, picture, menteeDesc, createdAt} = person;
+              const {id, username, goBy, picture, menteeDesc, gender, createdAt} = person;
               const connectionId = person.Connections.id;
               return (
               <li key={id} className='mentee-list__list-item'>
                 {picture && <img src={picture} alt={username + ' as mentee'} className='mentee-list__img'/>}
                 <h3 className='mentee-list__name'>{goBy || username}</h3>
+                <p className='mentee-list__gender'>Identifies as {gender}</p>
                 <p>User since {createdAt.date}</p>
                 <p>{menteeDesc}</p>
                 <div className='user-listing__button-group'>
-                  <NavLink to='/discussions'
-                    className='button'>Discussions
-                  </NavLink>
-                  <button className='button'>New Discussion</button>
-                  <button className='button'>Their Goals</button>
-                  <button className='button'>New Goal</button>
+                <NavLink to={{
+                    pathname: '/discussions',
+                    state: {
+                      connectionId,
+                      type: 'latest'
+                    }
+                  }} className='button'>Discussions</NavLink>
+                  <NavLink to={{
+                    pathname: '/discussions',
+                    state: {
+                      connectionId,
+                      type: 'new'
+                    }
+                  }} className='button'>New Discussion</NavLink>
+                  {/*TODO <button className='button'>Their Goals</button>
+                  <button className='button'>New Goal</button> */}
                 </div>
               </li>
               )

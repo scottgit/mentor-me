@@ -1,32 +1,42 @@
 import React, {useState, useContext} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {handleConnectionsChange} from '../../store/session';
+import {ModalContext} from './Modal';
 import {fetch} from '../../store/csrf';
 import { useHistory } from 'react-router-dom';
 
-const NewDiscussion = ({connectionId, type}) => {
+const NewDiscussionModal = ({connectionId, connectionInfo, requiredPendingTitle}) => {
   const history = useHistory();
   const sessionUser = useSelector(state => state.session.user);
-  const establishedConnections = useSelector(state => {
-    return Object.values(state.session.connections).reduce((est, c) => {
-      const role = c.userRole === 'mentor' ? 'mentee' : 'mentor';
-      const info = {cId: c.connectionId, otherUser: c[role] };
-      if (c.status === 'established') est.push({...info})
-      return est;
-    }, [])
-  });
   const sessionUserId = sessionUser.id;
   const [postValue, setPostValue] = useState('');
-  const [discussionTitle, setDiscussionTitle] = useState('');
-  const [connection, setConnection] = useState(connectionId);
+  const [discussionTitle, setDiscussionTitle] = useState(requiredPendingTitle);
   const [streamUpdated, setStreamUpdated] = useState(0);
+  const {setShowModal} = useContext(ModalContext);
   const dispatch = useDispatch();
+
+  const makeNewConnection = async (connection) => {
+    const res = await fetch(
+      `/api/users/${connection.initiatorId}/pending`,
+      { method: 'POST',
+        body: JSON.stringify(connection)
+      }
+    );
+    return res.data
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (requiredPendingTitle && discussionTitle !== requiredPendingTitle) {
+      setDiscussionTitle(requiredPendingTitle);
+    }
     if (postValue === '' || discussionTitle === '') {
-      alert('Title and post are required');
+      alert(`${requiredPendingTitle ? 'A post is' : 'Title and post are'} required`);
       return;
+    }
+    if(!connectionId) {
+      const connection = await makeNewConnection(connectionInfo);
+      connectionId = connection.id;
     }
 
     const title = discussionTitle;
@@ -49,6 +59,7 @@ const NewDiscussion = ({connectionId, type}) => {
         setStreamUpdated(streamUpdated + 1);
         setDiscussionTitle('');
         setPostValue('');
+        setShowModal(false);
         history.push('/pending');
       } else {
         throw res;
@@ -59,35 +70,26 @@ const NewDiscussion = ({connectionId, type}) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className='new-discussion__form page-form'>
-        {establishedConnections &&
-          <label className='new-discussion__label'>
-            Select User to Have New Discussion With
-            <select id='other-user' className='new-discussion__select' placeholder='Select a name' required>
-              <option key={0} value='' disabled selected>Select a person...</option>
-              {
-                establishedConnections.map(c => {
-                  return <option key={c.cId} value={c.cId}>{c.otherUser}</option>
-                })
-              }
-            </select>
-          </label>
-        }
+    <form onSubmit={handleSubmit} className='new-discussion__form'>
         <label className='new-discussion__label'>
           Discussion Title
-        <input className='new-discussion__title' type='text' value={discussionTitle} onChange={e => setDiscussionTitle(e.target.value)} required/>
+        <input className='new-discussion__title' type='text' value={discussionTitle} onChange={e => setDiscussionTitle(e.target.value)} readOnly={requiredPendingTitle} required/>
         </label>
 
         <label className='new-discussion__label'>
           Discussion Post
+          {(
+          requiredPendingTitle &&
+          <p className='new-discussion__prompt'>Give a reason for your interest in connecting with this person.</p>
+        )}
         <textarea value={postValue} onChange={e => setPostValue(e.target.value)} className='new-discussion__textarea' required></textarea>
         </label>
-        <div className='new-discussion__buttons'>
-          <p className='new-discussion__post-warning'>Reminder: New discussions and posts cannot be deleted, so be sure you want to make a new discussion stream.</p>
-          <button className='button new-discussion-form__submit --warning' type='submit'>Post</button>
-        </div>
+        <div className='confirm-form__buttons'>
+        <button className='button new-discussion-form__submit --warning' type='submit'>Post</button>
+        <button className='button new-discussion__cancel' autoFocus type='button' onClick={() =>  setShowModal(false)}>Cancel</button>
+      </div>
     </form>
   )
 }
 
-export default NewDiscussion
+export default NewDiscussionModal
