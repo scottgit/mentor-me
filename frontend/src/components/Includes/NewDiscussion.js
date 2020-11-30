@@ -63,7 +63,6 @@ const NewDiscussion = ({connectionId, type, othersName}) => {
     }
   }
 
-  console.log('cid', conId)
   return (
     <form onSubmit={handleSubmit} className='new-discussion__form page-form'>
         {(establishedConnections

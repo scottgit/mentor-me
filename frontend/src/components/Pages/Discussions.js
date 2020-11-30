@@ -128,7 +128,27 @@ const Discussions = (props) => {
               </>
             )
             ||
-            (
+            ( (type === 'listing')
+              &&
+              <>
+              <h2 className='discussions-heading'>Discussions with {othersName}</h2>
+                {connections[connectionId].discussions.map(dis => {
+                  return (
+                    <NavLink
+                      key={dis.id}
+                      to={`/discussions/c/${connectionId}/d/${dis.id}`}
+                      className='discussions-listing-link'
+                      >
+                      {dis.title}
+                    </NavLink>
+                  )
+                })
+                }
+              </>
+            )
+            ||
+            ( (!type || type === 'new')
+              &&
               <>
               <h2 className='discussions-heading'>New Discussion</h2>
                 <NewDiscussion {...newProps}/>

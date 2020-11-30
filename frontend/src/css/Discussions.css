@@ -25,6 +25,17 @@
   margin-bottom: 5px;
 }
 
+.discussions-listing-link {
+  padding: 10px 5px 10px 15px;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: var(--primary-color-50a);
+}
+
+.discussions-listing-link:hover {
+  color: var(--primary-color);
+}
+
 /* NAV */
 
 .discussions-nav__role-heading {

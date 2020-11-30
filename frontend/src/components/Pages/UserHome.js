@@ -37,7 +37,7 @@ const UserHome = () => {
                     pathname: '/discussions',
                     state: {
                       connectionId,
-                      type: 'latest'
+                      type: 'listing'
                     }
                   }} className='button'>Discussions</NavLink>
                   <NavLink to={{
