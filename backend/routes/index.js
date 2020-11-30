@@ -19,7 +19,8 @@ if (process.env.NODE_ENV === "production") {
   });
 
   // Serve the static assets in the frontend's build folder
-  router.use(express.static(path.resolve("../frontend/build")));
+  router.use(express.static(path.resolve("../../frontend/build")));
+  // router.use(express.static(path.resolve("../frontend/build")));
   // router.use(favicon(path.join('../frontend/build','public','favicon_package_v0.16','favicon.ico')));
 
   // Serve the frontend's index.html file at all other routes NOT starting with /api
