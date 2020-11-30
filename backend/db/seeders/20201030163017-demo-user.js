@@ -82,7 +82,7 @@ const menteeDescs = [
 
 const offsetMentees = 9;
 //Keep the total here no more than 100 for photo purposes
-const extraUsers = mentorDescs.length + menteeDescs.length - Math.min(offsetMentees - menteeDescs.length, 0);
+const extraUsers = mentorDescs.length + menteeDescs.length + Math.min(offsetMentees - menteeDescs.length, 0);
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
