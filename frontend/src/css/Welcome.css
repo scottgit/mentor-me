@@ -1,0 +1,40 @@
+.welcome-pics {
+  position: relative;
+  width: 50%;
+  height: 58.8%;
+  float: left;
+  padding: 20px;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.welcome-img {
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  opacity: 100;
+  z-index: 1;
+  transition: opacity 2000ms;
+}
+
+.welcome-info {
+  padding: 0 20px;
+}
+
+
+.hide {
+  opacity: 0;
+  z-index: 0;
+}
+
+
+@media (max-width: 1000px) {
+  .welcome-pics {
+    float: none;
+    width: auto;
+    margin-right: auto;
+  }
+}

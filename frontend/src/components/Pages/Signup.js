@@ -88,7 +88,8 @@ const Signup = () => {
             value={password}
             onChange={e => setUserProp({password: e.target.value})}
             className='signup-form__input'
-            //minLength={8}
+            minLength={8}
+            required
           />
         </label>
         <label className='signup-form__label'>
@@ -98,7 +99,8 @@ const Signup = () => {
             value={confirmPassword}
             onChange={e => setUserProp({confirmPassword: e.target.value})}
             className='signup-form__input'
-            //minLength={8}
+            minLength={8}
+            required
           />
         </label>
         <label className='signup-form__label'>
@@ -109,7 +111,6 @@ const Signup = () => {
             onChange={e => setUserProp({goBy: e.target.value})}
             className='signup-form__input'
             placeholder='(optional)'
-            //minLength={8}
           />
         </label>
         <label className='signup-form__label'>
@@ -120,12 +121,12 @@ const Signup = () => {
             onChange={e => setUserProp({picture: e.target.value})}
             className='signup-form__input'
             placeholder='(optional)'
-            //minLength={8}
           />
         </label>
         <div className='signup-form__label'>
           <div className='signup-form__label-text'>Gender*</div>
-          <fieldset className='signup-form__radio-group' onChange={e => setUserProp({gender: e.target.value})}>
+          <fieldset className='signup-form__radio-group' onChange={e => setUserProp({gender: e.target.value})}
+          required>
             <input type='radio' id='genderOpt1'
             name='gender' value='Male' className='signup-form__radio-button' checked={gender === 'Male'}/>
             <label htmlFor='genderOpt1' className='signup-form__radio-label'>Male</label>

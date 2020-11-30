@@ -88,7 +88,7 @@ const DiscussionView = ({discussion, yourId, othersName, collapsed, discussionId
           </div>
           <button type='submit' className='button discussions-post__button'>Post</button>
         </div>
-        <textarea value={postValue} onChange={e => setPostValue(e.target.value)} className='discussions-post__textarea'></textarea>
+        <textarea value={postValue} onChange={e => setPostValue(e.target.value)} className='discussions-post__textarea' required></textarea>
       </form>
     </>
   )
