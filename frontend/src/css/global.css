@@ -33,6 +33,26 @@ body {
   font-family: 'Heebo', sans-serif;
 }
 
+/* The emerging W3C standard
+   that is currently Firefox-only */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color-50a) var(--primary-color-20a);
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+
+}
+*::-webkit-scrollbar-track {
+  background: var(--primary-color-20a)
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color-50a);
+  border-radius: 20px;
+}
+
 div {
   box-sizing: border-box;
 }
@@ -59,6 +79,8 @@ h1, h2, label {
   padding: 0 20px;
   background-color: var(--bg-color);
   box-shadow: 0px 0px 8px var(--primary-color-50a);
+  scrollbar-track-color: var(--primary-color-20a);
+  scrollbar-color: var(--primary-color-50a);
 }
 
 .footer {

@@ -76,6 +76,12 @@
   border-bottom-left-radius: 5px;
 }
 
+.profile-links {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
 .profile-item {
   align-self: baseline;
 }

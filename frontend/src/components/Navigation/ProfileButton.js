@@ -35,12 +35,21 @@ const ProfileButton = () => {
         <>
           <Icon icon='times-circle' wrapperClasses='profile-icon__times-circle' click={toggleMenu} />
           <div className={`profile-menu ${show}`}>
-            <div className='profile-info'>{username}</div>
-            <div  className='profile-info'>{email}</div>
-            { pendingCount !== 0 &&
-            <NavLink to='/pending'>{pendingCount} Pending ...</NavLink>
-            }
-            <NavLink to='/discussions'>Discussions</NavLink>
+            <div className='profile-links' onClick={toggleMenu}>
+              <div className='profile-info'>{username}</div>
+              <div  className='profile-info'>{email}</div>
+              { pendingCount !== 0 &&
+              <NavLink to='/pending'>{pendingCount} Pending ...</NavLink>
+              }
+              <NavLink to={{
+                pathname: '/discussions',
+                state: {
+                  connectionId: null,
+                  type: null
+                }}}
+                >Discussions</NavLink>
+            </div>
+
             <ModalTrigger buttonClasses='button profile-button' buttonText='Log Out'>
               <Confirm
                 doAction={() => {
