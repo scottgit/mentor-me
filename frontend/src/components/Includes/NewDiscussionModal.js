@@ -73,7 +73,7 @@ const NewDiscussionModal = ({connectionId, connectionInfo, requiredPendingTitle}
     <form onSubmit={handleSubmit} className='new-discussion__form'>
         <label className='new-discussion__label'>
           Discussion Title
-        <input className='new-discussion__title' type='text' value={discussionTitle} onChange={e => setDiscussionTitle(e.target.value)} readOnly={requiredPendingTitle} required/>
+        <input className='new-discussion__title' type='text' value={discussionTitle} onChange={e => setDiscussionTitle(e.target.value)} readOnly={requiredPendingTitle} required maxLength={50}/>
         </label>
 
         <label className='new-discussion__label'>

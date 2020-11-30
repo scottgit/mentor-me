@@ -96,7 +96,7 @@ const NewDiscussion = ({connectionId, type, othersName}) => {
         }
         <label className='new-discussion__label'>
           Discussion Title
-        <input className='new-discussion__title' type='text' value={discussionTitle} onChange={e => setDiscussionTitle(e.target.value)} required/>
+        <input className='new-discussion__title' type='text' value={discussionTitle} onChange={e => setDiscussionTitle(e.target.value)} required maxLength={50}/>
         </label>
 
         <label className='new-discussion__label'>
