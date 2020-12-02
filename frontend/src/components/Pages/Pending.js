@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {handleConnectionsChange} from '../../store/session';
-import {establishConnection, declineConnection, deleteConnection} from '../../store/connection';
 import DiscussionView from '../Includes/DiscussionView';
+import {fetch} from '../../store/csrf';
 
 const Pending = () => {
-  const [updateView, setUpdateView] = useState(0);
   const sessionUser = useSelector(state => state.session.user);
   const sessionUserId = sessionUser.id;
   const invites = useSelector(state => state.session.invites);
@@ -14,40 +13,43 @@ const Pending = () => {
   const dispatch = useDispatch();
   const pendingCount = useSelector(state => state.session.counts.inviteCount + state.session.counts.requestCount);
 
+  // useEffect(() => {}, [invites, requests, pendingCount]);
 
-  useEffect(() => {}, [invites, requests, updateView, pendingCount]);
-
-  const acceptClick = async (e) => {
-    await dispatch(establishConnection(sessionUserId, e.target.value)).catch((res) => {
-        if (res.data && res.data.errors) {
-          //TODO make fancy acknowledge
-          alert('There was an issue accepting this connection.')
+  const statusUpdateClick = async ({connectionId, status}, e) => {
+    try {
+      const res = await fetch(
+        `/api/users/${sessionUserId}/status`,
+        { method: 'PATCH',
+          body: JSON.stringify({id: connectionId, status})
         }
-    });
-    await dispatch(handleConnectionsChange(sessionUser));
-    // setUpdateView(updateView + 1);
-  }
-
-  const declineClick = async (e) => {
-    await dispatch(declineConnection(sessionUserId, e.target.value)).catch((res) => {
-      if (res.data && res.data.errors) {
-        //TODO make fancy acknowledge
-        alert('There was an issue declining this connection.')
+      );
+      if(!res.ok) throw res;
+      if (res.data.connection) {
+        dispatch(handleConnectionsChange(sessionUser));
       }
-    });
-    await dispatch(handleConnectionsChange(sessionUser));
-    // setUpdateView(updateView + 1);
+    }
+    catch (err) {
+      console.error(err)
+    }
   }
 
   const withdrawClick = async (e) => {
-    await dispatch(deleteConnection(sessionUserId, e.target.value)).catch((res) => {
-      if (res.data && res.data.errors) {
-        //TODO make fancy acknowledge
-        alert('There was an issue withdrawing this connection.')
+    const connectionId = e.target.value;
+    try {
+      const res = await fetch(
+        `/api/users/${sessionUserId}/withdraw`,
+        { method: 'DELETE',
+          body: JSON.stringify({id: connectionId})
+        }
+      );
+      if(!res.ok) throw res;
+      if (res.data.success) {
+        dispatch(handleConnectionsChange(sessionUser));
       }
-    });
-    await dispatch(handleConnectionsChange(sessionUser));
-    // setUpdateView(updateView + 1);
+    }
+    catch (err) {
+      console.error(err)
+    }
   }
 
   return ( //TODO STYLING FOR THE PENDING LIST
@@ -89,8 +91,8 @@ const Pending = () => {
                   <div className='pending-list__button-group'>
                     {!sessionUserInitiated &&
                     <>
-                      <button className='button' value={connectionId} onClick={acceptClick}>Accept</button>
-                      <button className='button' value={connectionId} onClick={declineClick}>Decline</button>
+                      <button className='button' value='' onClick={statusUpdateClick.bind(null, {connectionId, status: 'established'})}>Accept</button>
+                      <button className='button' value='' onClick={statusUpdateClick.bind(null, {connectionId, status: 'rejected'})}>Decline</button>
                     </>}
                     {sessionUserInitiated &&
                       <button className='button' value={connectionId} onClick={withdrawClick}>Withdraw Request</button>
@@ -137,8 +139,8 @@ const Pending = () => {
                   <div className='pending-list__button-group'>
                     {!sessionUserInitiated &&
                     <>
-                      <button className='button' value={connectionId} onClick={acceptClick}>Accept</button>
-                      <button className='button' value={connectionId} onClick={declineClick}>Decline</button>
+                      <button className='button' value='' onClick={statusUpdateClick.bind(null, {connectionId, status: 'established'})}>Accept</button>
+                      <button className='button' value='' onClick={statusUpdateClick.bind(null, {connectionId, status: 'rejected'})}>Decline</button>
                     </>}
                     {sessionUserInitiated &&
                       <button className='button' value={connectionId} onClick={withdrawClick}>Withdraw Request</button>

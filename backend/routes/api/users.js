@@ -137,7 +137,7 @@ router.patch(
   asyncHandler(async (req, res) => {
     const {id, status} = req.body;
     const connection = await Connection.changeStatus(id, status);
-    return res.json(connection);
+    return res.json({connection});
   })
 )
 
