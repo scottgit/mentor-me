@@ -1,20 +1,23 @@
 .welcome-pics {
   position: relative;
-  width: 50%;
-  height: 58.8%;
-  float: left;
-  padding: 20px;
+  width: 100%;
   overflow: hidden;
   margin-right: 20px;
+  box-sizing: border-box;
+}
+
+#welcome-pic-1 {
+  position: absolute;
+}
+
+#welcome-pic-2 {
+  position: relative;
 }
 
 .welcome-img {
   display: block;
-  box-sizing: border-box;
-  position: absolute;
   width: 100%;
-  left: 0;
-  top: 0;
+  box-sizing: border-box;
   opacity: 100;
   z-index: 1;
   transition: opacity 2000ms;

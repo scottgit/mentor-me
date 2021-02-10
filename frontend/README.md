@@ -254,7 +254,7 @@ export async function fetch(url, options = {}) {
   options.headers = options.headers || {};
 
   // if the options.method is not 'GET', then set the "Content-Type" header to
-    // "application/json", and set the "CSRF-TOKEN" header to the value of the 
+    // "application/json", and set the "CSRF-TOKEN" header to the value of the
     // "XSRF-TOKEN" cookie
   if (options.method.toUpperCase() !== 'GET') {
     options.headers['Content-Type'] =
@@ -1395,12 +1395,12 @@ import * as sessionActions from '../../store/session';
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-  
+
   const openMenu = () => {
     if (showMenu) return;
     setShowMenu(true);
   };
-  
+
   useEffect(() => {
     if (!showMenu) return;
 
@@ -1409,7 +1409,7 @@ function ProfileButton({ user }) {
     };
 
     document.addEventListener('click', closeMenu);
-  
+
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
@@ -1674,7 +1674,7 @@ Here's an example for how `Modal.css` should look like:
 
 ```css
 /* frontend/src/context/Modal.css */
-#modal {
+.modal {
   position: fixed;
   top: 0;
   right: 0;
@@ -1685,7 +1685,7 @@ Here's an example for how `Modal.css` should look like:
   align-items: center;
 }
 
-#modal-background {
+.modal-background {
   position: fixed;
   top: 0;
   right: 0;
@@ -1694,7 +1694,7 @@ Here's an example for how `Modal.css` should look like:
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-#modal-content {
+.modal-content {
   position: absolute;
   background-color:white;
 }

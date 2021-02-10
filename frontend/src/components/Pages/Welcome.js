@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
 import {NavLink} from 'react-router-dom';
+import ModalTrigger from '../Includes/ModalTrigger';
+import LoginForm from '../LoginForm';
 
 const Welcome = () => {
 
@@ -48,6 +50,7 @@ const Welcome = () => {
         <p>Do you have skills or experience in an area and seek to guide others in gaining those skills? Then maybe you want to become a mentor.</p>
         <p>Do you need guidance, structure, and motivation to achieve your goals? Then maybe you need to be mentored.</p>
         <p>Whichever is your desire (or both), <NavLink to='/signup'>signup</NavLink> and start seeking to make a connection as a Mentor or Mentee today.</p>
+        <p><strong>Not ready to sign up? Try out the site with a <ModalTrigger triggerComponent={<span className="text-modal-trigger">demo user login</span>} ><LoginForm /></ModalTrigger>.</strong></p>
       </section>
     </main>
   )
