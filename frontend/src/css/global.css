@@ -159,6 +159,12 @@ h1, h2, label {
   color: var(--primary-color);
 }
 
+.text-modal-trigger {
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 @media (max-width: 400px) {
   body {
     min-width: 300px;

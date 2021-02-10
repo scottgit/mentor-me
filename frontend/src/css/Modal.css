@@ -43,3 +43,11 @@
   border-radius: 20px;
   border-top-right-radius: 0;
 }
+
+.modal-wrapper {
+  display: inline-block;
+}
+
+.modal-content form {
+  box-sizing: border-box;
+}

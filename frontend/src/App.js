@@ -57,7 +57,7 @@ function App() {
           <ModalTrigger triggerComponent={<div className='footer__about'>About</div>}>
             <About />
           </ModalTrigger>
-          <div className='footer__copyright'>&copy; 2020</div>
+          <div className='footer__copyright'>&copy; 2021</div>
         </footer>
       </div>
 
