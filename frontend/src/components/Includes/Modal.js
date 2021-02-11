@@ -19,7 +19,7 @@ export const ModalProvider = ({children}) => {
       <ModalContext.Provider value={value}>
         {children}
       </ModalContext.Provider>
-      <div className={`modal-wrapper ${showModal ? 'show' : ''}`} ref={modalRef} />
+      <span className={`modal-wrapper ${showModal ? 'show' : ''}`} ref={modalRef} />
     </>
   );
 }

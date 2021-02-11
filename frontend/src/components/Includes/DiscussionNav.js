@@ -16,9 +16,14 @@ const DiscussionNav = ({connections, othersRole}) => {
                 return (
                   <li key={`d${dId}`}
                   className={`discussions-nav__dis-item`}>
-                    <NavLink to={
-                      `/discussions/c/${cId}/d/${dId}`
-                    } className={`discussions-nav__link`}><span>{title}</span></NavLink>
+                    <NavLink to={{
+                      pathname: `/discussions/c/${cId}/d/${dId}`,
+                      state: {
+                        connectionId: cId,
+                        type: 'listing'
+                      }
+                    }}
+                    className={`discussions-nav__link`}><span>{title}</span></NavLink>
                   </li>
                 )
               })}
